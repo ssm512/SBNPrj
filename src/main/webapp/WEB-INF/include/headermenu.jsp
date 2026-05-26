@@ -10,5 +10,5 @@
 <a href="/League/List" >리그</a><br>
 <a href="/Board/List" >게시판</a><br>
 <a href="/Member/Mypage" >마이페이지</a><br>
-<a href="/Member/Login" >로그인/로그아웃페이지</a><br>
+<a href="/Member/LoginForm" >로그인/로그아웃페이지</a><br>
 
