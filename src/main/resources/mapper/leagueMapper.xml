@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.sbn.league.mapper.LeagueMapper">
+ 
+   <!-- count -->
+   <select id="count"
+           resultType="java.lang.Integer">
+     
+     SELECT
+	    COUNT( LEAGUE_IDX ) AS CNT
+	 FROM
+	    LEAGUE
+	 <where>
+	   <if test="league_name != null and league_name != ''">
+	     AND LEAGUE_NAME = #{ league_name }
+	   </if> 
+	   <if test="searchType != null and searchType != '' 
+	        and keyword != null and keyword != ''">
+	     AND ${searchType}  Like '%' || #{ keyword } || '%'
+	   </if>
+	 </where>
+     
+   </select>
+ 
+   <!-- getLeagueList -->
+   <select id="getLeagueList">
+     
+     SELECT
+	    LEAGUE_IDX,
+	    LEAGUE_NAME,
+	    LEAGUE_LOCATION,
+	    LEAGUE_CONTENT
+	FROM
+	    LEAGUE
+	ORDER BY
+	    LEAGUE_IDX ASC
+     
+   </select>
+ 
+ </mapper>

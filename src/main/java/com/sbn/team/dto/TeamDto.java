@@ -17,5 +17,8 @@ public class TeamDto {
 	
 	// JOIN 칼럼
 	private String member_name; // 감독 이름(MEMBER 테이블)
-	private String league_name; // 리그 이름(LEAGUE 테이블) 
+	private String league_name; // 리그 이름(LEAGUE 테이블)
+	
+	// INFO 에 '선수단 수' 가 없어서 추가
+	private int    member_count; // 선수단 수
 }

@@ -6,4 +6,8 @@
 4. jsp
 5. paging
 
-TEAM 파트 작업
+# TEAM 파트 작업 (조민석)
+
+# main/sbn/hmw (하민욱)
+# member + login 작업
+
