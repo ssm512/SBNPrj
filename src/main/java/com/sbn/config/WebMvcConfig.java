@@ -25,8 +25,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor( authInterceptor )
 			// .addPathPatterns("/**") -> 모든페이지 대신 "/Board/**" 
 			// .addPathPatterns("/Board/**")
-		    .addPathPatterns("/ttt")
-			.excludePathPatterns("/css/**", "/img/**", "/js/**");
+		    .addPathPatterns("/Team/**", "/Member/Mypage", "/League/**", "/Board/**", "/Game/**")
+			.excludePathPatterns("/css/**", "/img/**", "/js/**", "/Member/List",
+					"/Team/List", "/League/List", "/Board/List", "/Member/SigninForm", 
+				    "/Member/Signin");
 		
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}

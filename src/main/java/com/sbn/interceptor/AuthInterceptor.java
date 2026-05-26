@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,18 +20,18 @@ public class AuthInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		/*
+		
 		// 요청 주소
-		String  requestURI  = request.getRequestURI();    // /Board/List, /BoardPaging/List
+		String  requestURI  = request.getRequestURI();    // /Member/List
 		String  qryStr      = request.getQueryString();   // menu_id=MENU01, menu_id=MENU01&nowpage=1
 		String  loc         = requestURI + "?" + qryStr;
-		System.out.println("요청 주소 : " + loc ); // /BoardPaging/List?menu_id=MENU01&nowpage=1
+		// System.out.println("요청 주소 : " + loc );  // /Member/Mypage?member_idx=1
 		
-		// /Users/LoginForm, /Users/Login 제외
-		if( requestURI.contains("/Users/LoginForm") ) {
+		// /Member/LoginForm, /Member/Login 제외
+		if( requestURI.contains("/Member/LoginForm") ) {
 			return true;
 		}
-		if( requestURI.contains("/Users/Login") ) {
+		if( requestURI.contains("/Member/Login") ) {
 			return true;
 		}
 		
@@ -42,7 +43,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		
 		if ( login == null ) {
 			// 로그인 되어 있지 않다. 로그인 페이지로 이동
-			response.sendRedirect("/Users/LoginForm");
+			response.sendRedirect("/Member/LoginForm");
 			return false;
 		}
 		
@@ -50,7 +51,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		// 컨트롤러 요청 url 로 가도 되나 안되나 결정.
 		// return true : 컨트롤러 url 로 이동 
 		
-		*/
+		
 		return true;
 		
 	}
