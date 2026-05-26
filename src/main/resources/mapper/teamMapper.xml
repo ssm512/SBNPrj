@@ -6,14 +6,14 @@
 
 	<!-- 팀 목록 조회 -->
     <select id="selectTeamList" parameterType="String" resultType="com.sbn.team.dto.TeamDto">
-         SELECT T.TEAM_IDX,
-                T.TEAM_NAME,
-                T.TEAM_MANAGER,
-                T.TEAM_CONTENT,
-                T.TEAM_LOCATION,
-                T.TEAM_REGDATE,
-                M.MEMBER_NAME,
-                L.LEAGUE_NAME
+         SELECT T.TEAM_IDX TEAM_IDX,
+                T.TEAM_NAME TEAM_NAME,
+                T.TEAM_MANAGER TEAM_MANAGER,
+                T.TEAM_CONTENT TEAM_CONTENT,
+                T.TEAM_LOCATION TEAM_LOCATION,
+                T.TEAM_REGDATE TEAM_REGDATE,
+                M.MEMBER_NAME MEMBER_NAME,
+                L.LEAGUE_NAME LEAGUE_NAME
          FROM   TEAM T
          JOIN   MEMBER M  ON T.TEAM_MANAGER  = M.MEMBER_IDX
          LEFT JOIN TEAM_LEAGUE TL ON T.TEAM_IDX   = TL.TEAM_IDX

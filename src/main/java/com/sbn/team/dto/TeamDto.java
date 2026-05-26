@@ -8,14 +8,14 @@ import lombok.Data;
 public class TeamDto {
 	
 	// TEAM 테이블 칼럼 
-	private int    teamIdx;      // 팀 번호
-	private String teamName;     // 팀 이름
-	private int    teamManager;  // 감독 번호
-	private String teamContent;  // 팀소개
-	private String teamLocation; // 연고지
-	private Date   teamRegdate;  // 창단일
+	private int    team_idx;      // 팀 번호
+	private String team_name;     // 팀 이름
+	private int    team_manager;  // 감독 번호
+	private String team_content;  // 팀소개
+	private String team_location; // 연고지
+	private Date   team_regdate;  // 창단일
 	
 	// JOIN 칼럼
-	private String memberName; // 감독 이름(MEMBER 테이블)
-	private String leagueName; // 리그 이름(LEAGUE 테이블) 
+	private String member_name; // 감독 이름(MEMBER 테이블)
+	private String league_name; // 리그 이름(LEAGUE 테이블) 
 }
