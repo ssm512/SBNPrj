@@ -15,7 +15,7 @@
 	 <where>
 	   <if test="league_name != null and league_name != ''">
 	     AND LEAGUE_NAME = #{ league_name }
-	   </if>
+	   </if> 
 	   <if test="searchType != null and searchType != '' 
 	        and keyword != null and keyword != ''">
 	     AND ${searchType}  Like '%' || #{ keyword } || '%'
