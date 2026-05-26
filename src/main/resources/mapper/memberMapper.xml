@@ -26,4 +26,33 @@
   
   </select>
   
+  <!-- getMemberList -->
+<select id="getMemberList" resultType="com.sbn.member.dto.MemberDto">
+    SELECT DISTINCT
+           M.MEMBER_IDX    MEMBER_IDX,
+           M.MEMBER_ID     MEMBER_ID,
+           M.MEMBER_NAME   MEMBER_NAME,
+           M.BIRTH         BIRTH,
+           M.EMAIL         EMAIL,
+           M.PHONE_NUM     PHONE_NUM,
+           M.ADDRESS       ADDRESS,
+           M.ELITE         ELITE,
+           M.USE_HAND      USE_HAND,
+           M.HOPE_POSITION HOPE_POSITION,
+           M.MEMBER_REGDATE MEMBER_REGDATE
+    FROM   MEMBER M
+    LEFT JOIN MEMBER_TEAM MT ON M.MEMBER_IDX = MT.MEMBER_IDX
+    LEFT JOIN TEAM T          ON MT.TEAM_IDX  = T.TEAM_IDX
+                              AND MT.JOIN_STATUS = 1
+    <where>
+        <if test="searchType == 'member_name' and keyword != null and keyword != ''">
+            AND LOWER(M.MEMBER_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
+        </if>
+        <if test="searchType == 'team_name' and keyword != null and keyword != ''">
+            AND LOWER(T.TEAM_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
+        </if>
+    </where>
+    ORDER BY M.MEMBER_IDX
+</select>
+  
 </mapper>

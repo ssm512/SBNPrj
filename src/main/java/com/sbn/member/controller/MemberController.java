@@ -1,6 +1,7 @@
 package com.sbn.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -79,6 +80,18 @@ public class MemberController {
 		return  mv;
 	}
 	
+	
+	@RequestMapping("/List")
+	public  ModelAndView  list(@RequestParam HashMap<String, Object> map) {
+		
+		List<MemberDto> memberList  = memberService.getMemberList(map);
+		
+		ModelAndView  mv  = new ModelAndView();
+		mv.setViewName("member/list");
+		mv.addObject("memberList", memberList);
+		mv.addObject("map", map);
+		return  mv;
+	}
 	
 	
 	
