@@ -10,8 +10,11 @@ import com.sbn.member.dto.MemberDto;
 @Mapper
 public interface MemberMapper {
 
-	MemberDto getLogin(HashMap<String, Object> map);
+	MemberDto getMemberById(HashMap<String, Object> map);
 
 	List<MemberDto> getMemberList(HashMap<String, Object> map);
+
+	void insertMember(HashMap<String, Object> map);
+
 
 }

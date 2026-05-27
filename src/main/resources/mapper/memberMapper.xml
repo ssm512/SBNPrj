@@ -6,7 +6,7 @@
 <mapper namespace="com.sbn.member.mapper.MemberMapper">
 
 	<!-- getLogin -->
-  <select id="getLogin">
+  <select id="getMemberById" resultType="com.sbn.member.dto.MemberDto">
   
   SELECT MEMBER_IDX,
 				 MEMBER_ID,
@@ -22,7 +22,6 @@
 				 MEMBER_REGDATE
   FROM   MEMBER
   WHERE  MEMBER_ID = LOWER(#{member_id})
-    AND  PASSWORD  = #{password}
   
   </select>
   
@@ -54,5 +53,11 @@
     </where>
     ORDER BY M.MEMBER_IDX
 </select>
+
+<insert id="insertMember">
+
+
+
+</insert>
   
 </mapper>

@@ -9,4 +9,7 @@ public interface MemberService {
 
 	List<MemberDto> getMemberList(HashMap<String, Object> map);
 
+	MemberDto login(HashMap<String, Object> map);
+	
+	void signin(HashMap<String, Object> map);
 }
