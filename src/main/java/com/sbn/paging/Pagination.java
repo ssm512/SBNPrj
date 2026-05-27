@@ -1,4 +1,4 @@
-package com.sbn.league.dto;
+package com.sbn.paging;
 
 public class Pagination {
 	private   int       totalCount;      // 해당메뉴의 조회된 자료수

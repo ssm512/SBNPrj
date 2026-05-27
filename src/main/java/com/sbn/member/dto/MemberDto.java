@@ -14,7 +14,7 @@ public class MemberDto {
 	private  String  phone_num;
 	private  String  address;
 	private  String  elite;
-	private  String  use_hane;
+	private  String  use_hand;
 	private  String  hope_position;
 	private  String  member_regdate;
 	

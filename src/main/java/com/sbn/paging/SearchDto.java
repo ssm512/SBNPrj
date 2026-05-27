@@ -1,4 +1,4 @@
-package com.sbn.league.dto;
+package com.sbn.paging;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
