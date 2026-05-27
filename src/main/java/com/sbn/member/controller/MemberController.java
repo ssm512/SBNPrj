@@ -83,6 +83,7 @@ public class MemberController {
 	}
 	
 	
+	
 	@RequestMapping("/List")
 	public  ModelAndView  list(@RequestParam HashMap<String, Object> map) {
 		
