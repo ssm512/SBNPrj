@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.sbn.member.dto.MemberDto;
+import com.sbn.team.dto.TeamDto;
 
 @Mapper
 public interface MemberMapper {
@@ -15,6 +16,8 @@ public interface MemberMapper {
 	List<MemberDto> getMemberList(HashMap<String, Object> map);
 
 	void insertMember(HashMap<String, Object> map);
+
+	List<TeamDto> getMyTeamList(int member_idx);
 
 
 }

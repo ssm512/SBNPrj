@@ -12,7 +12,7 @@
 				 MEMBER_ID,
 				 PASSWORD,
 				 MEMBER_NAME,
-				 BIRTH,
+				 TO_CHAR(BIRTH, 'YYYY-MM-DD') BIRTH,
 				 EMAIL,
 				 PHONE_NUM,
 				 ADDRESS,
@@ -31,7 +31,7 @@
            M.MEMBER_IDX    MEMBER_IDX,
            M.MEMBER_ID     MEMBER_ID,
            M.MEMBER_NAME   MEMBER_NAME,
-           M.BIRTH         BIRTH,
+           TO_CHAR(M.BIRTH,'YYYY-MM-DD')  BIRTH,
            M.EMAIL         EMAIL,
            M.PHONE_NUM     PHONE_NUM,
            M.ADDRESS       ADDRESS,
@@ -53,6 +53,21 @@
     </where>
     ORDER BY M.MEMBER_IDX
 </select>
+
+<select id="getMyTeamList" resultType="com.sbn.team.dto.TeamDto">
+    SELECT T.TEAM_IDX        TEAM_IDX,
+           T.TEAM_NAME       TEAM_NAME,
+           T.TEAM_LOCATION   TEAM_LOCATION,
+           T.TEAM_REGDATE    TEAM_REGDATE,
+           MT.POSITION       position,
+           MT.BACK_NUM       back_num
+    FROM   MEMBER_TEAM MT
+    JOIN   TEAM T ON MT.TEAM_IDX = T.TEAM_IDX
+    WHERE  MT.MEMBER_IDX = #{member_idx}
+    AND    MT.JOIN_STATUS = 1
+    ORDER BY T.TEAM_IDX
+</select>
+
 
 <insert id="insertMember">
 

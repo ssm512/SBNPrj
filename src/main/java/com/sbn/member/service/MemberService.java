@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.sbn.member.dto.MemberDto;
+import com.sbn.team.dto.TeamDto;
 
 public interface MemberService {
 
@@ -12,4 +13,6 @@ public interface MemberService {
 	MemberDto login(HashMap<String, Object> map);
 	
 	void signin(HashMap<String, Object> map);
+
+	List<TeamDto> getMyTeamList(int member_idx);
 }

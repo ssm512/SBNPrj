@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.sbn.member.dto.MemberDto;
 import com.sbn.member.mapper.MemberMapper;
 import com.sbn.member.service.MemberService;
+import com.sbn.team.dto.TeamDto;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -44,6 +45,12 @@ public class MemberServiceImpl implements MemberService {
         String rawPw = map.get("password").toString();
         map.put("password", encoder.encode(rawPw)); // 암호화 후 덮어씌우기
         memberMapper.insertMember(map);
+	}
+
+	@Override
+	public List<TeamDto> getMyTeamList(int member_idx) {
+		List<TeamDto> teamList = memberMapper.getMyTeamList(member_idx);
+		return teamList;
 	}
 
 

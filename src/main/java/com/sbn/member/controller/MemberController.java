@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sbn.member.dto.MemberDto;
 import com.sbn.member.mapper.MemberMapper;
 import com.sbn.member.service.MemberService;
+import com.sbn.team.dto.TeamDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -103,7 +103,22 @@ public class MemberController {
 	}
 	
 
-	
+	// /Member/Mypage
+	@RequestMapping("/Mypage")
+	public  ModelAndView  mypage(HttpServletRequest request) {
+		HttpSession  session   = request.getSession();
+		MemberDto    login     = (MemberDto) session.getAttribute("login");
+
+		int        member_idx  = login.getMember_idx();
+		
+		// idx 로 가입된 팀 전체 조회
+		List<TeamDto> teamList = memberService.getMyTeamList(member_idx);
+		
+		ModelAndView  mv  = new ModelAndView();
+		mv.setViewName("member/mypage");
+		mv.addObject("teamList", teamList);
+		return  mv;
+	}
 	
 	
 }

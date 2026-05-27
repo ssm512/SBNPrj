@@ -12,7 +12,7 @@
 <c:choose>
     <c:when test="${not empty sessionScope.login}">
     		<p>${ sessionScope.login.member_name } 님 환영합니다.</p>
-        <a href="/Member/Mypage?member_idx=${ sessionScope.login.member_idx }">마이페이지</a><br>
+        <a href="/Member/Mypage">마이페이지</a><br>
         <a href="/Member/Logout">로그아웃</a><br>
     </c:when>
     <c:otherwise>
