@@ -9,7 +9,7 @@
 <body>
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>
 	<div class="main-wrapper">
-	<form action="/Member/Signin" method="post">
+	<form action="/Game/AddResult" method="post">
 		
 	</form>
 	</div>

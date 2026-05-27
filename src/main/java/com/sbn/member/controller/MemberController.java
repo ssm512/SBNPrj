@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sbn.member.dto.MemberDto;
@@ -88,6 +90,21 @@ public class MemberController {
 	    return "redirect:/Member/LoginForm";
 	}
 	
+	@RequestMapping("/IdDupCheck/{member_id}") // /Member/IdDupCheck/test123
+	@ResponseBody		
+	public HashMap<String, Object> idDupCheck (@PathVariable(value="member_id") String member_id) {
+		System.out.println("12312321213");
+		MemberDto	member		=	memberService.getIdDupCheck(member_id); 
+
+		if (member == null)  
+			member = new MemberDto();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("member", member);
+		
+			
+		return map;
+	}
 	
 	
 	@RequestMapping("/List")

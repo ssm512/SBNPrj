@@ -9,7 +9,7 @@
 <body>
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>
 	<div class="main-wrapper">
-	<form action="/Member/Signin" method="post">
+	<form action="/Game/AddGame" method="post">
 		<table>
 			<tr>
 				<td>
@@ -23,7 +23,7 @@
 			</tr>
 			<tr>
 				<td>
-				<input type="date" name="game_date" placeholder="경기날짜(2026-05-26)"/>
+				<input type="text" name="game_date" placeholder="경기날짜(2026-05-26)"/>
 				</td>
 			</tr>
 			<tr>
@@ -33,7 +33,7 @@
 			</tr>
 			<tr>
 				<td>
-				<input type="text" name="game_feild" placeholder="경기장소"/>
+				<input type="text" name="game_field" placeholder="경기장소"/>
 				</td>
 			</tr>
 			<tr>

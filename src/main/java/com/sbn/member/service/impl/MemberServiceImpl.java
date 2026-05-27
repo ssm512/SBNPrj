@@ -46,5 +46,11 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.insertMember(map);
 	}
 
+	@Override
+	public MemberDto getIdDupCheck(String member_id) {
+		MemberDto	member		=	memberMapper.getIdDupCheck(member_id);
+		return member;
+	}
+
 
 }

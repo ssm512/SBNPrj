@@ -12,4 +12,6 @@ public interface MemberService {
 	MemberDto login(HashMap<String, Object> map);
 	
 	void signin(HashMap<String, Object> map);
+
+	MemberDto getIdDupCheck(String member_id);
 }
