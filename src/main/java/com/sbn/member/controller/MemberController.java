@@ -43,7 +43,7 @@ public class MemberController {
 	public  String  login( @RequestParam HashMap<String, Object> map, 
 			HttpServletRequest request, Model model) {
 		
-		MemberDto     member  = memberMapper.getLogin(map);
+		MemberDto     member  = memberService.login(map);
 		HttpSession   session =  request.getSession();
 
 	    if (member == null) {
@@ -80,6 +80,12 @@ public class MemberController {
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("member/signin");
 		return  mv;
+	}
+	
+	@RequestMapping("/Signin")
+	public String signin(@RequestParam HashMap<String, Object> map) {
+	    memberService.signin(map);
+	    return "redirect:/Member/LoginForm";
 	}
 	
 	
