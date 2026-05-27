@@ -10,7 +10,7 @@ import com.sbn.league.dto.LeagueDto;
 @Mapper
 public interface LeagueMapper {
 
-	List<LeagueDto> getLeagueList();
+	List<LeagueDto> getLeagueList(HashMap<String, Object> map);
 
 	int count(HashMap<String, Object> map);
 

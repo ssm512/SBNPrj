@@ -29,10 +29,16 @@ public class LeagueController {
 	@RequestMapping("/List")
 	public ModelAndView list( @RequestParam HashMap<String, Object> map ) {
 		
+		//  searchType 화이트리스트 검증
+		String searchType = String.valueOf(map.get("searchType"));
+		List<String> allowedTypes = List.of("league_name", "league_location");
+		if(!allowedTypes.contains(searchType)) {
+			map.put("searchType", null);
+			// 허용되지 않은 값이면 null 처리
+		}
+		
 		// System.out.println("map:" + map);
 		
-		// 리그 목록 조회
-		List<LeagueDto> leagueList  = leagueMapper.getLeagueList();
 		
 		//자료실 목록 조회 (10개씩) - 페이징 처리 준비작업 시작
 		// 전체 자료 수
@@ -59,11 +65,14 @@ public class LeagueController {
 		map.put("numOfRows", numOfRows);
 		// 페이징 처리 준비작업 종료
 		
+		// 리그 목록 조회
+		List<LeagueDto> leagueList  = leagueService.getLeagueList( map );
+		
 		System.out.println("map2:" + map);
 		
-		List<LeagueDto> leagueList2 = leagueService.getLeagueList();
+		// List<LeagueDto> leagueList2 = leagueService.getLeagueList();
 		
-		ModelAndView     mv        = new ModelAndView();
+		ModelAndView    mv          = new ModelAndView();
 		mv.setViewName("league/list");
 		
 		mv.addObject("leagueList", leagueList);
@@ -73,6 +82,15 @@ public class LeagueController {
 		
 		return           mv;
 		
+	}
+	
+	@RequestMapping("/Info")
+	public ModelAndView info( @RequestParam HashMap<String, Object> map ) {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("league/info");
+		
+		return mv;
 	}
 	
 }
