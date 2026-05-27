@@ -30,9 +30,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		    .addPathPatterns("/Team/**", "/Member/**", "/League/**", "/Board/**", "/Game/**")
 			.excludePathPatterns("/css/**", "/img/**", "/js/**", "/Member/List",
 					"/Team/List", "/League/List", "/Board/List", "/Member/SigninForm", 
-				    "/Member/Signin");
+				    "/Member/Signin", "/Member/IdDupCheck/**");
 		
-		WebMvcConfigurer.super.addInterceptors(registry);
+	    WebMvcConfigurer.super.addInterceptors(registry);
 	}
 	
 	@Bean

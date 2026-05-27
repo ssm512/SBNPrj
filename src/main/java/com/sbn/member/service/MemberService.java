@@ -15,4 +15,7 @@ public interface MemberService {
 	void signin(HashMap<String, Object> map);
 
 	List<TeamDto> getMyTeamList(int member_idx);
+
+	MemberDto getIdDupCheck(String member_id);
+
 }

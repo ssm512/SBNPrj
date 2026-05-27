@@ -52,6 +52,12 @@ public class MemberServiceImpl implements MemberService {
 		List<TeamDto> teamList = memberMapper.getMyTeamList(member_idx);
 		return teamList;
 	}
+	
+	@Override
+	public MemberDto getIdDupCheck(String member_id) {
+		MemberDto	member		=	memberMapper.getIdDupCheck(member_id);
+		return member;
+	}
 
 
 }

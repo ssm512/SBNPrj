@@ -33,6 +33,9 @@
 					<td><input type="text" name="phone_num" placeholder="연락처(01012345678)"/></td>
 				</tr>
 				<tr>
+					<td><input type="text" name="address" placeholder="연고지(부산)"/></td>
+				</tr>
+				<tr>
 					<td><input type="email" name="email" placeholder="이메일"/></td>
 				</tr>
 				<tr>
@@ -63,21 +66,118 @@
 						<label for="switch">스위치</label>
 					</td>
 				</tr>
-				<td>
-					<tr>
+				<tr>
 						<td><input type="text" name="hope_position" placeholder="선호포지션"/></td>
-					</tr>
-				</td>
+				</tr>
 				<tr>
 					<td>
 						<input type="submit" value="추가"/>
-						<input type="button" value="목록" 
+						<input type="button" value="Home" 
 						onclick ="window.location.href='/'"/>
 					</td>
 				</tr>
 		</table>
 	</form>
 	</div>
+	
+	<!-- 입력 여부 체크 -->
+	<script>
+		/* 아이디 중복 체크 여부 전역변수 */	
+		var		idDupChecked		=	false;
+	
+		/* 필요한것들 미리 찾고 */
+		const	formEl					=	document.querySelector('form');
+		const	memberIdEl			=	document.querySelector('input[name="member_id"]');
+		const	passwordEl			=	document.querySelector('#password');
+		const	password2El			=	document.querySelector('#password2');
+		const	membernameEl		=	document.querySelector('[name="member_name"]');
+		// 입력항목 체크
+		formEl.addEventListener('submit', function(e){
+		// 아이디값 체크
+		if ( memberIdEl.value.trim() == '' ) {
+			alert('아이디를 입력하세요')
+			e.preventDefault() 
+			e.stopPropagation() 
+			memberIdEl.focus()
+			return;
+		}
+		
+		// 아이디 중복 체크 여부 확인
+		if(!idDupChecked) {
+			alert('아이디 중복확인 필요')
+			e.preventDefault() 
+			e.stopPropagation() 
+			return;
+		}
+		
+		// 비밀번호값 체크
+		if ( passwordEl.value.trim() == '' ) {
+			alert('암호를 입력하세요')
+			passwordEl.focus();
+			e.preventDefault() 
+			e.stopPropagation()
+			return;
+		}
+		
+		// 비밀번호2값 체크
+		if ( password2El.value.trim() == '' ) {
+			alert('비밀번호 확인을 입력하세요')
+			password2El.focus();
+			e.preventDefault() 
+			e.stopPropagation()
+			return;
+		}
+		
+		// 비밀번호 == 비밀번호2 체크
+		if ( passwordEl.value != password2El.value ) {
+			alert('비밀번호가 일치하지 않습니다')
+			password2El.focus();
+			e.preventDefault() 
+			e.stopPropagation()
+			return;
+		}
+		})
+	</script>
+	<!-- 아이디 중복 확인 -->
+	<script>
+		// 아이디 중복 확인(Ajax)
+		const btnDupEl		=	document.querySelector('#dupCheck')
+		btnDupEl.addEventListener('click', function () {
+			if(memberIdEl.value.trim() ==''){
+				alert('아이디를 입력하세요')
+				memberIdEl.focus()
+				return ;
+			}
+			//alert('ok2')
+			// .then( response => response.json() )  넘겨받은것 json으로 변환하고
+			// .then(data => ...) 뭐 하는 것
+			let		url		=	'/Member/IdDupCheck/'+memberIdEl.value;
+			fetch(url)
+		    .then( (response) => response.json() ) 
+			  .then( (json) => {				  
+				  console.log(json)
+				  if(json.member && json.member.member_id !=null) {
+					  alert('사용불가능')
+					  idDupChecked = false
+				  }
+					else {
+						alert('사용가능')
+						idDupChecked = true
+					}
+			  })
+			  .catch((error) => {
+		    	  console.dir(error)
+		    	  //alert(error)			    	  
+		      }) //then end
+		}) // btnDup function end
+		
+		// userid의 value가 바뀌면 idDupChecked = false
+		// change가 아닌 key press로 해 놓았으면, 아이디에 다른곳에서 값을 붙여넣기 하면 못 알아차림 -> change로 해놓은 이유 
+		memberIdEl.addEventListener('change', function () {
+			idDupChecked = false;
+		})
+	</script>
+	
 	<%@include file="/WEB-INF/include/footer.jsp" %> 
 </body>
 </html>
