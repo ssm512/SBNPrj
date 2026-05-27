@@ -13,13 +13,18 @@ import com.sbn.league.dto.LeagueDto;
 import com.sbn.league.mapper.LeagueMapper;
 import com.sbn.paging.Pagination;
 import com.sbn.paging.SearchDto;
+import com.sbn.league.service.LeagueService;
+
 
 @Controller
 @RequestMapping("/League")
 public class LeagueController {
 	
 	@Autowired
-	private LeagueMapper leagueMapper;
+	private LeagueMapper  leagueMapper;
+	
+	@Autowired
+	private LeagueService leagueService;
 	
 	@RequestMapping("/List")
 	public ModelAndView list( @RequestParam HashMap<String, Object> map ) {
@@ -56,13 +61,34 @@ public class LeagueController {
 		
 		System.out.println("map2:" + map);
 		
+		List<LeagueDto> leagueList2 = leagueService.getLeagueList();
+		
 		ModelAndView     mv        = new ModelAndView();
 		mv.setViewName("league/list");
 		
 		mv.addObject("leagueList", leagueList);
+		mv.addObject("searchDto", searchDto);
+		
+		mv.addObject("map", map);
 		
 		return           mv;
 		
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
