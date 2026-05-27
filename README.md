@@ -5,6 +5,7 @@
 3. mybatis
 4. jsp
 5. paging
+6. BCrypt 적용
 
 # TEAM 파트 작업 (조민석)
 
