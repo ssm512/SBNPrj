@@ -71,7 +71,7 @@
 			<td>팀 소개</td>
 		  </tr>
 	<c:forEach var="team" items="${teamList}">
-		  <tr onclick="location.href='/Team/Info?teamIdx=${team.team_idx}'" style="cursor:pointer;">
+		  <tr onclick="location.href='/Team/Info?team_idx=${team.team_idx}'" style="cursor:pointer;">
 			<td>${team.team_name   }</td>
 			<td>${team.member_name }</td>
 			<td>${team.league_name }</td>

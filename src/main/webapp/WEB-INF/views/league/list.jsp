@@ -5,6 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="/css/common.css" rel="stylesheet" />
+<style>
+  table {
+    width:70%;
+    margin: 0 auto;
+    
+  }
+</style>
 </head>
 <body>
   <main>

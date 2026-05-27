@@ -17,7 +17,6 @@
 	
 	
 	
-	<div><a href="/Team/Info">인포</a></div> 
 	 
 	
 	
