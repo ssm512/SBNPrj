@@ -31,7 +31,7 @@
 	
 	<div class="main-wrapper">
 	  <form action="/Member/List" method="get">
-	  <input type="hidden" name="nowpage" value="${ map.nowpage }" />	  
+	  <input type="hidden" name="nowpage" value="1" />	  
 	  <div id="search">
 	    <select name="searchType">   
 	      <option value="member_name" ${ map.searchType == 'member_name' ? 'selected' : '' }>선수명</option>     <!-- searchType=title -->

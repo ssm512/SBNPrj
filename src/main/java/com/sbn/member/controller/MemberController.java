@@ -54,12 +54,14 @@ public class MemberController {
 		session.setAttribute("login", member);
 		
 		String  loc  = "";
-		if(session.getAttribute("loc") == null)
-			loc = "redirect:/";
-		else {
-			loc = "redirect:" + session.getAttribute("loc").toString();
-			session.removeAttribute("loc");
+		Object savedLoc = session.getAttribute("loc");
+		if (savedLoc == null || savedLoc.toString().contains("null")
+		                     || savedLoc.toString().contains("Mypage")) {
+		    loc = "redirect:/";
+		} else {
+		    loc = "redirect:" + savedLoc.toString();
 		}
+		session.removeAttribute("loc");
 		
 
 		return  loc;
