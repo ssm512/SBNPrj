@@ -34,9 +34,31 @@
 	    LEAGUE_CONTENT
 	FROM
 	    LEAGUE
+	<where>
+	   <if test="searchType == 'league_name' and keyword != null and keyword != ''">
+            AND LOWER(LEAGUE_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
+        </if>
+        <if test="searchType == 'league_location' and keyword != null and keyword != ''">
+            AND LOWER(LEAGUE_LOCATION) LIKE '%' || LOWER(#{keyword}) || '%'
+        </if>
+	 </where>
 	ORDER BY
 	    LEAGUE_IDX ASC
-     
+    OFFSET  #{ offset}  ROWS  FETCH  NEXT  #{ numOfRows}  ROWS ONLY
+    
    </select>
  
  </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
