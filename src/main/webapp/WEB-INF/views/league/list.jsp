@@ -38,6 +38,8 @@
     </div>
     
     </form>
+    
+    <div>${league.league_name}</div>
   
     <h2>League List</h2>
     <table id="list" class="table table-hover">
