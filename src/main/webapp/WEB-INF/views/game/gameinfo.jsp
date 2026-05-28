@@ -18,36 +18,30 @@
 				<td>장소</td>
 			</tr>
 			<tr>
-				<td>${game.game_idx}</td>
-				<td>${game.league_name}</td>
-				<td>${game.game_date}</td>
-				<td>${game.game_time}</td>
-				<td>${game.game_field}</td>
+				<td>${gameinfo.game_idx}</td>
+				<td>${gameinfo.league_name}</td>
+				<td>${gameinfo.game_date}</td>
+				<td>${gameinfo.game_time}</td>
+				<td>${gameinfo.game_field}</td>
 			</tr>
 		</table>
 		<table id="gamestat">
 			<tr>
 				<td>${file.awayfile_name}</td>
-				<td>${game.awayteam_name}</td>
-				<td>${game.awayteam_score}</td>
-				<td>${game.game_status}</td>
-				<td>${game.hometeam_score}</td>
-				<td>${game.hometeam_name}</td>
+				<td>${gameresult.awayteam_name}</td>
+				<td>${gameresult.awayteam_score}</td>
+				<td>${gameinfo.game_status}</td>
+				<td>${gameresult.hometeam_score}</td>
+				<td>${gameresult.hometeam_name}</td>
 				<td>${file.homefile_name}</td>
 			</tr>
 		</table>
 		<table>
 			<tr>
 				<td>팀명</td>
-				<td>1</td>
-				<td>2</td>
-				<td>3</td>
-				<td>4</td>
-				<td>5</td>
-				<td>6</td>
-				<td>7</td>
-				<td>8</td>
-				<td>9</td>
+				<c:forEach var="result" items="resultList">
+				 <td></td>
+				</c:forEach>
 				<td>R(점수)</td>
 				<td>H(안타+홈런)</td>
 				<td>B(사사구)</td>
@@ -63,7 +57,7 @@
 				<td>${result1.inning }</td>
 				<td>${result1.inning }</td>
 				<td>${result1.inning }</td>				
-				<td>${result1. }</td>
+				<td>${result1.inning }</td>
 				<td>H</td>
 				<td>B</td>
 			</tr>

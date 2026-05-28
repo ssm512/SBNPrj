@@ -28,7 +28,7 @@
 			</tr>
 			<tr>
 				<td>
-				<input type="time" name="game_time" placeholder="경기시간(18:30)"/>
+				<input type="text" name="game_time" placeholder="경기시간(18:30)"/>
 				</td>
 			</tr>
 			<tr>
@@ -38,18 +38,9 @@
 			</tr>
 			<tr>
 				<td>
-				경기 진행 여부 : 
-				<input type="radio" name="game_status" id="no_game" value="0" checked/>
-				<label for="no_game">미진행</label>
-				<input type="radio" name="game_status" id="game_end" value="1"/>
-				<label for="game_end">완료</label>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<input type="submit" value="추가"/>
 					<input type="button" value="목록" 
-					onclick ="window.location.href='/league/list'"/>
+					onclick ="window.location.href='/League/List?league_idx=${map.league_idx}'"/>
 				</td>
 			</tr>
 		</table>

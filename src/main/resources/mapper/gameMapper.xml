@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.sbn.game.mapper.GameMapper">
+ 	<!-- insertGame -->
+ 	<insert id="insertGame">
+ 		INSERT INTO GAME (
+	    GAME_IDX,
+	    LEAGUE_IDX,
+	    AWAY_IDX,
+	    HOME_IDX,
+	    GAME_DATE,
+	    GAME_TIME,
+	    GAME_FIELD,
+	    GAME_STATUS
+    ) VALUES ( 
+	   	SEQ_GAME.NEXTVAL,
+	   	#{league_idx},
+	   	(SELECT TEAM_IDX FROM TEAM WHERE TEAM_NAME = #{awayTeam}),
+	   	(SELECT TEAM_IDX FROM TEAM WHERE TEAM_NAME = #{homeTeam}),
+	   	#{game_date},
+	   	#{game_time},
+	   	#{game_field},
+	   	0
+		)
+ 	</insert>
+ 	
+ 	<!-- getGameResult -->
+ 	<select id="getGameResult" resultType="com.sbn.game.dto.GameDto">
+ 		SELECT
+		    GAME_IDX,
+		    LEAGUE_IDX,
+		    AWAY_IDX,
+		    HOME_IDX,
+		    GAME_DATE,
+		    GAME_TIME,
+		    GAME_FIELD,
+		    GAME_STATUS,
+		    WINNER,
+		    WIN_PITCHER,
+		    LOSE_PITCHER,
+		    SAVE_PITCHER,
+		    HOLD_PITCHER
+		FROM
+		    GAME
+		WHERE
+		    GAME_IDX = #{gaime_idx}
+ 	</select>
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
