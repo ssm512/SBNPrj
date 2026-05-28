@@ -1,0 +1,184 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@taglib prefix="c" uri="jakarta.tags.core" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SBN - 정보수정</title>
+
+<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+<link href="/css/common.css" rel="stylesheet" />
+
+<style>
+
+	.main-wrapper {
+		display: grid;
+		justify-content: center;
+		gap: 20px;
+		grid-template-columns: 1fr 3fr;
+	}
+	
+	.member-profile-img {
+		background-color: #FFD700;
+		text-align: center;
+	}
+	
+	.myteamlist {
+		margin-top: 25px;
+		width: 100%;
+		text-align: center;
+		td { padding: 10px; }
+	}
+	
+	.myteamlist tr:first-of-type {
+		background: #F5F5DC;
+	}
+	
+	
+	.member-profile {
+		padding: 15px;
+		background: #F5F5DC;
+		width: 100%;
+	}
+	
+	.member-profile table {
+		margin: 20px auto;
+		text-align: center;
+		width: 95%;
+		td:nth-of-type(odd) {
+			width: 70px;
+			padding: 10px;
+		}
+		td:nth-of-type(even) {
+			background: white;
+		}
+	}
+	
+	
+	#updatebtn {
+		display: block;
+		margin: 40px auto 0;
+	}
+	
+  .myteamlist tr:not(:first-of-type):hover {
+  	background-color: #D9D9D9;
+  	cursor: pointer;
+  }
+  
+  input[type="text"], input[type="date"], input[type="email"] {
+  	width: 100%;
+  	height: 100%;
+  } 
+  
+  input[name="hope_position"] {
+  	width: 70%;
+  }
+  
+	
+</style>
+
+</head>
+<body>
+	<%@include file="/WEB-INF/include/headermenu.jsp" %>
+	
+	<div class="main-wrapper">
+		<div>
+			<div class="member-profile-img">
+				<p>이미지</p>
+				<p>${ sessionScope.login.member_name }</p>
+				<input type="button" id="mystatsbtn" value="내 전적 조회"  />
+			</div>
+			<table class="myteamlist">
+				<tr>
+					<td>소속팀목록</td>
+				</tr>
+				<c:forEach var="team" items="${ teamList }" >
+					<tr onclick='location.href="/Team/Info?team_idx=${ team.team_idx }"' style="cursor:pointer;">
+						<td>${ team.team_name } 
+						<b>${ sessionScope.login.member_idx eq team.team_manager ? '[감독]' : '' }</b></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+		<div class="member-profile">
+			<h3>회원 정보</h3>
+			<form action="/Member/Update" method="post" >
+				<input type="hidden" name="member_idx" value="${ sessionScope.login.member_idx }" />
+				<table>
+					<tr>
+						<td>아이디</td>
+						<td>${ sessionScope.login.member_id }</td>
+						<td>주소</td>
+						<td><input type="text"  name="address"  value="${ sessionScope.login.address }"/></td>
+					</tr>
+					<tr>
+						<td>연락처</td>
+						<td><input type="text"  name="phone_num"  value="${ sessionScope.login.phone_num }"/></td>
+						<td>이름</td>
+						<td><input type="text"  name="member_name"  value="${ sessionScope.login.member_name }" required /></td>
+					</tr>
+					<tr>
+						<td>생년</td>
+						<td><input type="date"  name="birth"  value="${ sessionScope.login.birth }"/></td>
+						<td>이메일</td>
+						<td><input type="email"  name="email"  value="${ sessionScope.login.email }"/></td>
+					</tr>
+				</table>
+				<h3>추가 정보</h3>
+				<span>투타 구분</span> &emsp;&emsp;
+					<input type="radio" name="use_hand" id="right_right" value="우투우타"
+					${ sessionScope.login.use_hand == '우투우타' ? 'checked' : '' }/>
+					<label for="right_right">우투우타</label> &nbsp;&nbsp;
+					<input type="radio" name="use_hand" id="right_left" value="우투좌타"
+					${ sessionScope.login.use_hand == '우투좌타' ? 'checked' : '' }/>
+					<label for="right_left">우투좌타</label> &nbsp;&nbsp;
+					<input type="radio" name="use_hand" id="left_left" value="좌투좌타"
+					${ sessionScope.login.use_hand == '좌투좌타' ? 'checked' : '' }/>
+					<label for="left_left">좌투좌타</label> &nbsp;&nbsp;
+					<input type="radio" name="use_hand" id="left_right" value="좌투우타"
+					${ sessionScope.login.use_hand == '좌투우타' ? 'checked' : '' }/>
+					<label for="left_right">좌투우타</label> &nbsp;&nbsp;
+					<input type="radio" name="use_hand" id="switch" value="스위치"
+					${ sessionScope.login.use_hand == '스위치' ? 'checked' : '' }/>
+					<label for="switch">스위치</label> <br>
+					
+				<span>선출 여부</span> &emsp;&emsp;
+					<input type="radio" name="elite" id="normal" value="비선출"
+					${ sessionScope.login.elite == '비선출' ? 'checked' : '' }/>
+					<label for="normal">비선출</label> &nbsp;&nbsp;
+					<input type="radio" name="elite" id="middle_school" value="중출"
+					${ sessionScope.login.elite == '중출' ? 'checked' : '' }/>
+					<label for="middle_school">중출</label> &nbsp;&nbsp;
+					<input type="radio" name="elite" id="high_school" value="고출"
+					${ sessionScope.login.elite == '고출' ? 'checked' : '' }/>
+					<label for="high_school">고출</label> &nbsp;&nbsp;
+					<input type="radio" name="elite" id="pro" value="프로"
+					${ sessionScope.login.elite == '프로' ? 'checked' : '' }/>
+					<label for="pro">프로</label>	<br>
+					
+				<span>선호 포지션</span> &emsp;
+				<input type="text"  name="hope_position"  value="${ sessionScope.login.hope_position }"/>
+				<input type="submit" id="updatebtn" value="수정 완료"  />
+			</form>
+		</div>
+	
+	</div>
+	
+	
+	
+	 
+	<%@include file="/WEB-INF/include/footer.jsp" %> 
+	
+	
+	<script>
+	
+	const updatebtnEl  = document.querySelector('#updatebtn')
+	
+
+	
+	</script>
+</body>
+</html>

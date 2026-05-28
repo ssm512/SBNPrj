@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>SBN 선수</title>
+<title>SBN - 선수 목록</title>
 
 <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 <link href="/css/common.css" rel="stylesheet" />

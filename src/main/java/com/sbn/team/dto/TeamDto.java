@@ -16,7 +16,7 @@ public class TeamDto {
 	private Date   team_regdate;  // 창단일
 	
 	// JOIN 칼럼
-	private String member_name; // 감독 이름(MEMBER 테이블)
+	private String manager_name; // 감독 이름(MEMBER 테이블)
 	private String league_name; // 리그 이름(LEAGUE 테이블)
 	
 	// MEMBER_TEAM JOIN 칼럼

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import com.sbn.config.WebMvcConfig;
 import com.sbn.member.dto.MemberDto;
 import com.sbn.member.mapper.MemberMapper;
 import com.sbn.member.service.MemberService;
@@ -26,11 +26,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/Member")
 public class MemberController {
 
+    private final WebMvcConfig webMvcConfig;
+
 	@Autowired
 	private  MemberService  memberService;
 	
 	@Autowired
 	private  MemberMapper   memberMapper;
+
+
+    MemberController(WebMvcConfig webMvcConfig) {
+        this.webMvcConfig = webMvcConfig;
+    }
 
 
 	
@@ -94,7 +101,6 @@ public class MemberController {
 	@RequestMapping("/IdDupCheck/{member_id}") // /Member/IdDupCheck/test123
 	@ResponseBody		
 	public HashMap<String, Object> idDupCheck (@PathVariable(value="member_id") String member_id) {
-		System.out.println("12312321213");
 		MemberDto	member		=	memberService.getIdDupCheck(member_id); 
 
 		if (member == null)  
@@ -131,9 +137,26 @@ public class MemberController {
 		
 		// idx 로 가입된 팀 전체 조회
 		List<TeamDto> teamList = memberService.getMyTeamList(member_idx);
+		// System.out.println(teamList);
 		
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("member/mypage");
+		mv.addObject("teamList", teamList);
+		return  mv;
+	}
+	
+	@RequestMapping("/UpdateForm")
+	public  ModelAndView  updateForm(HttpServletRequest request) {
+		HttpSession  session   = request.getSession();
+		MemberDto    login     = (MemberDto) session.getAttribute("login");
+
+		int        member_idx  = login.getMember_idx();
+		
+		// idx 로 가입된 팀 전체 조회
+		List<TeamDto> teamList = memberService.getMyTeamList(member_idx);
+		
+		ModelAndView  mv  = new ModelAndView();
+		mv.setViewName("member/update");
 		mv.addObject("teamList", teamList);
 		return  mv;
 	}

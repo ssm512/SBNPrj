@@ -19,7 +19,8 @@
 				 ELITE,
 				 USE_HAND,
 				 HOPE_POSITION,
-				 MEMBER_REGDATE
+				 MEMBER_REGDATE,
+				 IS_ADMIN
   FROM   MEMBER
   WHERE  MEMBER_ID = LOWER(#{member_id})
   
@@ -57,11 +58,12 @@
 
 <select id="getMyTeamList" resultType="com.sbn.team.dto.TeamDto">
     SELECT T.TEAM_IDX        TEAM_IDX,
+           T.TEAM_MANAGER    TEAM_MANAGER,
            T.TEAM_NAME       TEAM_NAME,
            T.TEAM_LOCATION   TEAM_LOCATION,
            T.TEAM_REGDATE    TEAM_REGDATE,
-           MT.POSITION       position,
-           MT.BACK_NUM       back_num
+           MT.POSITION       POSITION,
+           MT.BACK_NUM       BACK_NUM
     FROM   MEMBER_TEAM MT
     JOIN   TEAM T ON MT.TEAM_IDX = T.TEAM_IDX
     WHERE  MT.MEMBER_IDX = #{member_idx}
@@ -88,7 +90,7 @@
 		)
 		VALUES (
 			SEQ_MEMBER.NEXTVAL,
-			#{member_id},
+			LOWER(#{member_id}),
 			#{password},
 			#{member_name},
 			TO_DATE(#{birth},'YYYY-MM-DD'),

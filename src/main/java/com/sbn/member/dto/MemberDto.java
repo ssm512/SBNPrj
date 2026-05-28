@@ -17,5 +17,6 @@ public class MemberDto {
 	private  String  use_hand;
 	private  String  hope_position;
 	private  String  member_regdate;
+	private  String  is_admin;
 	
 }

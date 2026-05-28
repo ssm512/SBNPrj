@@ -12,7 +12,7 @@
                 T.TEAM_CONTENT TEAM_CONTENT,
                 T.TEAM_LOCATION TEAM_LOCATION,
                 T.TEAM_REGDATE TEAM_REGDATE,
-                M.MEMBER_NAME MEMBER_NAME,
+                M.MEMBER_NAME MANAGER_NAME,
                 L.LEAGUE_NAME LEAGUE_NAME
          FROM   TEAM T
          JOIN   MEMBER M  ON T.TEAM_MANAGER  = M.MEMBER_IDX

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>SBN 마이페이지</title>
+<title>SBN - 마이페이지</title>
 
 <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 <link href="/css/common.css" rel="stylesheet" />
@@ -18,7 +18,7 @@
 		display: grid;
 		justify-content: center;
 		gap: 20px;
-		grid-template-columns: 1fr 2fr;
+		grid-template-columns: 1fr 3fr;
 	}
 	
 	.member-profile-img {
@@ -47,7 +47,14 @@
 	.member-profile table {
 		margin: 20px auto;
 		text-align: center;
-		width: 80%;
+		width: 95%;
+		td { padding: 10px; }
+		td:nth-of-type(odd) {
+			width: 70px;
+		}
+		td:nth-of-type(even) {
+			background: white;
+		}
 	}
 	
 	
@@ -55,6 +62,11 @@
 		display: block;
 		margin: 40px auto 0;
 	}
+	
+  .myteamlist tr:not(:first-of-type):hover {
+  	background-color: #D9D9D9;
+  	cursor: pointer;
+  }
 	
 </style>
 
@@ -74,8 +86,9 @@
 					<td>소속팀목록</td>
 				</tr>
 				<c:forEach var="team" items="${ teamList }" >
-					<tr>
-						<td>${ team.team_name }</td>
+					<tr onclick='location.href="/Team/Info?team_idx=${ team.team_idx }&keyword="' style="cursor:pointer;">
+						<td>${ team.team_name } 
+						<b>${ sessionScope.login.member_idx eq team.team_manager ? '[감독]' : '' }</b></td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -86,14 +99,16 @@
 				<tr>
 					<td>아이디</td>
 					<td>${ sessionScope.login.member_id }</td>
-					<td>지역</td>
+					<td>주소</td>
 					<td>${ sessionScope.login.address }</td>
-					<td>연락처</td>
-					<td>${ sessionScope.login.phone_num }</td>
 				</tr>
 				<tr>
+					<td>연락처</td>
+					<td>${ sessionScope.login.phone_num }</td>
 					<td>이름</td>
 					<td>${ sessionScope.login.member_name }</td>
+				</tr>
+				<tr>
 					<td>생년</td>
 					<td>${ sessionScope.login.birth }</td>
 					<td>이메일</td>
@@ -113,5 +128,17 @@
 	
 	 
 	<%@include file="/WEB-INF/include/footer.jsp" %> 
+	
+	
+	<script>
+	
+	const updatebtnEl  = document.querySelector('#updatebtn')
+	
+	updatebtnEl.addEventListener('click', function () {
+		location.href = "/Member/UpdateForm"
+	})
+	
+	
+	</script>
 </body>
 </html>

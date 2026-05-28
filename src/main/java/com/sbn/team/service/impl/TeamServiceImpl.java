@@ -16,6 +16,7 @@ public class TeamServiceImpl implements TeamService {
 	private TeamMapper teamMapper;
 	
 	/* 팀 목록 조회 */
+	@Override
 	public List<TeamDto> getTeamList(String keyword) {
 		return teamMapper.selectTeamList(keyword);
 	}
