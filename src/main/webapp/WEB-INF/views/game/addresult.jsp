@@ -55,7 +55,7 @@
 			<td>
 				<select name="top_bottom">
 					<option>T</option>
-					<option>F</option>
+					<option>B</option>
 				</select>
 			</td>
 			<td>

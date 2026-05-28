@@ -35,24 +35,24 @@ public class GameController {
 		String	league_idx	=	String.valueOf(map.get("league_idx"));
 		gameService.insertGame(map);
 		ModelAndView mv = new ModelAndView();
-		String	loc			= """
-				redirect:/League/List?league_idx=%s
-				"""	.formatted(league_idx);
+		String	loc			= "redirect:/League/List?league_idx="+league_idx;				
 		System.out.println(loc);
 		mv.setViewName(loc);
 		return mv;
 	}
 	
-	// /Game/GameInfo?game_idx=1&league_idx=1
+	// /Game/GameInfo?game_idx=2&league_idx=1
 	@RequestMapping("/GameInfo")
 	public ModelAndView gameInfo ( @RequestParam HashMap<String, Object> map ) {
 		String		game_idx		=	String.valueOf(map.get("game_idx"));
 		String		league_idx		=	String.valueOf(map.get("league_idx"));
 		map.put("league_idx", league_idx);
 		GameDto		gameinfo		=	gameService.getGameResult(game_idx);
+		String		league_name		=	gameService.getLeagueName(league_idx);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("/game/gameinfo");
 		mv.addObject("gameinfo", gameinfo);
+		mv.addObject("league_name", league_name);
 		return mv;
 	}
 	

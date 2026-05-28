@@ -17,8 +17,8 @@
     ) VALUES ( 
 	   	SEQ_GAME.NEXTVAL,
 	   	#{league_idx},
-	   	(SELECT TEAM_IDX FROM TEAM WHERE TEAM_NAME = #{awayTeam}),
-	   	(SELECT TEAM_IDX FROM TEAM WHERE TEAM_NAME = #{homeTeam}),
+	   	(SELECT TEAM_IDX FROM TEAM WHERE TEAM_NAME = #{home_name}),
+	   	(SELECT TEAM_IDX FROM TEAM WHERE TEAM_NAME = #{away_name}),
 	   	#{game_date},
 	   	#{game_time},
 	   	#{game_field},
@@ -45,7 +45,17 @@
 		FROM
 		    GAME
 		WHERE
-		    GAME_IDX = #{gaime_idx}
+		    GAME_IDX = #{game_idx}
+ 	</select>
+ 	
+ 	<!-- getLeagueName -->
+ 	<select id="getLeagueName">
+ 		SELECT
+ 				LEAGUE_NAME
+ 		FROM
+ 				LEAGUE
+ 		WHERE
+ 				LEAGUE_IDX = #{league_idx}
  	</select>
  </mapper>
  

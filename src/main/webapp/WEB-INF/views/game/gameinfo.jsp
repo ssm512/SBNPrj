@@ -5,6 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <title>리그경기추가</title>
+<style>
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+	td {
+		border: 1px solid black;
+		padding: 5px;
+		text-align: center;
+	}
+</style>
 </head>
 <body>
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>
@@ -19,7 +30,7 @@
 			</tr>
 			<tr>
 				<td>${gameinfo.game_idx}</td>
-				<td>${gameinfo.league_name}</td>
+				<td>${league_name}</td>
 				<td>${gameinfo.game_date}</td>
 				<td>${gameinfo.game_time}</td>
 				<td>${gameinfo.game_field}</td>
@@ -27,13 +38,13 @@
 		</table>
 		<table id="gamestat">
 			<tr>
-				<td>${file.awayfile_name}</td>
+				<td><%-- ${file.awayfile_name} --%></td>
 				<td>${gameresult.awayteam_name}</td>
 				<td>${gameresult.awayteam_score}</td>
 				<td>${gameinfo.game_status}</td>
 				<td>${gameresult.hometeam_score}</td>
 				<td>${gameresult.hometeam_name}</td>
-				<td>${file.homefile_name}</td>
+				<td><%-- ${file.homefile_name} --%></td>
 			</tr>
 		</table>
 		<table>

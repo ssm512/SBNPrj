@@ -27,4 +27,10 @@ public class GameServiceImpl implements GameService {
 		return gameinfo;
 	}
 
+	@Override
+	public String getLeagueName(String league_idx) {
+		String	getLeagueName	=	gameMapper.getLeagueName(league_idx);
+		return getLeagueName;
+	}
+
 }

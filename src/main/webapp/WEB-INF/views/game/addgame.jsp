@@ -10,6 +10,7 @@
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>
 	<div class="main-wrapper">
 	<form action="/Game/AddGame" method="post">
+	<input type="hidden" name="league_idx" value="${map.league_idx}">
 		<table>
 			<tr>
 				<td>

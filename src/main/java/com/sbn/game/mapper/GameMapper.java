@@ -13,4 +13,6 @@ public interface GameMapper {
 
 	GameDto getGameResult(String game_idx);
 
+	String getLeagueName(String league_idx);
+
 }
