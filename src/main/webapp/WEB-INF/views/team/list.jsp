@@ -51,42 +51,46 @@
 </head>
 <body>
  	<%@ include file="/WEB-INF/include/headermenu.jsp" %>
-	<div class="">
-	  <h2>S B N</h2>
+
+	<div class="main-wrapper">
+	 	<h2>S B N</h2>
 	
-	<!-- 검색창 -->
-	<div style="width:70%; margin:10px auto; text-align:right;">
-    	<form action="/Team/List" method="get" style="display:inline;">
-        	<input type="text" name="keyword" value="${keyword}" placeholder="검색(팀 이름 또는 지역)">
-        	<button type="submit">검색</button>
-    	</form>
-	</div>
-	  
+		<!-- 검색창 -->
+		<div style="width:70%; margin:10px auto; text-align:right;">
+	    	<form action="/Team/List" method="get" style="display:inline;">
+	        	<input type="hidden" name="nowpage" value="1"/>
+	        	<input type="text" name="keyword" value="${map.keyword}" placeholder="검색(팀 이름 또는 지역)"/>
+	        	<button type="submit">검색</button>
+	    	</form>
+		</div>
+		  
 		<table id="list">
-		
+			
 		  <tr>
 			<td>팀 이름</td>
 			<td>감독</td>
 			<td>리그</td>
 			<td>팀 소개</td>
 		  </tr>
-	<c:forEach var="team" items="${teamList}">
-		  <tr onclick="location.href='/Team/Info?team_idx=${team.team_idx}'" style="cursor:pointer;">
-			<td>${team.team_name   }</td>
-			<td>${team.manager_name }</td>
-			<td>${team.league_name }</td>
-			<td>${team.team_content}</td>
-		  </tr>
-	</c:forEach>
-		  
+	
+		  <c:forEach var="team" items="${team_list}">
+			  <tr onclick="location.href='/Team/Info?team_idx=${team.team_idx}&keyword='" style="cursor:pointer;">
+				<td>${team.team_name    }</td>
+				<td>${team.member_name  }</td>
+				<td>${team.league_name  }</td>
+				<td>${team.team_content }</td>
+			  </tr>
+		  </c:forEach>
+			  
+			
+		</table>
 		
-	</table>
-	<div style="width:70%; margin:5px auto; text-align:right;">
-	    <a href="/Team/Maketeam"><button type="button">팀 생성</button></a>
+		<div style="width:70%; margin:5px auto; text-align:right;">
+		    <a href="/Team/Maketeam"><button type="button">팀 생성</button></a>
+		</div>
+		
 	</div>
-		
 
-	</main>
 	 
 	<%@ include file="/WEB-INF/include/footer.jsp" %>
 </body>
