@@ -20,7 +20,7 @@
          LEFT JOIN LEAGUE      L  ON TL.LEAGUE_IDX = L.LEAGUE_IDX
          <where>
              <if test="keyword != null and keyword != ''">
-                 AND (T.TEAM_NAME     LIKE '%' || #{keyword} || '%'
+                 AND (T.TEAM_NAME    LIKE '%' || #{keyword} || '%'
                  OR  T.TEAM_LOCATION LIKE '%' || #{keyword} || '%')
              </if>
          </where>

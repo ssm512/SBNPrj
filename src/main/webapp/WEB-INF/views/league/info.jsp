@@ -147,6 +147,8 @@
   }
   .left-td {
     border: 1px solid #1a5c1a;
+    border-radius:8px;
+    padding:10px;
   }
 </style>
 </head>
@@ -158,19 +160,32 @@
     <div class="left-container">
       
       <div class="left-section-1">
-        <div class="info-box">골든리그</div>
-        <div class="info-box">부산</div>
-        <div class="info-box intro-box">리그 소개</div>
+        <div class="info-box">${league.league_name}</div>
+        <div class="info-box">${league.league_location}</div>
+        <div class="info-box intro-box">${league.league_content}</div>
         <div class="btn-container justify-start">
-          <button type="button" class="green-btn">리그 가입 신청</button>
+          <button type="button" class="green-btn">
+            <a href="/League/Managing?league_idx=${league.league_idx}">
+              리그 가입 신청
+            </a>
+          </button>
         </div>
       </div>
       
       <div class="left-section-2">
         <table class="left-table">
+        <c:forEach var="team" items="${teamList}">
           <tr>
-            <td class="left-td">팀 이름</td>
+            <td class="left-td">${team.team_name}</td>
           </tr>
+        </c:forEach>
+        
+        <c:if test="${empty teamList}">
+          <tr>
+            <td class="left-td">소속된 팀이 없습니다.</td>
+          </tr>
+        </c:if>
+        
         </table>
       </div>
       
@@ -179,7 +194,7 @@
     <div class="right-container">
       <table class="league-table">
           <tr>
-            <td>리그</td>
+            <td>경기 번호</td>
             <td>날짜</td>
             <td>시간</td>
             <td>장소</td>
@@ -188,24 +203,44 @@
             <td>비고</td>
           </tr>
 
-          <tr>
-            <td>
-            <a href="/Game/GameInfo">
-              골든리그
-            </a>
-            </td>
-            <td>2026.06.18</td>
-            <td>07:30</td>
-            <td>모란야구장</td>
-            <td>야방궁</td>
-            <td>유니 자이언츠</td>
-            <td>-</td>
-          </tr>
+		  <c:forEach var="game" items="${gameList}"> 
+		    <tr>
+			  <td>
+			    <a href="/Game/GameInfo?league_idx=${league.league_idx}&game_idx=${game.game_idx}">
+			      ${game.game_idx}
+			    </a>
+			  </td>
+			  <td>${game.game_date}</td>
+			  <td>${game.game_time}</td>
+			  <td>${game.game_field}</td>
+			  
+			  <td>${game.home_team_name}</td> 
+			  <td>${game.away_team_name}</td>
+			  
+			  <td>
+			    <c:choose>
+			      <c:when test="${not empty game.game_result_content}">
+			        ${game.game_result_content}
+			      </c:when>
+			      <c:otherwise>
+			        -
+			      </c:otherwise>
+			    </c:choose>
+			  </td>
+			</tr>
+		  </c:forEach>
+		  
+		  <c:if test="${empty gameList}">
+		    <tr>
+		      <td colspan="7">경기 일정이 비어있습니다.</td>
+		    </tr>
+		  </c:if>
+          
       </table>
       
       <div class="btn-container justify-end">
         <button type="button" class="green-btn">
-        <a href="/Game/AddGameForm">
+        <a href="/Game/AddGameForm?league_idx=${ map.league_idx }">
           경기 일정 추가
         </a>
         </button>

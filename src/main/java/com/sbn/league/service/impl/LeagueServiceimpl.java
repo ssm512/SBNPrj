@@ -2,10 +2,12 @@ package com.sbn.league.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sbn.game.dto.GameDto;
 import com.sbn.league.dto.LeagueDto;
 import com.sbn.league.mapper.LeagueMapper;
 import com.sbn.league.service.LeagueService;
@@ -34,6 +36,33 @@ public class LeagueServiceimpl implements LeagueService {
 	    }
 		List<LeagueDto> leagueList = leagueMapper.getLeagueList( map );
 		return leagueList;
+	}
+
+	@Override
+	public int count(HashMap<String, Object> map) {
+		
+		// 만약 컨트롤러에서 map 을 생성하지 않고 null 로 보냈을 때를 대비한 코드
+	    if (map == null) {
+	        map = new HashMap<>();
+	    }
+	    
+	    // mapper 의 count 쿼리를 호출하여 전체 데이터 개수를 받아온 뒤 반환
+	    return leagueMapper.count(map);
+	}
+
+	@Override
+	public LeagueDto getLeague(HashMap<String, Object> map) {
+		return leagueMapper.getLeague(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getGameList(HashMap<String, Object> map) {
+	    return leagueMapper.getGameList(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTeamList(HashMap<String, Object> map) {
+		return leagueMapper.getTeamList(map);
 	}
 
 }

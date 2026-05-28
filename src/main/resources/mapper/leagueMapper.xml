@@ -47,6 +47,61 @@
     OFFSET  #{ offset}  ROWS  FETCH  NEXT  #{ numOfRows}  ROWS ONLY
     
    </select>
+   
+   <!-- getLeague -->
+   <select id="getLeague" resultType="com.sbn.league.dto.LeagueDto">
+     SELECT
+	    LEAGUE_IDX,
+	    LEAGUE_NAME,
+	    LEAGUE_LOCATION,
+	    LEAGUE_CONTENT
+	  FROM
+	    LEAGUE
+	  WHERE
+	    LEAGUE_IDX = #{league_idx}
+   </select>
+   
+   <!-- getGameList -->
+   <select id="getGameList" resultType="java.util.HashMap">
+     SELECT
+	      G.GAME_IDX           AS "game_idx",
+	      G.LEAGUE_IDX         AS "league_idx",
+	      G.GAME_DATE          AS "game_date",
+	      G.GAME_TIME          AS "game_time",
+	      G.GAME_FIELD         AS "game_field",
+	      HT.TEAM_NAME         AS "home_team_name",
+	      AT.TEAM_NAME         AS "away_team_name",
+	      R.CONTENT            AS "game_result_content"
+	  FROM
+	      SBN.GAME G
+	  LEFT JOIN 
+	      SBN.TEAM HT ON G.HOME_IDX = HT.TEAM_IDX
+	  LEFT JOIN 
+	      SBN.TEAM AT ON G.AWAY_IDX = AT.TEAM_IDX
+	  LEFT JOIN 
+	      SBN.GAME_RESULT R ON G.GAME_IDX = R.GAME_IDX
+	  WHERE
+	      G.LEAGUE_IDX = #{league_idx}
+	  ORDER BY
+	      G.GAME_DATE ASC
+   </select>
+   
+   <select id="getTeamList" resultType="java.util.HashMap">
+     
+     SELECT 
+	      T.TEAM_IDX  AS "team_idx",
+	      T.TEAM_NAME AS "team_name"
+	  FROM 
+	      SBN.TEAM T
+	  INNER JOIN 
+	      SBN.TEAM_LEAGUE TL ON T.TEAM_IDX = TL.TEAM_IDX
+	  WHERE 
+	      TL.LEAGUE_IDX = #{league_idx}
+	      AND TL.JOIN_STATUS = 1
+	  ORDER BY
+	  	  T.TEAM_IDX ASC
+     
+   </select>
  
  </mapper>
  
