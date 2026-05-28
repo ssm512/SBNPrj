@@ -7,7 +7,7 @@ import com.sbn.team.dto.TeamDto;
 
 public interface TeamService {
 
-    List<TeamDto>   getTeamList(String keyword);          // ← 추가 필요
+    List<TeamDto>   getTeamList(String keyword);
 
     TeamDto getTeamInfo(int team_idx);
     

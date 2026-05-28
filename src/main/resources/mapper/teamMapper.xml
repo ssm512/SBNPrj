@@ -50,11 +50,13 @@
 	    FROM   TEAM_LEAGUE TL
 	    JOIN   LEAGUE      L  ON TL.LEAGUE_IDX = L.LEAGUE_IDX
 	    WHERE  TL.TEAM_IDX = #{team_idx}
+	      AND  TL.JOIN_STATUS = 1   
 	</select>
 	
 	<!-- 선수 목록 조회 -->
 	<select id="selectMemberTeamList" resultType="com.sbn.team.dto.MemberTeamDto">
 	    SELECT M.MEMBER_NAME  MEMBER_NAME,
+	           M.MEMBER_IDX   MEMBER_IDX,
 	           MT.POSITION    POSITION,
 	           MT.BACK_NUM    BACK_NUM,
 	           MT.ELITE       ELITE

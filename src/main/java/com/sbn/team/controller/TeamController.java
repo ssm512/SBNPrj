@@ -21,23 +21,25 @@ public class TeamController {
 
     // 팀 목록
     @RequestMapping("/List")
-    public ModelAndView list(@RequestParam(value="keyword", defaultValue="") String keyword) {
+    public ModelAndView list(@RequestParam HashMap<String, Object> map) {
 
-        ModelAndView mav        = new ModelAndView("team/list");
+    	String keyword = map.getOrDefault("keyword", "").toString();
+    	
+        ModelAndView mv        = new ModelAndView("team/list");
         List<TeamDto> team_list = team_service.getTeamList(keyword);
 
-        mav.addObject("team_list", team_list);
-        mav.addObject("keyword",   keyword);
+        mv.addObject("team_list", team_list);
+        mv.addObject("map", map);
 
-        return mav;
+        return mv;
     }
 
     // 팀 상세 정보
     @RequestMapping("/Info")
     public ModelAndView info(@RequestParam HashMap<String, Object> map) {
 
-        int team_idx = Integer.parseInt(map.get("team_idx").toString());
-        String keyword  = map.getOrDefault("keyword", "").toString(); 
+        int    team_idx = Integer.parseInt(map.get("team_idx").toString());
+        String keyword = map.getOrDefault("keyword", "").toString();
 
         ModelAndView mv = new ModelAndView("team/info");
         mv.addObject("team", team_service.getTeamInfo(team_idx));

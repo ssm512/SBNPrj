@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ include file="/WEB-INF/include/teampaging.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,13 +89,15 @@
     <%@ include file="/WEB-INF/include/headermenu.jsp" %>
 
     <div class="main-wrapper">
+    
+    	  <h2>S B N</h2>
 
         <!-- 팀 이름 / 검색 -->
         <div class="top-bar">
             <button class="team-name-btn">${team.team_name}</button>
             <form action="/Team/Info" method="get">
-                <input type="hidden" name="team_idx" value="${team_idx}">
-                <input type="text" name="keyword" value="${keyword}" placeholder="검색(선수 이름 또는 포지션)">
+                <input type="hidden" name="team_idx" value="${map.team_idx}">
+                <input type="text" name="keyword" value="${map.keyword}" placeholder="검색(선수 이름 또는 포지션)">
                 <button type="submit">검색</button>
             </form>
         </div>
@@ -122,7 +125,7 @@
                     <td>선출 여부</td>
                 </tr>
 		<c:forEach var="mt" items="${mt_list}">
-		    <tr>
+		    <tr onclick='location.href="/Member/HitStats?member_idx=${ mt.member_idx }"'>
 		        <td>${mt.member_name}</td>
 		        <td>${mt.position   }</td>
 		        <td>${mt.back_num   } 번</td>
