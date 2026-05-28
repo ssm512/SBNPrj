@@ -53,7 +53,8 @@
  	<%@ include file="/WEB-INF/include/headermenu.jsp" %>
 	<main>
 	  <h2>S B N</h2>
-	
+		<div class="main-wrapper">
+
 	<!-- 검색창 -->
 	<div style="width:70%; margin:10px auto; text-align:right;">
     	<form action="/Team/List" method="get" style="display:inline;">
@@ -70,12 +71,12 @@
 			<td>리그</td>
 			<td>팀 소개</td>
 		  </tr>
-	<c:forEach var="team" items="${teamList}">
+	<c:forEach var="team" items="${team_list}">
 		  <tr onclick="location.href='/Team/Info?team_idx=${team.team_idx}'" style="cursor:pointer;">
-			<td>${team.team_name   }</td>
-			<td>${team.member_name }</td>
-			<td>${team.league_name }</td>
-			<td>${team.team_content}</td>
+			<td>${team.team_name    }</td>
+			<td>${team.manager_name }</td>
+			<td>${team.league_name  }</td>
+			<td>${team.team_content }</td>
 		  </tr>
 	</c:forEach>
 		  
@@ -83,9 +84,7 @@
 	</table>
 	<div style="width:70%; margin:5px auto; text-align:right;">
 	    <a href="/Team/Maketeam"><button type="button">팀 생성</button></a>
-	</div>
-		
-	<div class="main-wrapper">
+		</div>
 	</div>
 	</main>
 	 

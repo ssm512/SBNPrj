@@ -1,12 +1,13 @@
 package com.sbn.team.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.sbn.team.dto.TeamDto;
 import com.sbn.team.service.TeamService;
@@ -16,36 +17,46 @@ import com.sbn.team.service.TeamService;
 public class TeamController {
 
     @Autowired
-    private TeamService teamService;
+    private TeamService team_service;
 
     // 팀 목록
     @RequestMapping("/List")
-    public String list(@RequestParam(value="keyword", defaultValue="") String keyword,
-                       Model model) {
+    public ModelAndView list(@RequestParam(value="keyword", defaultValue="") String keyword) {
 
-        List<TeamDto> teamList = teamService.getTeamList(keyword);
-        model.addAttribute("teamList", teamList);
-        model.addAttribute("keyword", keyword);
+        ModelAndView mav        = new ModelAndView("team/list");
+        List<TeamDto> team_list = team_service.getTeamList(keyword);
 
-        return "team/list";
+        mav.addObject("team_list", team_list);
+        mav.addObject("keyword",   keyword);
+
+        return mav;
     }
 
     // 팀 상세 정보
     @RequestMapping("/Info")
-    public String info() {
-        return "team/info";
+    public ModelAndView info(@RequestParam HashMap<String, Object> map) {
+
+        int team_idx = Integer.parseInt(map.get("team_idx").toString());
+        String keyword  = map.getOrDefault("keyword", "").toString(); 
+
+        ModelAndView mv = new ModelAndView("team/info");
+        mv.addObject("team", team_service.getTeamInfo(team_idx));
+        mv.addObject("map",  map);
+        mv.addObject("league_list", team_service.getTeamLeague(team_idx));
+        mv.addObject("mt_list", team_service.getMemberTeamList(team_idx, keyword));
+        return mv;
     }
 
     // 팀 만들기
     @RequestMapping("/Maketeam")
-    public String maketeam() {
-        return "team/maketeam";
+    public ModelAndView maketeam() {
+        return new ModelAndView("team/maketeam");
     }
 
     // 팀 관리
     @RequestMapping("/Managing")
-    public String managing() {
-        return "team/managing";
+    public ModelAndView managing() {
+        return new ModelAndView("team/managing");
     }
 
 }

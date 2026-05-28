@@ -2,10 +2,16 @@ package com.sbn.team.service;
 
 import java.util.List;
 
+import com.sbn.team.dto.MemberTeamDto;
 import com.sbn.team.dto.TeamDto;
 
 public interface TeamService {
 
-	List<TeamDto> getTeamList(String keyword);
-	
+    List<TeamDto>   getTeamList(String keyword);          // ← 추가 필요
+
+    TeamDto getTeamInfo(int team_idx);
+    
+    List<String> getTeamLeague(int team_idx);
+    
+    List<MemberTeamDto> getMemberTeamList(int team_idx, String keyword);
 }
