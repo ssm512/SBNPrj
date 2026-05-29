@@ -176,5 +176,14 @@
     WHERE   MEMBER_IDX    = #{member_idx}
   
 </update>
+
+<!-- updateElite : MEMBER_TEAM TABLE의 ELITE 여부 -->
+<update id="updateElite">
+
+	UPDATE    MEMBER_TEAM
+	  SET     ELITE       = #{elite}
+	  WHERE   MEMBER_IDX  = #{member_idx}
+
+</update>
   
 </mapper>

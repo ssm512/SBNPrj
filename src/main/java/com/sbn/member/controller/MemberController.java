@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -178,11 +179,12 @@ public class MemberController {
 		return  mv;
 	}
 	
+	@Transactional
 	@PostMapping("/Update")
 	public  ModelAndView  update(@RequestParam HashMap<String, Object> map,
 								HttpServletRequest request) {
 
-		// 정보 수정
+		// 멤버 개인 정보 수정 + member_team 테이블의 elite 여부도 함께 수정
 		memberService.updateMember(map);
 		
 		// 수정된 정보 재 조회후 세션 갱신
@@ -192,6 +194,22 @@ public class MemberController {
 		
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("redirect:/Member/Mypage?updated=true");
+		return  mv;
+	}
+	
+	
+	// /Member/HitStats?member_idx=1
+	@RequestMapping("/HitStats")
+	public  ModelAndView  hitStats(@RequestParam HashMap<String, Object> map) {
+		
+		// 해당 선수 기록에 해당하는 idx 선수의 팀 목록 조회
+		int           member_idx = Integer.parseInt(map.get("member_idx").toString());
+		List<TeamDto> teamList   = memberService.getMyTeamList(member_idx);
+		
+		ModelAndView  mv = new ModelAndView();
+		mv.setViewName("member/hitstats");
+		mv.addObject("teamList", teamList);
+		mv.addObject("map", map);
 		return  mv;
 	}
 	

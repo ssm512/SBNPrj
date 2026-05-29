@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>SBN - 마이페이지</title>
+<title>SBN - 선수 기록</title>
 
 <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 <link href="/css/common.css" rel="stylesheet" />
@@ -19,11 +19,6 @@
 		justify-content: center;
 		gap: 20px;
 		grid-template-columns: 1fr 3fr;
-	}
-	
-	.member-profile-img {
-		background-color: #FFD700;
-		text-align: center;
 	}
 	
 	.myteamlist {
@@ -76,10 +71,10 @@
 	
 	<div class="main-wrapper">
 		<div>
-			<div class="member-profile-img">
-				<p>이미지</p>
-				<p>${ sessionScope.login.member_name }</p>
-				<input type="button" id="mystatsbtn" value="내 전적 조회"  />
+			<div class="profile">
+				<div>
+					선수이름 / 선출여부
+				</div>
 			</div>
 			<table class="myteamlist">
 				<tr>
@@ -88,7 +83,7 @@
 				<c:forEach var="team" items="${ teamList }" >
 					<tr onclick='location.href="/Team/Info?team_idx=${ team.team_idx }&keyword="' style="cursor:pointer;">
 						<td>${ team.team_name } 
-						<b>${ sessionScope.login.member_idx eq team.team_manager ? '[감독]' : '' }</b></td>
+						<b>${ map.member_idx eq team.team_manager ? '[감독]' : '' }</b></td>
 					</tr>
 				</c:forEach>
 			</table>

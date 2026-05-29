@@ -26,4 +26,5 @@ public interface MemberService {
 
 	MemberDto getEmailDupCheck(String email);
 
+
 }

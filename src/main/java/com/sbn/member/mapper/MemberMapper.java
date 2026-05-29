@@ -28,6 +28,8 @@ public interface MemberMapper {
 
 	MemberDto getEmailDupCheck(String email);
 
+	void updateElite(HashMap<String, Object> map);
+
 
 
 }

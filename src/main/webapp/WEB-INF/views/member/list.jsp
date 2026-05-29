@@ -50,14 +50,12 @@
 				<td>조회</td>
 			</tr>
 			<c:forEach var="member" items="${ memberList }">
-			<c:if test="${member.member_id != 'sbnadmin' }">
 			<tr>
 				<td>선수 사진</td>
 				<td>${ member.member_name }</td>
 				<td>${ member.elite }</td>
 				<td><a href="/Member/HitStats?member_idx=${ member.member_idx }">조회</a></td>
 			</tr>
-			</c:if>
 			</c:forEach>			
 		</table>	
 	

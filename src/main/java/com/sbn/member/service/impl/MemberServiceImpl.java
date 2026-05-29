@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sbn.member.dto.MemberDto;
 import com.sbn.member.mapper.MemberMapper;
@@ -66,9 +67,11 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 
+	@Transactional
 	@Override
 	public void updateMember(HashMap<String, Object> map) {
 		memberMapper.updateMember(map);
+		memberMapper.updateElite(map);
 	}
 
 	@Override
