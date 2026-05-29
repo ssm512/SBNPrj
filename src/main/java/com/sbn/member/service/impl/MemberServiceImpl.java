@@ -86,6 +86,12 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 
+	@Override
+	public MemberDto getMemberProfile(int member_idx) {
+		MemberDto  member  = memberMapper.getMemberProfile(member_idx);
+		return member;
+	}
+
 
 
 }

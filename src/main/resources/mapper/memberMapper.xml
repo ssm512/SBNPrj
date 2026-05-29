@@ -177,6 +177,7 @@
   
 </update>
 
+
 <!-- updateElite : MEMBER_TEAM TABLE의 ELITE 여부 -->
 <update id="updateElite">
 
@@ -186,4 +187,22 @@
 
 </update>
   
+  
+<!-- getMemberProfile -->  
+<select id="getMemberProfile">
+
+  SELECT    MEMBER_IDX,
+            MEMBER_ID,
+            MEMBER_NAME,
+            ADDRESS,
+            ELITE,
+            USE_HAND,
+            HOPE_POSITION
+    FROM    MEMBER
+    WHERE   MEMBER_IDX = #{member_idx}
+
+</select>
+
+
+
 </mapper>

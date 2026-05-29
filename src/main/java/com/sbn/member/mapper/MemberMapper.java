@@ -30,6 +30,8 @@ public interface MemberMapper {
 
 	void updateElite(HashMap<String, Object> map);
 
+	MemberDto getMemberProfile(int member_idx);
+
 
 
 }

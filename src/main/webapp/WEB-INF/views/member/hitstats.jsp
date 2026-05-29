@@ -21,6 +21,27 @@
 		grid-template-columns: 1fr 3fr;
 	}
 	
+	.hit-pitch-btn {
+		margin: 15px auto;
+		text-align: center;
+		width: 100%;
+		input {
+			margin: 5px 10px;
+			width: 30%;
+			height: 40px;
+		}
+	}
+	
+	.profile {
+		height: 45px;
+		border: 2px solid green;
+		border-radius: 15px;
+		text-align: center;
+		p {
+			padding: 10px;
+		}
+	}
+	
 	.myteamlist {
 		margin-top: 25px;
 		width: 100%;
@@ -32,36 +53,32 @@
 		background: #F5F5DC;
 	}
 	
-	
-	.member-profile {
-		padding: 15px;
-		background: #F5F5DC;
-		width: 100%;
-	}
-	
-	.member-profile table {
-		margin: 20px auto;
-		text-align: center;
-		width: 95%;
-		td { padding: 10px; }
-		td:nth-of-type(odd) {
-			width: 70px;
-		}
-		td:nth-of-type(even) {
-			background: white;
-		}
-	}
-	
-	
-	#updatebtn {
-		display: block;
-		margin: 40px auto 0;
-	}
-	
   .myteamlist tr:not(:first-of-type):hover {
   	background-color: #D9D9D9;
   	cursor: pointer;
   }
+  
+  table {
+  	width: 100%;
+  	text-align: center;
+  	margin: 15px auto;
+  }
+  
+  .stats-top {
+  	margin-top: 45px;
+    height: 130px;
+  }
+  
+  .stats-mid, .stats-bottom {
+  	tr:first-of-type {
+  		background: #F5F5DC;
+  	}
+  	td {
+  		height: 45px;
+  		width: 10%;
+  	}
+  }
+  
 	
 </style>
 
@@ -69,12 +86,15 @@
 <body>
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>
 	
+	
 	<div class="main-wrapper">
-		<div>
+		<div class="left-side">
+			<div class="hit-pitch-btn">
+				<input type="button" value="타자"/>
+				<input type="button" value="투수"/>
+			</div>
 			<div class="profile">
-				<div>
-					선수이름 / 선출여부
-				</div>
+				<p>${ member.member_name } [${ member.elite }]</p>
 			</div>
 			<table class="myteamlist">
 				<tr>
@@ -83,39 +103,81 @@
 				<c:forEach var="team" items="${ teamList }" >
 					<tr onclick='location.href="/Team/Info?team_idx=${ team.team_idx }&keyword="' style="cursor:pointer;">
 						<td>${ team.team_name } 
-						<b>${ map.member_idx eq team.team_manager ? '[감독]' : '' }</b></td>
+						<b>${ member.member_idx eq team.team_manager ? '[감독]' : '' }</b></td>
 					</tr>
 				</c:forEach>
 			</table>
 		</div>
-		<div class="member-profile">
-			<h3>회원 정보</h3>
-			<table>
+		
+		<div class="right-side">
+			<table class="stats-top">
 				<tr>
-					<td>아이디</td>
-					<td>${ sessionScope.login.member_id }</td>
-					<td>주소</td>
-					<td>${ sessionScope.login.address }</td>
+					<td>타율<br>0.000</td>
+					<td>경기 수<br>0 경기</td>
+					<td>총 안타<br>0 개</td>
+					<td>타점<br>0 점</td>
 				</tr>
 				<tr>
-					<td>생년</td>
-					<td>${ sessionScope.login.birth }</td>
-					<td>이름</td>
-					<td>${ sessionScope.login.member_name }</td>
-				</tr>
-				<tr>
-					<td>연락처</td>
-					<td>${ sessionScope.login.phone_num }</td>
-					<td>이메일</td>
-					<td>${ sessionScope.login.email }</td>
+					<td>사사구<br>0 개</td>
+					<td>장타율<br>0.000</td>
+					<td>출루율<br>0.000</td>
+					<td>OPS<br>0.000</td>
 				</tr>
 			</table>
-			<h3>추가 정보</h3>
-			<span>투타 구분 &emsp;&emsp; ${ sessionScope.login.use_hand }</span><br>
-			<span>선출 여부 &emsp;&emsp; ${ sessionScope.login.elite }</span><br>
-			<span>선호 포지션 &emsp; ${ sessionScope.login.hope_position }</span><br>
-			<input type="button" id="updatebtn" value="정보 수정"  />
+			<table class="stats-mid">
+				<tr>
+					<td>시즌</td>
+					<td>경기 수</td>
+					<td>타율</td>
+					<td>타석</td>
+					<td>타수</td>
+					<td>총 안타</td>
+					<td>1루타</td>
+					<td>2루타</td>
+					<td>3루타</td>
+					<td>홈런</td>
+				</tr>
+				<tr>
+					<td>통산</td>
+					<td>.경기 수</td>
+					<td>.타율</td>
+					<td>.타석</td>
+					<td>.타수</td>
+					<td>.총 안타</td>
+					<td>.1루타</td>
+					<td>.2루타</td>
+					<td>.3루타</td>
+					<td>.홈런</td>
+				</tr>
+			</table>
+			<table class="stats-bottom">
+				<tr>
+					<td>시즌</td>
+					<td>루타</td>
+					<td>타점</td>
+					<td>사사구</td>
+					<td>삼진</td>
+					<td>장타율</td>
+					<td>출루율</td>
+					<td>OPS</td>
+					<td>희타<br>희비</td>
+					<td>임시 공란</td>
+				</tr>
+				<tr>
+					<td>통산</td>
+					<td>.루타</td>
+					<td>.타점</td>
+					<td>.사사구</td>
+					<td>.삼진</td>
+					<td>.장타율</td>
+					<td>.출루율</td>
+					<td>.OPS</td>
+					<td>.희타/희비</td>
+					<td>.임시 공란</td>
+				</tr>
+			</table>
 		</div>
+	
 	
 	</div>
 	
@@ -127,22 +189,7 @@
 	
 	<script>
 	
-	// 수정 완료후 alert
-	if('${param.updated}' == 'true') {
-		alert('수정이 완료되었습니다.')
-	}
-	
-	const updatebtnEl   = document.querySelector('#updatebtn')
-	const mystatsbtnEl  = document.querySelector('#mystatsbtn')
-	
-	updatebtnEl.addEventListener('click', function () {
-		location.href = "/Member/UpdateForm"
-	})
-	
-	mystatsbtnEl.addEventListener('click', function () {
-		location.href = "/Member/HitStats?member_idx=" + ${sessionScope.login.member_idx}
-	})
-	
+
 	
 	</script>
 </body>

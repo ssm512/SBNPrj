@@ -205,11 +205,18 @@ public class MemberController {
 		// 해당 선수 기록에 해당하는 idx 선수의 팀 목록 조회
 		int           member_idx = Integer.parseInt(map.get("member_idx").toString());
 		List<TeamDto> teamList   = memberService.getMyTeamList(member_idx);
+		// 해당 선수 기본정보(최소화) 조회
+		MemberDto     member     = memberService.getMemberProfile(member_idx);
+		// 해당 번호의 선수가 없다면
+		if (member == null) {
+			return new ModelAndView("redirect:/Member/List?nowpage=1&keyword=");
+		}
 		
 		ModelAndView  mv = new ModelAndView();
 		mv.setViewName("member/hitstats");
 		mv.addObject("teamList", teamList);
-		mv.addObject("map", map);
+		mv.addObject("member",   member);
+		mv.addObject("map",      map);
 		return  mv;
 	}
 	

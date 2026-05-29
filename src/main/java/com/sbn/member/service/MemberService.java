@@ -26,5 +26,7 @@ public interface MemberService {
 
 	MemberDto getEmailDupCheck(String email);
 
+	MemberDto getMemberProfile(int member_idx);
+
 
 }
