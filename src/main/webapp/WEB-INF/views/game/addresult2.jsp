@@ -25,49 +25,49 @@
 <body>
 <%@include file="/WEB-INF/include/headermenu.jsp" %>
 <div class="main-wrapper">
-<form id="gamestatForm">
-<input type="hidden" id="game_idx" value="${gameDto.game_idx}">
-<input type="hidden" name="league_idx" value="${gameDto.league_idx}">
-	<table id="gamestat">
-		<tr>
-			<td id="view_game_idx">${gameDto.game_idx}</td>
-			<td>${gameDto.league_idx}</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>${teamNames.home_name}</td>
-			<td>${teamNames.away_name}</td>
-			<td>
-				<input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
-			</td>
-		</tr>
-		<tr>
-			<td>${gameDto.game_date}</td>
-			<td>${gameDto.game_time}</td>
-			<td>
-				<input type="text" id="lose_pitcher" name="lose_pitcher" value="${gameDto.lose_pitcher}">
-			</td>
-		</tr>
-		<tr>
-			<td>${gameDto.game_field}</td>
-			<td>${gameDto.game_status}</td>
-			<td>
-				<input type="text" id="save_pitcher" name="save_pitcher" value="${gameDto.save_pitcher}">
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="text" id="winner" name="winner" value="${gameDto.winner}">
-			</td>
-			<td></td>
-			<td>
-				<input type="text" id="hold_pitcher" name="hold_pitcher" value="${gameDto.hold_pitcher}">
-			</td>
-		</tr>
-	</table>
-
-	<input type="button" id="btnGameStatUpdate" value="경기정보 수정">
-</form>
+	<form id="gamestatForm">
+	<input type="hidden" id="game_idx" value="${gameDto.game_idx}">
+	<input type="hidden" name="league_idx" value="${gameDto.league_idx}">
+		<table id="gamestat">
+			<tr>
+				<td id="view_game_idx">${gameDto.game_idx}</td>
+				<td>${gameDto.league_idx}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>${teamNames.home_name}</td>
+				<td>${teamNames.away_name}</td>
+				<td>
+					<input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
+				</td>
+			</tr>
+			<tr>
+				<td>${gameDto.game_date}</td>
+				<td>${gameDto.game_time}</td>
+				<td>
+					<input type="text" id="lose_pitcher" name="lose_pitcher" value="${gameDto.lose_pitcher}">
+				</td>
+			</tr>
+			<tr>
+				<td>${gameDto.game_field}</td>
+				<td>${gameDto.game_status}</td>
+				<td>
+					<input type="text" id="save_pitcher" name="save_pitcher" value="${gameDto.save_pitcher}">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" id="winner" name="winner" value="${gameDto.winner}">
+				</td>
+				<td></td>
+				<td>
+					<input type="text" id="hold_pitcher" name="hold_pitcher" value="${gameDto.hold_pitcher}">
+				</td>
+			</tr>
+		</table>
+	
+		<input type="button" id="btnGameStatUpdate" value="경기정보 수정">
+	</form>
 
 
 	<table id="gameresultinput">
