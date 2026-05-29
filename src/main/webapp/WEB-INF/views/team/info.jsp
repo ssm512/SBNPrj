@@ -126,7 +126,7 @@
                     <td>선출 여부</td>
                 </tr>
 		<c:forEach var="mt" items="${mt_list}">
-		    <tr onclick='location.href="/Member/HitStats?member_idx=${ mt.member_idx }"'>
+		    <tr onclick='location.href="/Member/Stats?member_idx=${ mt.member_idx }"'>
 		        <td>${mt.member_name}</td>
 		        <td>${mt.position   }</td>
 		        <td>

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.sbn.config.WebMvcConfig;
 import com.sbn.member.dto.MemberDto;
 import com.sbn.team.dto.TeamDto;
@@ -114,9 +115,53 @@ public class TeamController {
     	return mv;
     }
     
+    @Transactional
+    @RequestMapping("/UpdateMemberTeam")
+    public ModelAndView updateMemberTeam(HttpServletRequest request) {
+    	String   teamIdx      = request.getParameter("team_idx");
+    	String[] memberIdxArr = request.getParameterValues("member_idx");
+    	String[] positionArr  = request.getParameterValues("position");
+    	String[] backNumArr   = request.getParameterValues("back_num");
+
+    	if (memberIdxArr != null) {
+    	    for (int i = 0; i < memberIdxArr.length; i++) {
+    	        HashMap<String, Object> updateMap = new HashMap<>();
+    	        updateMap.put("team_idx",   teamIdx);
+    	        updateMap.put("member_idx", memberIdxArr[i]);
+    	        updateMap.put("position",   positionArr[i]);
+    	        String backNumStr = backNumArr[i];
+    	        updateMap.put("back_num",
+    	            (backNumStr != null && !backNumStr.isEmpty()) ? Integer.parseInt(backNumStr) : null);
+    	        teamService.updateMemberTeam(updateMap);
+    	    }
+    	}
+
+    	return new ModelAndView("redirect:/Team/Managing?team_idx=" + teamIdx + "&keyword=");
+    }
     
-    
-    
+    // 선수 제거
+    @RequestMapping("/RemoveMember")
+    public ModelAndView removeMember(@RequestParam HashMap<String, Object> map) {
+        map.put("join_status", 2);
+        teamService.updateJoinStatus(map);
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
+    }
+
+    // 가입 승인
+    @RequestMapping("/ApproveJoin")
+    public ModelAndView approveJoin(@RequestParam HashMap<String, Object> map) {
+        map.put("join_status", 1);
+        teamService.updateJoinStatus(map);
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
+    }
+
+    // 가입 거절
+    @RequestMapping("/RejectJoin")
+    public ModelAndView rejectJoin(@RequestParam HashMap<String, Object> map) {
+        map.put("join_status", 2);
+        teamService.updateJoinStatus(map);
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
+    }
     
     
     

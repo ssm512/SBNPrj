@@ -55,4 +55,14 @@ public class TeamServiceImpl implements TeamService {
     	return teamMapper.selectJoinRequestList(team_idx);
     }
     
+    @Override
+    public void updateMemberTeam(HashMap<String, Object> map) {
+        teamMapper.updateMemberTeam(map);
+    }
+
+    @Override
+    public void updateJoinStatus(HashMap<String, Object> map) {
+        teamMapper.updateJoinStatus(map);
+    }
+    
 }

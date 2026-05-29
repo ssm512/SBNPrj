@@ -27,6 +27,10 @@ public interface TeamMapper {
     
     List<MemberTeamDto> selectJoinRequestList(int team_idx);
     
+    void updateMemberTeam(HashMap<String, Object> map);
+    
+    void updateJoinStatus(HashMap<String, Object> map);
+    
 }
 
 

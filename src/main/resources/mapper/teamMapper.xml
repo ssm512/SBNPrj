@@ -107,9 +107,24 @@
 	    ORDER BY MT.MEMBER_IDX ASC
 	</select>
 	
+	
 	<!-- 선수 포지션/배번 수정 -->
+	<update id="updateMemberTeam" parameterType="hashmap">
+	    UPDATE MEMBER_TEAM
+	    SET    POSITION = #{position},
+	           BACK_NUM = #{back_num, jdbcType=NUMERIC}
+	    WHERE  MEMBER_IDX = #{member_idx}
+	    AND    TEAM_IDX   = #{team_idx}
+	</update>
+	
 	
 	<!-- 가입 상태 변경 (승인 = 1 / 거절 및 제거 = 2) -->
+	<update id="updateJoinStatus" parameterType="hashmap">
+	    UPDATE MEMBER_TEAM
+	    SET    JOIN_STATUS = #{join_status}
+	    WHERE  MEMBER_IDX = #{member_idx}
+	    AND    TEAM_IDX   = #{team_idx}
+	</update>
 	
 	
 	
