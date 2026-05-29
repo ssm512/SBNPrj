@@ -110,6 +110,7 @@
 		</div>
 		
 		<div class="right-side">
+			<!-- 타자 -->
 			<table class="stats-top">
 				<tr>
 					<td>타율<br>0.000</td>
@@ -173,6 +174,73 @@
 					<td>.출루율</td>
 					<td>.OPS</td>
 					<td>.희타/희비</td>
+					<td>.임시 공란</td>
+				</tr>
+			</table>
+			<!-- 투수 -->
+			<table class="stats-top">
+				<tr>
+					<td>방어율<br>0.00</td>
+					<td>승<br>0</td>
+					<td>패<br>0</td>
+					<td>탈삼진<br>0 개</td>
+				</tr>
+				<tr>
+					<td>이닝<br>0</td>
+					<td>사사구<br>0 개</td>
+					<td>피안타<br>0 개</td>
+					<td>WHIP<br>0.00</td>
+				</tr>
+			</table>
+			<table class="stats-mid">
+				<tr>
+					<td>시즌</td>
+					<td>경기 수</td>
+					<td>방어율</td>
+					<td>승</td>
+					<td>패</td>
+					<td>세이브</td>
+					<td>홀드</td>
+					<td>타자</td>
+					<td>타수</td>
+					<td>이닝</td>
+				</tr>
+				<tr>
+					<td>.시즌</td>
+					<td>.경기 수</td>
+					<td>.방어율</td>
+					<td>.승</td>
+					<td>.패</td>
+					<td>.세이브</td>
+					<td>.홀드</td>
+					<td>.타자</td>
+					<td>.타수</td>
+					<td>.이닝</td>
+				</tr>
+			</table>
+			<table class="stats-bottom">
+				<tr>
+					<td>통산</td>
+					<td>피안타</td>
+					<td>피홈런</td>
+					<td>사사구</td>
+					<td>희타<br>희비</td>
+					<td>탈삼진</td>
+					<td>실점</td>
+					<td>자책점</td>
+					<td>WHIP</td>
+					<td>임시 공란</td>
+				</tr>
+				<tr>
+					<td>.통산</td>
+					<td>.피안타</td>
+					<td>.피홈런</td>
+					<td>.사사구</td>
+					<td>.희타<br>희비</td>
+					<td>.탈삼진</td>
+					<td>.실점</td>
+					<td>.자책점</td>
+					<td>.WHIP</td>
 					<td>.임시 공란</td>
 				</tr>
 			</table>

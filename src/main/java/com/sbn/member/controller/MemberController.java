@@ -198,9 +198,9 @@ public class MemberController {
 	}
 	
 	
-	// /Member/HitStats?member_idx=1
-	@RequestMapping("/HitStats")
-	public  ModelAndView  hitStats(@RequestParam HashMap<String, Object> map) {
+	// /Member/Stats?member_idx=1
+	@RequestMapping("/Stats")
+	public  ModelAndView  stats(@RequestParam HashMap<String, Object> map) {
 		
 		// 해당 선수 기록에 해당하는 idx 선수의 팀 목록 조회
 		int           member_idx = Integer.parseInt(map.get("member_idx").toString());
@@ -213,7 +213,7 @@ public class MemberController {
 		}
 		
 		ModelAndView  mv = new ModelAndView();
-		mv.setViewName("member/hitstats");
+		mv.setViewName("member/stats");
 		mv.addObject("teamList", teamList);
 		mv.addObject("member",   member);
 		mv.addObject("map",      map);

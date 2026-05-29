@@ -54,7 +54,7 @@
 				<td>선수 사진</td>
 				<td>${ member.member_name }</td>
 				<td>${ member.elite }</td>
-				<td><a href="/Member/HitStats?member_idx=${ member.member_idx }">조회</a></td>
+				<td><a href="/Member/Stats?member_idx=${ member.member_idx }">조회</a></td>
 			</tr>
 			</c:forEach>			
 		</table>	

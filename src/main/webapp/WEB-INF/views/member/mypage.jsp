@@ -145,7 +145,7 @@
 	})
 	
 	mystatsbtnEl.addEventListener('click', function () {
-		location.href = "/Member/HitStats?member_idx=" + ${sessionScope.login.member_idx}
+		location.href = "/Member/Stats?member_idx=" + ${sessionScope.login.member_idx}
 	})
 	
 	
