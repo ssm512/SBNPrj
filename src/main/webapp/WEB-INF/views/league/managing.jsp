@@ -126,24 +126,25 @@
 </head>
 <body>
   <%@include file="/WEB-INF/include/headermenu.jsp" %>
+  
+  <form action="/League/Update" method="post">
+  <input type="hidden" name="league_idx" value="${league.league_idx}" />
 
   <div class="main-wrapper">
     <section class="info-edit-section">
       <div class="section-title">리그 정보 수정</div>
       
-      <form action="/league/update" method="post">
         <div class="form-container">
           <div class="input-group">
-            <input type="text" name="leagueName" placeholder="리그 이름">
+            <input type="text" name="league_name" value="${league.league_name}" placeholder="리그 이름">
           </div>
           <div class="input-group">
-            <input type="text" name="leagueLocation" placeholder="연고지">
+            <input type="text" name="league_location" value="${league.league_location}" placeholder="연고지">
           </div>
           <div class="input-group">
-            <textarea name="leagueContent" placeholder="리그 소개"></textarea>
+            <textarea name="league_content" placeholder="리그 소개글을 적어주세요">${league.league_content}</textarea>
           </div>
         </div>
-      </form>
     </section>
 
     <section class="request-status-section">
@@ -161,14 +162,30 @@
               <td>승인 버튼</td>
               <td>거절 버튼</td>
             </tr>
-            <tr>
-              <td>bugout</td>
-              <td>정소민</td>
-              <td>17</td>
-              <td>사상</td>
-              <td><a href="#" class="btn-approve">O</a></td>
-              <td><a href="#" class="btn-reject">✕</a></td>
-            </tr>
+            
+            <c:forEach var="team" items="${signTeamList}">
+              <tr>
+                <td>${team.team_name}</td>
+                <td>${team.manager_name}</td>
+                <td>${team.number_of_members}</td>
+                <td>${team.team_location}</td>
+                <td>
+                  <a href="#" class="btn-approve"
+                     data-league="${param.league_idx}"
+                     data-team="${team.team_idx}">
+                    O
+                  </a>
+                </td>
+                <td>
+                  <a href="#" class="btn-reject"
+                     data-league="${param.league_idx}"
+                     data-team="${team.team_idx}">
+                    X
+                  </a>
+                </td>
+              </tr>
+            </c:forEach>
+            
         </table>
       </div>
 
@@ -179,7 +196,74 @@
     
   </div>
   
+  </form>
   <%@include file="/WEB-INF/include/footer.jsp" %> 
+  
+  <script>
+	document.addEventListener("DOMContentLoaded", function() {
+	    
+	    // 1. 승인(O) 버튼 클릭 이벤트
+	    document.querySelectorAll('.btn-approve').forEach(button => {
+	        button.addEventListener('click', function(e) {
+	            e.preventDefault();
+	            if(!confirm("이 팀의 가입을 승인하시겠습니까?")) return;
+	            
+	            const leagueIdx = this.getAttribute('data-league');
+	            const teamIdx = this.getAttribute('data-team');
+	            
+	            // 클릭한 버튼 요소(this)를 함께 전달
+	            sendRequest('/League/ApproveTeam', leagueIdx, teamIdx, this);
+	        });
+	    });
+	
+	    // 2. 거절(✕) 버튼 클릭 이벤트
+	    document.querySelectorAll('.btn-reject').forEach(button => {
+	        button.addEventListener('click', function(e) {
+	            e.preventDefault();
+	            if(!confirm("이 팀의 가입 신청을 거절(삭제)하시겠습니까?")) return;
+	            
+	            const leagueIdx = this.getAttribute('data-league');
+	            const teamIdx = this.getAttribute('data-team');
+	            
+	            // 위와 마찬가지로 클릭한 버튼 요소(this)를 함께 전달
+	            sendRequest('/League/RejectTeam', leagueIdx, teamIdx, this);
+	        });
+	    });
+	    
+	    // 서버로 데이터를 전송하는 공통 함수 (Fetch API 사용)
+	    function sendRequest(url, leagueIdx, teamIdx, btnElement) {
+	        const formData = new URLSearchParams();
+	        formData.append('league_idx', leagueIdx);
+	        formData.append('team_idx', teamIdx);
+	        
+	        fetch(url, {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/x-www-form-urlencoded'
+	            },
+	            body: formData
+	        })
+	        .then(response => response.text())
+	        .then(data => {
+	            if(data.trim() === "success") {
+	                alert("처리가 완료되었습니다.");
+	                
+	                // 성공 시 새로고침 없이 화면에서 해당 팀 행(row) 제거
+	                const row = btnElement.closest('tr');
+	                if(row) {
+	                	row.remove();
+	                }
+	            } else {
+	                alert("처리 중 오류가 발생했습니다.");
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error:', error);
+	            alert("서버 통신 오류가 발생했습니다.");
+	        });
+	    }
+	});
+  </script>
   
 </body>
 </html>

@@ -19,4 +19,18 @@ public interface LeagueService {
 
 	List<Map<String, Object>> getTeamList(HashMap<String, Object> map);
 
+	List<Map<String, Object>> getSignTeamList(HashMap<String, Object> map);
+
+	void approveTeam(HashMap<String, Object> map);
+
+	void rejectTeam(HashMap<String, Object> map);
+
+	void updateLeague(HashMap<String, Object> map);
+
+	List<Map<String, Object>> getTeamsByManager(HashMap<String, Object> paramMap);
+
+	int checkDuplicateApply(HashMap<String, Object> map);
+
+	void applyLeague(HashMap<String, Object> map);
+
 }
