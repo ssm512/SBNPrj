@@ -152,5 +152,11 @@
     </div>
 
     <%@ include file="/WEB-INF/include/footer.jsp" %>
+    
+	    <c:if test="${map.alert == 'no_permission'}">
+	<script>
+	    alert('팀관리 권한이 없습니다.');
+	</script>
+	</c:if>
 </body>
 </html>

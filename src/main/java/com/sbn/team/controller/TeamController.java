@@ -103,7 +103,7 @@ public class TeamController {
     	TeamDto     team    = teamService.getTeamInfo(team_idx);
     	
     	if (team.getTeam_manager() != login.getMember_idx()) {
-    		return new ModelAndView("redirect:/Team/Info?team_idx=" + team_idx + "&keyword=");
+    	    return new ModelAndView("redirect:/Team/Info?team_idx=" + team_idx + "&keyword=&alert=no_permission");
     	}
     	
     	ModelAndView mv = new ModelAndView("team/managing");
