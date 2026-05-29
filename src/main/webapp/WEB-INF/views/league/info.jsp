@@ -10,7 +10,7 @@
 <title>League Info</title>
 
 <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
-<!-- <link href="/css/common.css" rel="stylesheet" /> -->
+<link href="/css/common.css" rel="stylesheet" />
 
 <style>
   /* 기본 스타일 초기화 및 레이아웃 설정 */
@@ -164,11 +164,17 @@
         <div class="info-box">${league.league_location}</div>
         <div class="info-box intro-box">${league.league_content}</div>
         <div class="btn-container justify-start">
-          <button type="button" class="green-btn">
-            <a href="/League/Managing?league_idx=${league.league_idx}">
+          <button type="button" class="green-btn"
+                  id="btn-apply-league" data-league="${league.league_idx}">
               리그 가입 신청
+          </button>
+          <c:if test="${sessionScope.login.is_admin == 'Y' }">
+          <button type="button" class="green-btn">
+            <a href="/League/ManagingForm?league_idx=${league.league_idx}">
+              리그 관리
             </a>
           </button>
+          </c:if>
         </div>
       </div>
       
@@ -176,7 +182,11 @@
         <table class="left-table">
         <c:forEach var="team" items="${teamList}">
           <tr>
-            <td class="left-td">${team.team_name}</td>
+            <td class="left-td">
+              <a href="/Team/Info?team_idx=${team.team_idx}&keyword=">
+                ${team.team_name}
+              </a>
+            </td>
           </tr>
         </c:forEach>
         
@@ -239,16 +249,142 @@
       </table>
       
       <div class="btn-container justify-end">
+      <c:if test="${sessionScope.login.is_admin == 'Y' }">
         <button type="button" class="green-btn">
         <a href="/Game/AddGameForm?league_idx=${ map.league_idx }">
           경기 일정 추가
         </a>
         </button>
+      </c:if>
       </div>
     </div>
   </div>
   
   <%@include file="/WEB-INF/include/footer.jsp" %> 
   
+  <c:if test="${map.checkalert == 'true' }">
+  	<script>
+  		alert('권한이 없습니다.')
+  	</script>
+  </c:if>
+  
+  <script>
+  	document.addEventListener("DOMContentLoaded", function() {
+	    const applyBtn = document.getElementById('btn-apply-league');
+	    if(applyBtn) {
+	        applyBtn.addEventListener('click', function() {
+	            const leagueIdx = this.getAttribute('data-league');
+	            
+	            // 1. 로그인한 유저가 감독인 팀 목록을 비동기로 요청
+	            fetch('/League/CheckManagerTeams', {
+	                method: 'POST'
+	            })
+	            .then(response => response.json())
+	            .then(teamList => {
+	            	
+	            	if (teamList.length === 0) {
+	            	    alert('가입 신청 가능한 팀이 없습니다. 본인이 감독인 팀이 있는지 확인해주세요.');
+	            	    return;
+	            	}
+	            	
+	            	// 신청할 팀의 idx를 담을 변수 선언
+	            	let selectedTeamIdx = null;
+	            	
+	            	// 팀이 1개인 경우 바로 선택
+	            	if (teamList.length === 1) {
+	            		// console.log('teamList 확인:', JSON.stringify(teamList[0]));
+	            		if (!confirm('[' + teamList[0].team_name + '] 팀으로 이 리그에 가입 신청을 하시겠습니까?')) return;
+	            	    selectedTeamIdx = teamList[0].team_idx;
+	            	    
+	            	    // 실제 가입 신청 함수 호출
+	            	    applyForLeague(leagueIdx, selectedTeamIdx);
+	            	} 
+	            	// 팀이 여러 개인 경우 선택창(Prompt) 띄우기
+	            	else {
+	            	    let message = "가입 신청할 팀의 번호를 입력해주세요:\n";
+	            	    teamList.forEach((team, index) => {
+	            	    	message += '\n[' + (index + 1) + '] ' + team.team_name;
+	            	    });
+	            	    
+	            	    const userInput = prompt(message);
+	            	    if (!userInput) return; // 취소 누른 경우
+	            	    
+	            	    const selectedIndex = parseInt(userInput.trim()) - 1;
+	            	    
+	            	    if (isNaN(selectedIndex) || selectedIndex < 0 || selectedIndex >= teamList.length) {
+	            	        alert('올바른 번호를 선택해주세요.');
+	            	        return;
+	            	    }
+	            	    
+	            	    selectedTeamIdx = teamList[selectedIndex].team_idx;
+	            	    
+	            	    // 실제 가입 신청 함수 호출
+	            	    applyForLeague(leagueIdx, selectedTeamIdx);
+	            	}
+	            })
+	            .catch(error => {
+	                console.error('Error:', error);
+	                alert('팀 정보를 가져오는 중 오류가 발생했습니다. 로그인을 확인해주세요.');
+	            });
+	        });
+	    }
+	    
+	    // 실제 team_league 테이블에 insert를 요청하는 함수
+	    function applyForLeague(leagueIdx, teamIdx) {
+	        if (!leagueIdx || !teamIdx) {
+	            alert('필수 정보가 누락되었습니다.');
+	            return;
+	        }
+
+	        const formData = new URLSearchParams();
+	        formData.append('league_idx', leagueIdx);
+	        formData.append('team_idx', teamIdx);
+	        
+	        fetch('/League/ApplyTeam', {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/x-www-form-urlencoded'
+	            },
+	            body: formData
+	        })
+	        .then(response => response.text())
+	        .then(data => {
+	            if (data.trim() === "success") {
+	                alert('리그 가입 신청이 완료되었습니다!');
+	                location.reload(); // 신청 현황 갱신을 위해 새로고침
+	            } else if (data.trim() === "already") {
+	                alert('이미 이 리그에 가입 신청 중이거나 가입된 팀입니다.');
+	            } else {
+	                alert('신청 처리 중 오류가 발생했습니다.');
+	            }
+	        })
+	        .catch(error => {
+	            console.error('Error:', error);
+	            alert('서버 통신 오류가 발생했습니다.');
+	        });
+	    }
+	});
+  </script>
+  
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

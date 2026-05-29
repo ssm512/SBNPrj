@@ -65,4 +65,39 @@ public class LeagueServiceimpl implements LeagueService {
 		return leagueMapper.getTeamList(map);
 	}
 
+	@Override
+	public List<Map<String, Object>> getSignTeamList(HashMap<String, Object> map) {
+		return leagueMapper.getSignTeamList(map);
+	}
+
+	@Override
+	public void approveTeam(HashMap<String, Object> map) {
+		leagueMapper.approveTeam(map);
+	}
+
+	@Override
+	public void rejectTeam(HashMap<String, Object> map) {
+		leagueMapper.rejectTeam(map);
+	}
+
+	@Override
+	public void updateLeague(HashMap<String, Object> map) {
+		leagueMapper.updateLeague(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTeamsByManager(HashMap<String, Object> map) {
+		return leagueMapper.getTeamsByManager(map);
+	}
+
+	@Override
+	public int checkDuplicateApply(HashMap<String, Object> map) {
+		return leagueMapper.checkDuplicateApply(map);
+	}
+
+	@Override
+	public void applyLeague(HashMap<String, Object> map) {
+		leagueMapper.applyLeague(map);
+	}
+
 }

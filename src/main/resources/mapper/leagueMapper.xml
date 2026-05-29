@@ -102,18 +102,79 @@
 	  	  T.TEAM_IDX ASC
      
    </select>
+   
+   <select id="getSignTeamList" resultType="java.util.HashMap">
+   
+     SELECT 
+	      T.TEAM_IDX         AS "team_idx",
+	      T.TEAM_NAME        AS "team_name",
+	      M.MEMBER_NAME      AS "manager_name",
+	      T.TEAM_LOCATION    AS "team_location",
+	      NVL(SUB_MT.CNT, 0) AS "number_of_members"
+	  FROM 
+	      SBN.TEAM_LEAGUE TL
+	  INNER JOIN 
+	      SBN.TEAM T ON TL.TEAM_IDX = T.TEAM_IDX
+	  LEFT JOIN 
+	      SBN.MEMBER M ON T.TEAM_MANAGER = M.MEMBER_IDX
+	  LEFT JOIN (
+	      SELECT TEAM_IDX, COUNT(MEMBER_IDX) AS CNT
+	      FROM SBN.MEMBER_TEAM
+	      GROUP BY TEAM_IDX
+	  ) SUB_MT ON T.TEAM_IDX = SUB_MT.TEAM_IDX
+	  WHERE 
+	      TL.LEAGUE_IDX = #{league_idx}
+	      AND TL.JOIN_STATUS = 0  ORDER BY
+	      T.TEAM_IDX ASC
+   
+   </select>
+   
+   <update id="approveTeam">
+     UPDATE SBN.TEAM_LEAGUE
+	  SET    JOIN_STATUS = 1
+	  WHERE  LEAGUE_IDX = #{league_idx}
+	   AND  TEAM_IDX = #{team_idx}
+   </update>
+   
+   <delete id="rejectTeam">
+     DELETE FROM SBN.TEAM_LEAGUE
+	  WHERE  LEAGUE_IDX = #{league_idx}
+	   AND  TEAM_IDX = #{team_idx}
+   </delete>
+   
+   <update id="updateLeague">
+     UPDATE LEAGUE
+	  SET    LEAGUE_NAME     = #{league_name},
+	         LEAGUE_LOCATION = #{league_location},
+	         LEAGUE_CONTENT  = #{league_content}
+	  WHERE  LEAGUE_IDX      = #{league_idx}
+   </update>
+   
+   <select id="getTeamsByManager" resultType="java.util.HashMap">
+     SELECT  T.TEAM_IDX  AS "team_idx",
+	         T.TEAM_NAME AS "team_name"
+	  FROM   SBN.TEAM T
+	  WHERE  T.TEAM_MANAGER = #{memberIdx}
+   </select>
+   
+   <select id="checkDuplicateApply" resultType="int">
+     SELECT  COUNT(*)
+	  FROM   SBN.TEAM_LEAGUE
+	  WHERE  LEAGUE_IDX = #{league_idx}
+	    AND  TEAM_IDX = #{team_idx}
+   </select>
+   
+   <insert id="applyLeague">
+     INSERT INTO SBN.TEAM_LEAGUE (
+	      LEAGUE_IDX,
+	      TEAM_IDX,
+	      JOIN_STATUS
+	  ) VALUES (
+	      #{league_idx},
+	      #{team_idx},
+	      0
+	  )
+   </insert>
+   
  
  </mapper>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
