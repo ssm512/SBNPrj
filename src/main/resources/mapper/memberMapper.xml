@@ -120,6 +120,61 @@
   FROM   MEMBER
   WHERE  MEMBER_ID = LOWER(#{member_id})
   
-  </select>
+</select>
+
+<!-- getPhoneDupCheck -->
+<select id="getPhoneDupCheck" resultType="com.sbn.member.dto.MemberDto">
+  
+  SELECT MEMBER_IDX,
+				 MEMBER_ID,
+				 MEMBER_NAME,
+				 BIRTH,
+				 EMAIL,
+				 PHONE_NUM,
+				 ADDRESS,
+				 ELITE,
+				 USE_HAND,
+				 HOPE_POSITION,
+				 MEMBER_REGDATE
+  FROM   MEMBER
+  WHERE  PHONE_NUM = #{phone_num}
+  
+</select>
+
+
+<!-- getEmailDupCheck -->
+<select id="getEmailDupCheck" resultType="com.sbn.member.dto.MemberDto">
+  
+  SELECT MEMBER_IDX,
+				 MEMBER_ID,
+				 MEMBER_NAME,
+				 BIRTH,
+				 EMAIL,
+				 PHONE_NUM,
+				 ADDRESS,
+				 ELITE,
+				 USE_HAND,
+				 HOPE_POSITION,
+				 MEMBER_REGDATE
+  FROM   MEMBER
+  WHERE  EMAIL = #{email}
+  
+</select>
+  
+ <!-- updateMember : 회원정보 수정 -->
+<update id="updateMember">
+  
+  UPDATE    MEMBER
+    SET     ADDRESS       = #{address},
+            PHONE_NUM     = #{phone_num},
+            MEMBER_NAME   = #{member_name},
+            BIRTH         = #{birth},
+            EMAIL         = #{email},
+            USE_HAND      = #{use_hand}, 
+            ELITE         = #{elite},
+            HOPE_POSITION = #{hope_position}
+    WHERE   MEMBER_IDX    = #{member_idx}
+  
+</update>
   
 </mapper>

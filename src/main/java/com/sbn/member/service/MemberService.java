@@ -18,4 +18,12 @@ public interface MemberService {
 
 	MemberDto getIdDupCheck(String member_id);
 
+	void updateMember(HashMap<String, Object> map);
+
+	MemberDto getMemberById(HashMap<String, Object> map);
+
+	MemberDto getPhoneDupCheck(String phone_num);
+
+	MemberDto getEmailDupCheck(String email);
+
 }

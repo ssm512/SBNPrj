@@ -41,6 +41,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public MemberDto getMemberById(HashMap<String, Object> map) {
+		MemberDto  member  = memberMapper.getMemberById(map);
+		member.setPassword(null); // 세션에 담기 전 password 제거
+		return  member;
+	}
+	
+	@Override
 	public void signin(HashMap<String, Object> map) {
         String rawPw = map.get("password").toString();
         map.put("password", encoder.encode(rawPw)); // 암호화 후 덮어씌우기
@@ -58,6 +65,24 @@ public class MemberServiceImpl implements MemberService {
 		MemberDto	member		=	memberMapper.getIdDupCheck(member_id);
 		return member;
 	}
+
+	@Override
+	public void updateMember(HashMap<String, Object> map) {
+		memberMapper.updateMember(map);
+	}
+
+	@Override
+	public MemberDto getPhoneDupCheck(String phone_num) {
+		MemberDto	member		=	memberMapper.getPhoneDupCheck(phone_num);
+		return member;
+	}
+
+	@Override
+	public MemberDto getEmailDupCheck(String email) {
+		MemberDto	member		=	memberMapper.getEmailDupCheck(email);
+		return member;
+	}
+
 
 
 }

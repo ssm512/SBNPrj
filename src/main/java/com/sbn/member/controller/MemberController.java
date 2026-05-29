@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,20 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/Member")
 public class MemberController {
 
-    private final WebMvcConfig webMvcConfig;
-
 	@Autowired
 	private  MemberService  memberService;
-	
-	@Autowired
-	private  MemberMapper   memberMapper;
-
-
-    MemberController(WebMvcConfig webMvcConfig) {
-        this.webMvcConfig = webMvcConfig;
-    }
-
-
 	
 	
 	@RequestMapping("/LoginForm")
@@ -113,6 +102,34 @@ public class MemberController {
 		return map;
 	}
 	
+	@RequestMapping("/PhoneDupCheck/{phone_num}") // /Member/PhoneDupCheck/01012345678
+	@ResponseBody		
+	public HashMap<String, Object> phoneDupCheck (@PathVariable(value="phone_num") String phone_num) {
+		MemberDto	member		=	memberService.getPhoneDupCheck(phone_num);
+		
+		if (member == null)  
+			member = new MemberDto();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("member", member);
+		
+		return map;
+	}
+	
+	@RequestMapping("/EmailDupCheck/{email}") // /Member/EmailDupCheck/test@naver.com
+	@ResponseBody		
+	public HashMap<String, Object> emailDupCheck (@PathVariable(value="email") String email) {
+		MemberDto	member		=	memberService.getEmailDupCheck(email);
+		
+		if (member == null)  
+			member = new MemberDto();
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("member", member);
+		
+		return map;
+	}
+	
 	
 	@RequestMapping("/List")
 	public  ModelAndView  list(@RequestParam HashMap<String, Object> map) {
@@ -158,6 +175,23 @@ public class MemberController {
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("member/update");
 		mv.addObject("teamList", teamList);
+		return  mv;
+	}
+	
+	@PostMapping("/Update")
+	public  ModelAndView  update(@RequestParam HashMap<String, Object> map,
+								HttpServletRequest request) {
+
+		// 정보 수정
+		memberService.updateMember(map);
+		
+		// 수정된 정보 재 조회후 세션 갱신
+		MemberDto  updated = memberService.getMemberById(map);
+		
+		request.getSession().setAttribute("login", updated);
+		
+		ModelAndView  mv  = new ModelAndView();
+		mv.setViewName("redirect:/Member/Mypage?updated=true");
 		return  mv;
 	}
 	

@@ -22,6 +22,12 @@ public interface MemberMapper {
 
 	MemberDto getIdDupCheck(@Param("member_id") String member_id);
 
+	void updateMember(HashMap<String, Object> map);
+
+	MemberDto getPhoneDupCheck(String phone_num);
+
+	MemberDto getEmailDupCheck(String email);
+
 
 
 }

@@ -103,14 +103,14 @@
 					<td>${ sessionScope.login.address }</td>
 				</tr>
 				<tr>
-					<td>연락처</td>
-					<td>${ sessionScope.login.phone_num }</td>
+					<td>생년</td>
+					<td>${ sessionScope.login.birth }</td>
 					<td>이름</td>
 					<td>${ sessionScope.login.member_name }</td>
 				</tr>
 				<tr>
-					<td>생년</td>
-					<td>${ sessionScope.login.birth }</td>
+					<td>연락처</td>
+					<td>${ sessionScope.login.phone_num }</td>
 					<td>이메일</td>
 					<td>${ sessionScope.login.email }</td>
 				</tr>
@@ -131,6 +131,11 @@
 	
 	
 	<script>
+	
+	// 수정 완료후 alert
+	if('${param.updated}' == 'true') {
+		alert('수정이 완료되었습니다.')
+	}
 	
 	const updatebtnEl  = document.querySelector('#updatebtn')
 	
