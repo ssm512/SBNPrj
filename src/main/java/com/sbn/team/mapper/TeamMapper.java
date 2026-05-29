@@ -1,5 +1,6 @@
 package com.sbn.team.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -14,13 +15,21 @@ public interface TeamMapper {
     List<TeamDto> selectTeamList(String keyword);
 
     TeamDto selectTeamInfo(@Param("team_idx") int team_idx);
-    
+
     List<String> selectTeamLeague(int team_idx);
-    
+
     List<MemberTeamDto> selectMemberTeamList(@Param("team_idx") int team_idx,
-            @Param("keyword")  String keyword);
+                                              @Param("keyword")  String keyword);
     
+    void insertTeam(HashMap<String, Object> map);
     
+    void insertMemberTeam(HashMap<String, Object> map);
+    
+    List<MemberTeamDto> selectJoinRequestList(int team_idx);
+    
+    void updateMemberTeam(HashMap<String, Object> map);
+    
+    void updateJoinStatus(HashMap<String, Object> map);
     
 }
 

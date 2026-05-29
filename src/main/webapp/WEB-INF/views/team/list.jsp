@@ -81,12 +81,12 @@
 				<td>${team.team_content }</td>
 			  </tr>
 		  </c:forEach>
-			  
+			    
 			
 		</table>
 		
 		<div style="width:70%; margin:5px auto; text-align:right;">
-		    <a href="/Team/Maketeam"><button type="button">팀 생성</button></a>
+		    <a href="/Team/MakeTeamForm"><button type="button">팀 생성</button></a>
 		</div>
 		
 	</div>

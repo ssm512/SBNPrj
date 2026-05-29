@@ -28,6 +28,7 @@
         ORDER BY T.TEAM_IDX DESC
     </select>
     
+    
 	<!-- 팀 상세 조회 -->
 	<select id="selectTeamInfo" parameterType="int" resultType="com.sbn.team.dto.TeamDto">
 	    SELECT T.TEAM_IDX      TEAM_IDX,
@@ -45,6 +46,7 @@
 	    WHERE  T.TEAM_IDX = #{team_idx}
 	</select>
 	
+	
 	<!-- 소속 리그 조회 -->
 	<select id="selectTeamLeague" parameterType="int" resultType="String">
 	    SELECT L.LEAGUE_NAME
@@ -53,6 +55,7 @@
 	    WHERE  TL.TEAM_IDX = #{team_idx}
 	      AND  TL.JOIN_STATUS = 1   
 	</select>
+	
 	
 	<!-- 선수 목록 조회 -->
 	<select id="selectMemberTeamList" resultType="com.sbn.team.dto.MemberTeamDto">
@@ -72,5 +75,59 @@
 	    ORDER BY MT.BACK_NUM ASC
 	</select>
 
+
+	<!-- 팀 생성 -->
+	<insert id="insertTeam" parameterType="hashmap">
+		<selectKey keyProperty="team_idx" resultType="int" order="BEFORE">
+			SELECT SEQ_TEAM.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEAM (TEAM_IDX, TEAM_NAME, TEAM_MANAGER, TEAM_CONTENT, TEAM_LOCATION, TEAM_REGDATE)
+		VALUES (#{team_idx}, #{team_name}, #{team_manager}, #{team_content}, #{team_location}, SYSDATE)	
+	</insert>
+	
+	
+	<!-- 팀 생성자 MEMBER_TEAM 자동 등록 --> 
+	<insert id="insertMemberTeam" parameterType="hashmap">
+		INSERT INTO MEMBER_TEAM (MEMBER_IDX, TEAM_IDX, JOIN_STATUS)
+		VALUES (#{member_idx}, #{team_idx}, 1)
+	</insert>
+	
+	
+	<!-- 가입 신청 목록 (JOIN_STATUS = 0) -->
+	<select id="selectJoinRequestList" parameterType="int" resultType="com.sbn.team.dto.MemberTeamDto">
+		SELECT M.MEMBER_NAME MEMBER_NAME,
+			   M.MEMBER_IDX  MEMBER_IDX,
+			   MT.POSITION   POSITION,
+			   MT.BACK_NUM   BACK_NUM,
+			   MT.ELITE      ELITE
+		FROM   MEMBER_TEAM MT
+		JOIN   MEMBER M ON MT.MEMBER_IDX = M.MEMBER_IDX
+		WHERE  MT.TEAM_IDX = #{team_idx}
+		AND    MT.JOIN_STATUS = 0
+	    ORDER BY MT.MEMBER_IDX ASC
+	</select>
+	
+	
+	<!-- 선수 포지션/배번 수정 -->
+	<update id="updateMemberTeam" parameterType="hashmap">
+	    UPDATE MEMBER_TEAM
+	    SET    POSITION = #{position},
+	           BACK_NUM = #{back_num, jdbcType=NUMERIC}
+	    WHERE  MEMBER_IDX = #{member_idx}
+	    AND    TEAM_IDX   = #{team_idx}
+	</update>
+	
+	
+	<!-- 가입 상태 변경 (승인 = 1 / 거절 및 제거 = 2) -->
+	<update id="updateJoinStatus" parameterType="hashmap">
+	    UPDATE MEMBER_TEAM
+	    SET    JOIN_STATUS = #{join_status}
+	    WHERE  MEMBER_IDX = #{member_idx}
+	    AND    TEAM_IDX   = #{team_idx}
+	</update>
+	
+	
+	
+	
 
 </mapper>

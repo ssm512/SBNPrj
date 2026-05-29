@@ -1,5 +1,6 @@
 package com.sbn.team.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.sbn.team.dto.MemberTeamDto;
@@ -10,8 +11,18 @@ public interface TeamService {
     List<TeamDto>   getTeamList(String keyword);
 
     TeamDto getTeamInfo(int team_idx);
-    
+
     List<String> getTeamLeague(int team_idx);
-    
+
     List<MemberTeamDto> getMemberTeamList(int team_idx, String keyword);
+    
+    int insertTeam(HashMap<String, Object> map);
+    
+    void insertMemberTeam(HashMap<String, Object> map);
+    
+    List<MemberTeamDto> getMemberJoinRequestList(int team_idx);
+    
+    void updateMemberTeam(HashMap<String, Object> map);
+    
+    void updateJoinStatus(HashMap<String, Object> map);
 }
