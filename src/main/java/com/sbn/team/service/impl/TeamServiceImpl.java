@@ -50,5 +50,9 @@ public class TeamServiceImpl implements TeamService {
     	teamMapper.insertMemberTeam(map);
     }
 
+    @Override
+    public List<MemberTeamDto> getMemberJoinRequestList(int team_idx) {
+    	return teamMapper.selectJoinRequestList(team_idx);
+    }
     
 }

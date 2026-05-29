@@ -22,7 +22,10 @@ public interface TeamMapper {
                                               @Param("keyword")  String keyword);
     
     void insertTeam(HashMap<String, Object> map);
+    
     void insertMemberTeam(HashMap<String, Object> map);
+    
+    List<MemberTeamDto> selectJoinRequestList(int team_idx);
     
 }
 

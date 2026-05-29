@@ -17,7 +17,8 @@ public interface TeamService {
     List<MemberTeamDto> getMemberTeamList(int team_idx, String keyword);
     
     int insertTeam(HashMap<String, Object> map);
+    
     void insertMemberTeam(HashMap<String, Object> map);
     
-    
+    List<MemberTeamDto> getMemberJoinRequestList(int team_idx);
 }

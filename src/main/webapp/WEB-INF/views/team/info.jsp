@@ -10,6 +10,8 @@
 <link href="/css/common.css" rel="stylesheet" />
 <style>
 
+    h2 { text-align: center; }
+
     /* ===== 팀 이름 / 검색 영역 ===== */
     .top-bar {
         display: flex;
