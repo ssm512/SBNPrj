@@ -41,7 +41,7 @@
 				<td>
 					<input type="submit" value="추가"/>
 					<input type="button" value="목록" 
-					onclick ="window.location.href='/League/List?league_idx=${map.league_idx}'"/>
+					onclick ="window.location.href='/League/Info?league_idx=${map.league_idx}'"/>
 				</td>
 			</tr>
 		</table>

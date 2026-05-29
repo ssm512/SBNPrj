@@ -57,6 +57,211 @@
  		WHERE
  				LEAGUE_IDX = #{league_idx}
  	</select>
+ 	
+ 	<!-- getTopScoreBoard -->
+ 	<select id="getTopScoreBoard" resultType="hashmap">
+ 	SELECT
+        NVL(SUM(CASE WHEN INNING = 1 THEN GET_SCORE ELSE 0 END), 0) AS "i1",
+        NVL(SUM(CASE WHEN INNING = 2 THEN GET_SCORE ELSE 0 END), 0) AS "i2",
+        NVL(SUM(CASE WHEN INNING = 3 THEN GET_SCORE ELSE 0 END), 0) AS "i3",
+        NVL(SUM(CASE WHEN INNING = 4 THEN GET_SCORE ELSE 0 END), 0) AS "i4",
+        NVL(SUM(CASE WHEN INNING = 5 THEN GET_SCORE ELSE 0 END), 0) AS "i5",
+        NVL(SUM(CASE WHEN INNING = 6 THEN GET_SCORE ELSE 0 END), 0) AS "i6",
+        NVL(SUM(CASE WHEN INNING = 7 THEN GET_SCORE ELSE 0 END), 0) AS "i7",
+        NVL(SUM(CASE WHEN INNING = 8 THEN GET_SCORE ELSE 0 END), 0) AS "i8",
+        NVL(SUM(CASE WHEN INNING = 9 THEN GET_SCORE ELSE 0 END), 0) AS "i9",
+        NVL(SUM(GET_SCORE), 0) AS "r",
+        NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END), 0) AS "h",
+        NVL(SUM(CASE WHEN RESULT = 'BB' THEN 1 ELSE 0 END), 0) AS "b"
+   FROM GAME_RESULT
+   WHERE GAME_IDX = #{game_idx}
+   AND TOP_BOTTOM = 'T'
+ 	</select>
+ 	
+ 	<!-- getBottomScoreBoard -->
+ 	<select id="getBottomScoreBoard" resultType="hashmap">
+ 		SELECT
+        NVL(SUM(CASE WHEN INNING = 1 THEN GET_SCORE ELSE 0 END), 0) AS "i1",
+        NVL(SUM(CASE WHEN INNING = 2 THEN GET_SCORE ELSE 0 END), 0) AS "i2",
+        NVL(SUM(CASE WHEN INNING = 3 THEN GET_SCORE ELSE 0 END), 0) AS "i3",
+        NVL(SUM(CASE WHEN INNING = 4 THEN GET_SCORE ELSE 0 END), 0) AS "i4",
+        NVL(SUM(CASE WHEN INNING = 5 THEN GET_SCORE ELSE 0 END), 0) AS "i5",
+        NVL(SUM(CASE WHEN INNING = 6 THEN GET_SCORE ELSE 0 END), 0) AS "i6",
+        NVL(SUM(CASE WHEN INNING = 7 THEN GET_SCORE ELSE 0 END), 0) AS "i7",
+        NVL(SUM(CASE WHEN INNING = 8 THEN GET_SCORE ELSE 0 END), 0) AS "i8",
+        NVL(SUM(CASE WHEN INNING = 9 THEN GET_SCORE ELSE 0 END), 0) AS "i9",
+        NVL(SUM(GET_SCORE), 0) AS "r",
+        NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END), 0) AS "h",
+        NVL(SUM(CASE WHEN RESULT = 'BB' THEN 1 ELSE 0 END), 0) AS "b"
+   FROM GAME_RESULT
+   WHERE GAME_IDX = #{game_idx}
+   AND TOP_BOTTOM = 'B'
+ 	</select>
+ 	
+ 	<!-- getGameTeamNames -->
+ 	<select id="getGameTeamNames" resultType="hashmap">
+		SELECT
+		            AWAY.TEAM_NAME AS "away_name",
+		            HOME.TEAM_NAME AS "home_name"
+		FROM        GAME G
+		LEFT JOIN   TEAM AWAY
+		ON          G.AWAY_IDX = AWAY.TEAM_IDX
+		LEFT JOIN   TEAM HOME
+		ON          G.HOME_IDX = HOME.TEAM_IDX
+		WHERE       G.GAME_IDX = #{game_idx}
+ 	</select>
+ 	
+ 	<!-- getAwayRecord -->
+ 	<select id="getAwayRecord" resultType="hashmap">
+		SELECT
+		    HITTER_NUM AS "hitter_num",
+		    HITTER_NAME AS "hitter_name",
+		    COUNT(*) AS "at_bat",
+		    NVL(SUM(GET_SCORE), 0) AS "score",
+		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END), 0) AS "hit",
+		    NVL(SUM(CASE WHEN RESULT = 'HR' THEN 1 ELSE 0 END), 0) AS "hr",
+		    NVL(SUM(CASE WHEN RESULT = 'SAC' THEN 1 ELSE 0 END), 0) AS "sac",
+		    NVL(SUM(CASE WHEN RESULT = 'BB' THEN 1 ELSE 0 END), 0) AS "bb",
+		    NVL(SUM(CASE WHEN RESULT = 'K' THEN 1 ELSE 0 END), 0) AS "k",
+		    TO_CHAR(
+		        NVL(
+		            SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END)
+		            / NULLIF(COUNT(*), 0),
+		            0
+		        ),
+		        'FM0.000'
+		    ) AS "avg"
+		FROM GAME_RESULT
+		WHERE GAME_IDX = #{game_idx}
+		AND TOP_BOTTOM = 'T'
+		GROUP BY HITTER_NUM, HITTER_NAME
+		ORDER BY HITTER_NUM
+ 	</select>
+ 	
+ 	<!-- getHomeRecord -->
+ 	<select id="getHomeRecord" resultType="hashmap">
+		SELECT
+		    HITTER_NUM AS "hitter_num",
+		    HITTER_NAME AS "hitter_name",
+		    COUNT(*) AS "at_bat",
+		    NVL(SUM(GET_SCORE), 0) AS "score",
+		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END), 0) AS "hit",
+		    NVL(SUM(CASE WHEN RESULT = 'HR' THEN 1 ELSE 0 END), 0) AS "hr",
+		    NVL(SUM(CASE WHEN RESULT = 'SAC' THEN 1 ELSE 0 END), 0) AS "sac",
+		    NVL(SUM(CASE WHEN RESULT = 'BB' THEN 1 ELSE 0 END), 0) AS "bb",
+		    NVL(SUM(CASE WHEN RESULT = 'K' THEN 1 ELSE 0 END), 0) AS "k",
+		    TO_CHAR(
+		        NVL(
+		            SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END)
+		            / NULLIF(COUNT(*), 0),
+		            0
+		        ),
+		        'FM0.000'
+		    ) AS "avg"
+		FROM GAME_RESULT
+		WHERE GAME_IDX = #{game_idx}
+		AND TOP_BOTTOM = 'B'
+		GROUP BY HITTER_NUM, HITTER_NAME
+		ORDER BY HITTER_NUM
+ 	</select>
+ 	
+ 	<!-- getAwayPRecord -->
+ 	<select id="getAwayPRecord" resultType="hashmap">
+		SELECT
+		    p.PITCHER_ID,
+		    p.PITCHER_NAME,
+		    NVL(SUM(
+		        CASE
+		            WHEN p.OUT_CNT = 0 THEN 0
+		            WHEN MOD(p.OUT_CNT, 3) = 0 THEN FLOOR(p.OUT_CNT / 3)
+		            WHEN MOD(p.OUT_CNT, 3) = 1 THEN FLOOR(p.OUT_CNT / 3) + 0.3
+		            WHEN MOD(p.OUT_CNT, 3) = 2 THEN FLOOR(p.OUT_CNT / 3) + 0.6
+		        END
+		    ), 0) AS INNINGS,
+		    SUM(p.HIT_CNT) AS HIT_CNT,
+		    SUM(p.RUN_CNT) AS RUN_CNT,
+		    SUM(p.ERA_CNT) AS ERA_CNT,
+		    SUM(p.BB_CNT) AS BB_CNT,
+		    SUM(p.K_CNT) AS K_CNT,
+		    SUM(p.HR_CNT) AS HR_CNT,
+		    SUM(p.BATTER_CNT) AS BATTER_CNT,
+		    SUM(p.AT_BAT_CNT) AS AT_BAT_CNT
+		FROM (
+		    SELECT
+		        PITCHER_ID,
+		        PITCHER_NAME,
+		        INNING,
+		        COUNT(CASE WHEN RESULT IN ('OUT', 'SAC', 'K') THEN 1 END) AS OUT_CNT,
+		        COUNT(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 END) AS HIT_CNT,
+		        SUM(GET_SCORE) AS RUN_CNT,
+		        SUM(ERA) AS ERA_CNT,
+		        COUNT(CASE WHEN RESULT = 'BB' THEN 1 END) AS BB_CNT,
+		        COUNT(CASE WHEN RESULT = 'K' THEN 1 END) AS K_CNT,
+		        COUNT(CASE WHEN RESULT = 'HR' THEN 1 END) AS HR_CNT,
+		        COUNT(CASE WHEN RESULT != 'ETC' THEN 1 END) AS BATTER_CNT,
+		        COUNT(CASE 
+		            WHEN RESULT != 'ETC'
+		             AND RESULT != 'BB'
+		             AND RESULT != 'SAC'
+		            THEN 1 
+		        END) AS AT_BAT_CNT
+		    FROM GAME_RESULT
+		    WHERE GAME_IDX = #{game_idx}
+		      AND TOP_BOTTOM = 'B'
+		    GROUP BY PITCHER_ID, PITCHER_NAME, INNING
+		) p
+		GROUP BY p.PITCHER_ID, p.PITCHER_NAME
+		ORDER BY p.PITCHER_NAME
+ 	</select>
+ 	
+ 	<!-- getHomePRecord -->
+ 	<select id="getHomePRecord" resultType="hashmap">
+		SELECT
+		    p.PITCHER_ID,
+		    p.PITCHER_NAME,
+		    NVL(SUM(
+		        CASE
+		            WHEN p.OUT_CNT = 0 THEN 0
+		            WHEN MOD(p.OUT_CNT, 3) = 0 THEN FLOOR(p.OUT_CNT / 3)
+		            WHEN MOD(p.OUT_CNT, 3) = 1 THEN FLOOR(p.OUT_CNT / 3) + 0.3
+		            WHEN MOD(p.OUT_CNT, 3) = 2 THEN FLOOR(p.OUT_CNT / 3) + 0.6
+		        END
+		    ), 0) AS INNINGS,
+		    SUM(p.HIT_CNT) AS HIT_CNT,
+		    SUM(p.RUN_CNT) AS RUN_CNT,
+		    SUM(p.ERA_CNT) AS ERA_CNT,
+		    SUM(p.BB_CNT) AS BB_CNT,
+		    SUM(p.K_CNT) AS K_CNT,
+		    SUM(p.HR_CNT) AS HR_CNT,
+		    SUM(p.BATTER_CNT) AS BATTER_CNT,
+		    SUM(p.AT_BAT_CNT) AS AT_BAT_CNT
+		FROM (
+		    SELECT
+		        PITCHER_ID,
+		        PITCHER_NAME,
+		        INNING,
+		        COUNT(CASE WHEN RESULT IN ('OUT', 'SAC', 'K') THEN 1 END) AS OUT_CNT,
+		        COUNT(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 END) AS HIT_CNT,
+		        SUM(GET_SCORE) AS RUN_CNT,
+		        SUM(ERA) AS ERA_CNT,
+		        COUNT(CASE WHEN RESULT = 'BB' THEN 1 END) AS BB_CNT,
+		        COUNT(CASE WHEN RESULT = 'K' THEN 1 END) AS K_CNT,
+		        COUNT(CASE WHEN RESULT = 'HR' THEN 1 END) AS HR_CNT,
+		        COUNT(CASE WHEN RESULT != 'ETC' THEN 1 END) AS BATTER_CNT,
+		        COUNT(CASE 
+		            WHEN RESULT != 'ETC'
+		             AND RESULT != 'BB'
+		             AND RESULT != 'SAC'
+		            THEN 1 
+		        END) AS AT_BAT_CNT
+		    FROM GAME_RESULT
+		    WHERE GAME_IDX = #{game_idx}
+		      AND TOP_BOTTOM = 'T'
+		    GROUP BY PITCHER_ID, PITCHER_NAME, INNING
+		) p
+		GROUP BY p.PITCHER_ID, p.PITCHER_NAME
+		ORDER BY p.PITCHER_NAME
+ 	</select>
  </mapper>
  
  
