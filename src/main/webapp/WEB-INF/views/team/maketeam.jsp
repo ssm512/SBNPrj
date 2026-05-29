@@ -56,11 +56,11 @@
     <%@ include file="/WEB-INF/include/headermenu.jsp" %>
 
     <div class="main-wrapper">
-        <form action="/Team/MaketeamProc" method="post" enctype="multipart/form-data">
+        <form action="/Team/MakeTeam" method="post" enctype="multipart/form-data">
             <div class="form-box">
 
-                <input type="text"  name="team_name"     placeholder="팀 이름"            required>
-                <input type="text"  name="team_location" placeholder="연고지"              required>
+                <input type="text"  name="team_name"     placeholder="팀 이름"     required>
+                <input type="text"  name="team_location" placeholder="연고지"      required>
                 <textarea           name="team_content"  placeholder="팀 소개글"></textarea>
                 <input type="file"  name="team_logo"     placeholder="이미지 업로드 (팀로고)">
 

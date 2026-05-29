@@ -1,5 +1,6 @@
 package com.sbn.team.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,27 @@ public class TeamServiceImpl implements TeamService {
     public TeamDto getTeamInfo(int team_idx) {
         return teamMapper.selectTeamInfo(team_idx);
     }
-    
+
     @Override
     public List<String> getTeamLeague(int team_idx) {
         return teamMapper.selectTeamLeague(team_idx);
     }
-    
+
     @Override
     public List<MemberTeamDto> getMemberTeamList(int team_idx, String keyword) {
         return teamMapper.selectMemberTeamList(team_idx, keyword);
     }
 
+    @Override
+    public int insertTeam(HashMap<String, Object> map) {
+        teamMapper.insertTeam(map);
+        return Integer.parseInt(map.get("team_idx").toString());
+    }
+    
+    @Override
+    public void insertMemberTeam(HashMap<String, Object> map) {
+    	teamMapper.insertMemberTeam(map);
+    }
 
+    
 }

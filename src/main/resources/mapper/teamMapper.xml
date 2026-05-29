@@ -73,4 +73,26 @@
 	</select>
 
 
+	<!-- 팀 생성 -->
+	<insert id="insertTeam" parameterType="hashmap">
+		<selectKey keyProperty="team_idx" resultType="int" order="BEFORE">
+			SELECT SEQ_TEAM.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TEAM (TEAM_IDX, TEAM_NAME, TEAM_MANAGER, TEAM_CONTENT, TEAM_LOCATION, TEAM_REGDATE)
+		VALUES (#{team_idx}, #{team_name}, #{team_manager}, #{team_content}, #{team_location}, SYSDATE)	
+	</insert>
+	
+	<!-- 팀 생성자 MEMBER_TEAM 자동 등록 --> 
+	<insert id="insertMemberTeam" parameterType="hashmap">
+		INSERT INTO MEMBER_TEAM (MEMBER_IDX, TEAM_IDX, JOIN_STATUS)
+		VALUES (#{member_idx}, #{team_idx}, 1)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+
 </mapper>
