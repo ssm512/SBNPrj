@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리그경기결과추가</title>
+<title>리그경기결과추가2</title>
 <style>
 	table {
 		border-collapse: collapse;
@@ -30,46 +30,51 @@
 	<input type="hidden" name="league_idx" value="${gameDto.league_idx}">
 		<table id="gamestat">
 			<tr>
-				<td id="view_game_idx">${gameDto.game_idx}</td>
-				<td>${gameDto.league_idx}</td>
-				<td></td>
+				<td id="view_game_idx">경기번호 : ${gameDto.game_idx}</td>
+				<td>경기정보</td>
+				<td>리그번호 : ${gameDto.league_idx}</td>
 			</tr>
 			<tr>
-				<td>${teamNames.home_name}</td>
-				<td>${teamNames.away_name}</td>
+				<td>Home : ${teamNames.home_name}</td>
+				<td>Away : ${teamNames.away_name}</td>
 				<td>
-					<input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
+					승리투수 : <input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
 				</td>
 			</tr>
 			<tr>
-				<td>${gameDto.game_date}</td>
-				<td>${gameDto.game_time}</td>
+				<td>경기날짜 : ${gameDto.game_date}</td>
+				<td>경기시각 : ${gameDto.game_time}</td>
 				<td>
-					<input type="text" id="lose_pitcher" name="lose_pitcher" value="${gameDto.lose_pitcher}">
+					패전투수 : <input type="text" id="lose_pitcher" name="lose_pitcher" value="${gameDto.lose_pitcher}">
 				</td>
 			</tr>
 			<tr>
-				<td>${gameDto.game_field}</td>
-				<td>${gameDto.game_status}</td>
+				<td>경기장 : ${gameDto.game_field}</td>
 				<td>
-					<input type="text" id="save_pitcher" name="save_pitcher" value="${gameDto.save_pitcher}">
+				경기여부 : 
+				<input type="radio" name="game_status" id="beforegame" value="0" checked/>
+				<label for="beforegame">경기미진행</label>
+				<input type="radio" name="game_status" id="aftergame" value="1"/>
+				<label for="aftergame">경기완료</label>
+				</td>
+				<td>
+					세이브투수 : <input type="text" id="save_pitcher" name="save_pitcher" value="${gameDto.save_pitcher}">
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<input type="text" id="winner" name="winner" value="${gameDto.winner}">
 				</td>
-				<td></td>
 				<td>
-					<input type="text" id="hold_pitcher" name="hold_pitcher" value="${gameDto.hold_pitcher}">
+					<input type="button" id="btnGameStatUpdate" value="경기정보 수정">
+				</td>
+				<td>
+					홀드 투수 : <input type="text" id="hold_pitcher" name="hold_pitcher" value="${gameDto.hold_pitcher}">
 				</td>
 			</tr>
-		</table>
-	
-		<input type="button" id="btnGameStatUpdate" value="경기정보 수정">
+		</table>		
 	</form>
-
-
+	<br>
 	<table id="gameresultinput">
 		<tr>
 			<td>회</td>
