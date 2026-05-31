@@ -6,11 +6,15 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sbn.game.dto.GameDto;
+import com.sbn.game.dto.GameResultDto;
 import com.sbn.game.service.GameService;
 
 @Controller
@@ -93,6 +97,23 @@ public class GameController {
 		return mv;
 	}
 	
-	// /Game/AddResult?league_idx=${league_idx}&game_dix=${game_idx}
+	@PostMapping("/UpdateGameStat")
+	@ResponseBody
+	public GameDto updateGameStat(@RequestBody GameDto gameDto) {
+
+		gameService.updateGameStat(gameDto);
+
+		GameDto updatedGame = gameService.getGameInfo(gameDto.getGame_idx());
+
+		return updatedGame;
+	}
 	
+	// /Game/AddResult?league_idx=${league_idx}&game_idx=${game_idx}
+	@PostMapping("/AddResult")
+	public String addResult(GameResultDto gameResultDto,@RequestParam("league_idx") int league_idx) {
+		
+		gameService.insertGameResult(gameResultDto);
+
+	    return "redirect:/Game/Info?league_idx=" + league_idx + "&game_idx=" + gameResultDto.getGame_idx();
+	}
 }

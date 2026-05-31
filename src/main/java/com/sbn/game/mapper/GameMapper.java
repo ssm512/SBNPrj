@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.sbn.game.dto.GameDto;
+import com.sbn.game.dto.GameResultDto;
 
 @Mapper
 public interface GameMapper {
@@ -29,6 +30,12 @@ public interface GameMapper {
 	ArrayList<HashMap<String, Object>> getAwayPRecord(String game_idx);
 
 	ArrayList<HashMap<String, Object>> getHomePRecord(String game_idx);
+
+	void updateGameStat(GameDto gameDto);
+
+	GameDto getGameInfo(int game_idx);
+
+	void insertGameResult(GameResultDto gameResultDto);
 
 
 }

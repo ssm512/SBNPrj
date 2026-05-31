@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbn.game.dto.GameDto;
+import com.sbn.game.dto.GameResultDto;
 import com.sbn.game.mapper.GameMapper;
 import com.sbn.game.service.GameService;
 
@@ -74,6 +75,23 @@ public class GameServiceImpl implements GameService {
 	public ArrayList<HashMap<String, Object>> getHomePRecord(String game_idx) {
 		ArrayList<HashMap<String, Object>> homePRecord	=	gameMapper.getHomePRecord(game_idx);
 		return homePRecord;
+	}
+
+	@Override
+	public void updateGameStat(GameDto gameDto) {
+		gameMapper.updateGameStat(gameDto);		
+	}
+
+	@Override
+	public GameDto getGameInfo(int game_idx) {
+		GameDto gameDto	=	gameMapper.getGameInfo(game_idx);
+		return gameDto;
+	}
+
+	@Override
+	public void insertGameResult(GameResultDto gameResultDto) {
+		gameMapper.insertGameResult(gameResultDto);
+		
 	}
 
 

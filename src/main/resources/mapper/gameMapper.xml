@@ -262,6 +262,71 @@
 		GROUP BY p.PITCHER_ID, p.PITCHER_NAME
 		ORDER BY p.PITCHER_NAME
  	</select>
+ 	
+ 	<!-- updateGameStat -->
+ 	<update id="updateGameStat">
+		UPDATE GAME
+		SET
+			WINNER = #{winner},
+			WIN_PITCHER = #{win_pitcher},
+			LOSE_PITCHER = #{lose_pitcher},
+			SAVE_PITCHER = #{save_pitcher},
+			HOLD_PITCHER = #{hold_pitcher}
+		WHERE GAME_IDX = #{game_idx}
+	</update>
+	
+	<!-- getGameInfo -->
+	<select id="getGameInfo" resultType="com.green.sbn.dto.GameDto">
+		SELECT
+			GAME_IDX,
+			LEAGUE_IDX,
+			AWAY_IDX,
+			HOME_IDX,
+			GAME_DATE,
+			GAME_TIME,
+			GAME_FIELD,
+			GAME_STATUS,
+			WINNER,
+			WIN_PITCHER,
+			LOSE_PITCHER,
+			SAVE_PITCHER,
+			HOLD_PITCHER
+		FROM GAME
+		WHERE GAME_IDX = #{game_idx}
+	</select>
+
+	<!-- insertGameResult -->
+	<insert id="insertGameResult">
+		INSERT INTO game_result (
+		    record_num,
+		    game_idx,
+		    inning,
+		    top_bottom,
+		    hitter_num,
+		    hitter_name,
+		    hitter_id,
+		    pitcher_name,
+		    pitcher_id,
+		    result,
+		    get_score,
+		    era,
+		    content
+		) VALUES ( 
+		    SEQ_RECORD.NEXTVAL,
+		    ${game_idx},
+		    ${inning},
+		    ${top_bottom},
+		    ${hitter_num},
+		    ${hitter_name},
+		    ${hitter_id},
+		    ${pitcher_name},
+		    ${pitcher_id},
+		    ${result},
+		    ${get_score},
+		    ${era},
+		    ${content}
+		)
+	</insert>
  </mapper>
  
  

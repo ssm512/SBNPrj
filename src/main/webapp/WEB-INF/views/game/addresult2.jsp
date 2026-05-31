@@ -63,7 +63,15 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="text" id="winner" name="winner" value="${gameDto.winner}">
+					승자여부 : ${gameDto.winner}
+					<input type="radio" name="winner" id="beforegame" value="0" checked/>
+					<label for="beforegame">미정</label>
+					<input type="radio" name="winner" id="awaywin" value="1"/>
+					<label for="awaywin">원정승</label>
+					<input type="radio" name="winner" id="homewin" value="2"/>
+					<label for="homewin">홈승</label>
+					<input type="radio" name="winner" id="draw" value="3"/>
+					<label for="draw">무승부</label>
 				</td>
 				<td>
 					<input type="button" id="btnGameStatUpdate" value="경기정보 수정">
@@ -75,83 +83,124 @@
 		</table>		
 	</form>
 	<br>
-	<table id="gameresultinput">
-		<tr>
-			<td>회</td>
-			<td>초(T)/말(F)</td>
-			<td>타순</td>
-			<td>타자</td>
-			<td>타자ID</td>
-			<td>투수</td>
-			<td>투수ID</td>
-			<td>결과</td>
-			<td>타점</td>
-			<td>투수자책점</td>
-			<td>비고란</td>
-			<td>행추가</td>
-			<td>행삭제</td>
-		</tr>
-		<tr class="result-line">
-			<td>
-				<input type="number" name="inning"/>
-			</td>
-			<td>
-				<select name="top_bottom">
-					<option>T</option>
-					<option>B</option>
-				</select>
-			</td>
-			<td>
-				<input type="number" name="hitter_num"/>
-			</td>
-			<td>
-				<input type="text" name="hitter_name"/>
-			</td>
-			<td>
-				<input type="text" name="hitter_id"/>
-			</td>
-			<td>
-				<input type="text" name="pitcher_name"/>
-			</td>
-			<td>
-				<input type="text" name="pitcher_id"/>
-			</td>
-			<td>
-				<select name="result">
-					<option>1B</option>
-					<option>2B</option>
-					<option>3B</option>
-					<option>HR</option>
-					<option>K</option>
-					<option>BB</option>
-					<option>SAC</option>
-					<option>OUT</option>
-					<option>ETC</option>
-				</select>
-			</td>
-			<td>
-				<input type="number" name="get_score"/>
-			</td>
-			<td>
-				<input type="number" name="era"/>
-			</td>
-			<td>
-				<textarea rows="1" cols="10" maxlength="2000" name="content"></textarea>
-			</td>
-			<td>
-				<input type="button" class="btn-row-add" value="행추가"/>
-			</td>
-			<td>
-				<input type="button" class="btn-row-remove" value="행삭제"/>
-			</td>
-		</tr>
-	</table>
+	<form id="gameResultForm" action="/Game/AddResult" method="post">
+	<input type="hidden" name="game_idx" value="${gameDto.game_idx}">
+	<input type="hidden" name="league_idx" value="${gameDto.league_idx}">
+		<table id="gameresultinput">
+			<tr>
+				<td>회</td>
+				<td>초(T)/말(F)</td>
+				<td>타순</td>
+				<td>타자</td>
+				<td>타자ID</td>
+				<td>투수</td>
+				<td>투수ID</td>
+				<td>결과</td>
+				<td>타점</td>
+				<td>투수자책점</td>
+				<td>비고란</td>
+				<td>행추가</td>
+				<td>행삭제</td>
+			</tr>
+			<tr class="result-line">
+				<td>
+					<input type="number" name="inning"/>
+				</td>
+				<td>
+					<select name="top_bottom">
+						<option>T</option>
+						<option>B</option>
+					</select>
+				</td>
+				<td>
+					<input type="number" name="hitter_num"/>
+				</td>
+				<td>
+					<input type="text" name="hitter_name"/>
+				</td>
+				<td>
+					<input type="text" name="hitter_id"/>
+				</td>
+				<td>
+					<input type="text" name="pitcher_name"/>
+				</td>
+				<td>
+					<input type="text" name="pitcher_id"/>
+				</td>
+				<td>
+					<select name="result">
+						<option>1B</option>
+						<option>2B</option>
+						<option>3B</option>
+						<option>HR</option>
+						<option>K</option>
+						<option>BB</option>
+						<option>SAC</option>
+						<option>OUT</option>
+						<option>ETC</option>
+					</select>
+				</td>
+				<td>
+					<input type="number" name="get_score"/>
+				</td>
+				<td>
+					<input type="number" name="era"/>
+				</td>
+				<td>
+					<textarea rows="1" cols="10" maxlength="2000" name="content"></textarea>
+				</td>
+				<td>
+					<input type="button" class="btn-row-add" value="행추가"/>
+				</td>
+				<td>
+					<input type="button" class="btn-row-remove" value="행삭제"/>
+				</td>
+			</tr>
+		</table>
+		<input type="submit" value="경기결과 입력">
 	<br>
-	
+	</form>
 </div>
 <%@include file="/WEB-INF/include/footer.jsp" %>
-<script>
 
+<!-- 게임 stat update -->
+<script>
+	const btnGameStatUpdate = document.querySelector('#btnGameStatUpdate');
+	
+	btnGameStatUpdate.addEventListener('click', function () {
+	
+		const gameIdx = document.querySelector('#game_idx').value;
+	
+		const data = {
+			game_idx: gameIdx,
+			winner: document.querySelector('#winner').value,
+			win_pitcher: document.querySelector('#win_pitcher').value,
+			lose_pitcher: document.querySelector('#lose_pitcher').value,
+			save_pitcher: document.querySelector('#save_pitcher').value,
+			hold_pitcher: document.querySelector('#hold_pitcher').value
+		};
+	
+		fetch('/Game/UpdateGameStat', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+		.then(response => response.json())
+		.then(updatedGame => {
+			document.querySelector('#win_pitcher').value = updatedGame.win_pitcher ?? '';
+			document.querySelector('#lose_pitcher').value = updatedGame.lose_pitcher ?? '';
+			document.querySelector('#save_pitcher').value = updatedGame.save_pitcher ?? '';
+			document.querySelector('#hold_pitcher').value = updatedGame.hold_pitcher ?? '';
+			document.querySelector('#winner').value = updatedGame.winner ?? '';
+	
+			alert('경기 정보가 수정되었습니다.');
+		});
+	});
+</script>
+<!-- 게임결과추가 script -->
+<script>
 	const gameTableEl = document.querySelector('#gameresultinput')
 	gameTableEl.addEventListener('click', function(e) {
 		// 행 추가
