@@ -164,7 +164,7 @@ public class TeamController {
     @RequestMapping("/RemoveMember")
     public ModelAndView removeMember(@RequestParam HashMap<String, Object> map) {
         teamService.deleteMemberTeam(map);
-        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=remove_ok");
     }
 
     /* 가입 승인 - JOIN_STATUS = 1 (승인) 으로 변경 */
@@ -172,14 +172,14 @@ public class TeamController {
     public ModelAndView approveJoin(@RequestParam HashMap<String, Object> map) {
         map.put("join_status", 1);
         teamService.updateJoinStatus(map);
-        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=approve_ok");
     }
 
     /* 가입 거절 - MEMBER_TEAM 레코드 삭제 */
     @RequestMapping("/RejectJoin")
     public ModelAndView rejectJoin(@RequestParam HashMap<String, Object> map) {
         teamService.deleteMemberTeam(map);
-        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=reject_ok");
     }
     
 	/* 팀 가입 신청 */
