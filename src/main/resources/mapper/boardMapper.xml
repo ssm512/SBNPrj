@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+  <mapper namespace="com.sbn.board.mapper.BoardMapper">
+  
+    <!-- count -->
+    <select id="count" resultType="java.lang.Integer">
+	  SELECT COUNT(BOARD_IDX) AS CNT
+	  FROM BOARD
+	  <where>
+	    <if test="searchType == 'title' and keyword != null and keyword != ''">
+	      AND LOWER(TITLE) LIKE '%' || LOWER(#{keyword}) || '%'
+	    </if>
+	    <if test="searchType == 'writer' and keyword != null and keyword != ''">
+	      AND LOWER(WRITER) LIKE '%' || LOWER(#{keyword}) || '%'
+	    </if>
+	  </where>
+	</select>
+    
+    <!-- getBoardList -->
+    <select id="getBoardList">
+    
+      SELECT
+	    BOARD_IDX,
+	    WRITER,
+	    TITLE,
+	    CONTENT,
+	    HIT,
+	    TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE,
+	    BOARD_TYPE
+	   FROM
+	    BOARD
+	   <where>
+	       BOARD_TYPE = #{board_type}
+	     <if test="searchType == 'title' and keyword != null and keyword != ''">
+	       AND LOWER(TITLE) LIKE '%' || LOWER(#{keyword}) || '%'
+	     </if>
+	     <if test="searchType == 'writer' and keyword != null and keyword != ''">
+	       AND LOWER(WRITER) LIKE '%' || LOWER(#{keyword}) || '%'
+	     </if>
+	   </where>
+	   ORDER BY
+	    BOARD_IDX DESC
+	   OFFSET #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY
+    
+    </select>
+    
+    <!-- getBoard -->
+    <select id="getBoard" resultType="com.sbn.board.dto.BoardDto">
+    
+      SELECT
+	     BOARD_IDX,
+	     WRITER,
+	     TITLE,
+	     CONTENT,
+	     HIT,
+	     TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE,
+	     BOARD_TYPE
+	   FROM
+	     BOARD
+	   WHERE
+	     BOARD_IDX=#{board_idx}
+	    
+    </select>
+    
+    <update id="setCountUpdate">
+      
+      UPDATE BOARD
+       SET   HIT = HIT + 1
+       WHERE BOARD_IDX = #{board_idx}
+      
+    </update>
+    
+  </mapper>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

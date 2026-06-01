@@ -210,7 +210,6 @@
             <td>장소</td>
             <td>Home</td> 
             <td>Away</td>
-            <td>비고</td>
           </tr>
 
 		  <c:forEach var="game" items="${gameList}"> 
@@ -227,22 +226,12 @@
 			  <td>${game.home_team_name}</td> 
 			  <td>${game.away_team_name}</td>
 			  
-			  <td>
-			    <c:choose>
-			      <c:when test="${not empty game.game_result_content}">
-			        ${game.game_result_content}
-			      </c:when>
-			      <c:otherwise>
-			        -
-			      </c:otherwise>
-			    </c:choose>
-			  </td>
 			</tr>
 		  </c:forEach>
 		  
 		  <c:if test="${empty gameList}">
 		    <tr>
-		      <td colspan="7">경기 일정이 비어있습니다.</td>
+		      <td colspan="6">경기 일정이 비어있습니다.</td>
 		    </tr>
 		  </c:if>
           

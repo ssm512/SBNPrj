@@ -70,16 +70,13 @@
 	      G.GAME_TIME          AS "game_time",
 	      G.GAME_FIELD         AS "game_field",
 	      HT.TEAM_NAME         AS "home_team_name",
-	      AT.TEAM_NAME         AS "away_team_name",
-	      R.CONTENT            AS "game_result_content"
+	      AT.TEAM_NAME         AS "away_team_name"
 	  FROM
 	      SBN.GAME G
 	  LEFT JOIN 
 	      SBN.TEAM HT ON G.HOME_IDX = HT.TEAM_IDX
 	  LEFT JOIN 
 	      SBN.TEAM AT ON G.AWAY_IDX = AT.TEAM_IDX
-	  LEFT JOIN 
-	      SBN.GAME_RESULT R ON G.GAME_IDX = R.GAME_IDX
 	  WHERE
 	      G.LEAGUE_IDX = #{league_idx}
 	  ORDER BY
