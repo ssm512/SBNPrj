@@ -8,7 +8,9 @@ import com.sbn.team.dto.TeamDto;
 
 public interface TeamService {
 
-    List<TeamDto>   getTeamList(String keyword);
+	List<TeamDto> getTeamList(HashMap<String, Object> map);     // String keyword → HashMap으로 변경
+
+	int getTeamCount(HashMap<String, Object> map);              // 추가
 
     TeamDto getTeamInfo(int team_idx);
 
@@ -25,4 +27,6 @@ public interface TeamService {
     void updateMemberTeam(HashMap<String, Object> map);
     
     void updateJoinStatus(HashMap<String, Object> map);
+    
+    Integer getJoinStatus(HashMap<String, Object> map);
 }

@@ -12,11 +12,13 @@ import com.sbn.team.dto.TeamDto;
 @Mapper
 public interface TeamMapper {
 
-    List<TeamDto> selectTeamList(String keyword);
+    List<TeamDto> selectTeamList(HashMap<String, Object> map);
+
+    int selectTeamCount(HashMap<String, Object> map); 
 
     TeamDto selectTeamInfo(@Param("team_idx") int team_idx);
 
-    List<String> selectTeamLeague(int team_idx);
+    List<String> selectTeamLeague(@Param("team_idx") int team_idx);
 
     List<MemberTeamDto> selectMemberTeamList(@Param("team_idx") int team_idx,
                                               @Param("keyword")  String keyword);
@@ -25,11 +27,17 @@ public interface TeamMapper {
     
     void insertMemberTeam(HashMap<String, Object> map);
     
-    List<MemberTeamDto> selectJoinRequestList(int team_idx);
+    List<MemberTeamDto> selectJoinRequestList(@Param("team_idx") int team_idx);
     
     void updateMemberTeam(HashMap<String, Object> map);
     
     void updateJoinStatus(HashMap<String, Object> map);
+    
+    Integer selectJoinStatus(HashMap<String, Object> map);
+    
+    
+
+    
     
 }
 
