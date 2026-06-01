@@ -45,6 +45,7 @@
 				<td>타점</td>
 				<td>투수자책점</td>
 				<td>비고란</td>
+				<td>수정BTN</td>
 			</tr>
 			<c:forEach var="record" items="${resultList}">
 			<tr class="result-line">
@@ -94,10 +95,11 @@
 				<td>
 					<textarea rows="1" cols="10" maxlength="2000" name="resultList[0].content" value="${record.content}"></textarea>
 				</td>
+				<td><input type="submit" value="경기결과 수정"></td>
 			</tr>
 			</c:forEach>
 		</table>
-		<input type="submit" value="경기결과 수정">
+		
 		<input type="submit" value="경기목록" onclick ="window.location.href='/League/Info?league_idx=${map.league_idx}'">
 	<br>
 	</form>
