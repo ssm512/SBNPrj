@@ -34,6 +34,19 @@
 		}
 	}
 	
+	.team-btn {
+		margin: 15px auto;
+		text-align: center;
+		width: 100%;
+		display: flex;
+		gap: 5px;
+		input {
+			flex: 1;
+			margin: 5px 10px;
+			height: 40px;
+		}
+	}
+	
 	.profile {
 		height: 45px;
 		border: 2px solid green;
@@ -81,18 +94,19 @@
   	}
   }
   
-  .hit-pitch-btn input {
+  .hit-pitch-btn input , .team-btn input {
     background: white;
     border-radius: 15px;
     border: 2px solid #006500;
     cursor: pointer;
 	}
 
-	.hit-pitch-btn input.active {
+	.hit-pitch-btn input.active , .team-btn input.active {
     background: #FFD700;
     font-weight: bold;
 	}
   
+
 	
 </style>
 
@@ -124,9 +138,12 @@
 		</div>
 		
 		<div class="right-side">
-		<c:forEach var="team" items="${ teamList }" >
-			<input type="button" id="team-stats-btn" value="${team.team_name}" data-team-idx="${ team.team_idx }"/>
-		</c:forEach>
+			<div class="team-btn">
+				<input type="button" class="team-stats-btn ${ empty map.team_idx ? 'active' : '' }" value="통산" data-team-idx="" />
+				<c:forEach var="team" items="${ teamList }" >
+					<input type="button" class="team-stats-btn ${ map.team_idx eq team.team_idx ? 'active' : '' }" value="${team.team_name}" data-team-idx="${ team.team_idx }"/>
+				</c:forEach>
+			</div>
 			<!-- 타자 -->
 			<div id="hitArea">
 			<table class="stats-top">
@@ -298,6 +315,14 @@
     pitchAreaEl.style.display = 'block'
     pitchBtnEl.classList.add('active')
     hitBtnEl.classList.remove('active')
+	})
+	
+	document.querySelectorAll('.team-stats-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+	    const teamIdx   = this.getAttribute('data-team-idx')
+	    const memberIdx = '${ member.member_idx }'
+	    location.href = "/Member/Stats?member_idx=" + memberIdx + "&team_idx=" + teamIdx
+    })
 	})
 	
 	

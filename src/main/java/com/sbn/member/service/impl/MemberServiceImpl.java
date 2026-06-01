@@ -124,10 +124,16 @@ public class MemberServiceImpl implements MemberService {
 	public PitcherVo getPitchStats(HashMap<String, Object> statsMap) {
 		// GAME_RECORD 집계
 	    HashMap<String, Object> raw = memberMapper.getPitchStats(statsMap);
-	    if (raw.get("hitter") == null) raw.put("hitter", 0);
-	    if (raw == null) return null;
+	    if (raw.get("hitter") == null || raw == null) raw.put("hitter", 0);
 	    // 승패홀세 집계
 	    HashMap<String, Object> record = memberMapper.getPitchRecord(statsMap);
+	    if (record == null) {
+	    	record = new HashMap<>();
+	    	record.put("win", 0);
+	    	record.put("lose", 0);
+	    	record.put("save", 0);
+	    	record.put("hold", 0);
+	    }
 	    
 	    return new PitcherVo(
 	        toInt(raw.get("game_count")),

@@ -240,8 +240,12 @@
 	JOIN   GAME G ON GR.GAME_IDX = G.GAME_IDX
 	WHERE  G.GAME_STATUS = 1
 	AND    GR.HITTER_ID  = #{member_id}
-  <if test="team_idx != null">
-	  AND (G.HOME_IDX = #{team_idx} OR G.AWAY_IDX = #{team_idx})
+  <if test="team_idx != null and team_idx != '' ">
+	  AND (
+	   (GR.TOP_BOTTOM = 'T' AND G.AWAY_IDX = #{team_idx})
+	   OR
+	   (GR.TOP_BOTTOM = 'B' AND G.HOME_IDX = #{team_idx})
+    )
   </if>
 </select>
 
@@ -262,8 +266,12 @@
 	JOIN   GAME G ON GR.GAME_IDX = G.GAME_IDX
 	WHERE  G.GAME_STATUS = 1
 	AND    GR.PITCHER_ID = #{member_id}
-	<if test="team_idx != null">
-	    AND (G.HOME_IDX = #{team_idx} OR G.AWAY_IDX = #{team_idx})
+	<if test="team_idx != null and team_idx != ''">
+			AND (
+			(GR.TOP_BOTTOM = 'T' AND G.HOME_IDX = #{team_idx})
+			OR
+			(GR.TOP_BOTTOM = 'B' AND G.AWAY_IDX = #{team_idx})
+			)
 	</if>
 </select>
 
@@ -275,8 +283,19 @@
 	    SUM(CASE WHEN HOLD_PITCHER = #{member_id} THEN 1 ELSE 0 END) AS "hold"
 	FROM   GAME
 	WHERE  GAME_STATUS = 1
-	<if test="team_idx != null">
-	    AND (HOME_IDX = #{team_idx} OR AWAY_IDX = #{team_idx})
+	<if test="team_idx != null and team_idx != ''">
+    AND GAME_IDX IN (
+       SELECT DISTINCT GR.GAME_IDX
+       FROM   GAME_RESULT GR
+       JOIN   GAME G ON GR.GAME_IDX = G.GAME_IDX
+       WHERE  GR.PITCHER_ID = #{member_id}
+       AND    G.GAME_STATUS = 1
+       AND (
+           (GR.TOP_BOTTOM = 'T' AND G.HOME_IDX  = #{team_idx})
+           OR
+           (GR.TOP_BOTTOM = 'B' AND G.AWAY_IDX  = #{team_idx})
+       )
+   )
 	</if>
 </select>
 

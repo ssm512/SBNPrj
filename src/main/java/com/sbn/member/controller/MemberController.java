@@ -238,6 +238,10 @@ public class MemberController {
 		
 		HashMap<String, Object> statsMap  = new HashMap<>();
 		statsMap.put("member_id", member.getMember_id());
+
+		if (map.get("team_idx") != null) {
+		    statsMap.put("team_idx", map.get("team_idx"));
+		}
 		
 		// 해당 선수의 record 조회 (member에 있는 id로)
 		HitterVo   hitstats    = memberService.getHitStats(statsMap);
