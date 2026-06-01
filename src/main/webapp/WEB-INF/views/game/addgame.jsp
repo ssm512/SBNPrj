@@ -5,6 +5,23 @@
 <head>
 <meta charset="UTF-8">
 <title>리그경기추가</title>
+<link href="/css/common.css" rel="stylesheet" />
+<style>
+	table {
+		border-collapse: collapse;
+		width: 50%;
+		background-color: #F5F5DC;
+	}
+	td {
+		border: 1px solid black;
+		padding: 5px;
+		text-align: center;
+	}
+	input, select, textarea {
+		width: 100%;
+		box-sizing: border-box;
+	}
+</style>
 </head>
 <body>
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>

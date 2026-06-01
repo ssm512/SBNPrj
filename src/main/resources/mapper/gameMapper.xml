@@ -116,17 +116,17 @@
 		SELECT
 		    HITTER_NUM AS "hitter_num",
 		    HITTER_NAME AS "hitter_name",
-		    COUNT(*) AS "at_bat",
+		    SUM( CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR', 'K', 'OUT') THEN 1 ELSE 0 END) AS "at_bat",
 		    NVL(SUM(GET_SCORE), 0) AS "score",
-		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END), 0) AS "hit",
+		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END), 0) AS "hit",
 		    NVL(SUM(CASE WHEN RESULT = 'HR' THEN 1 ELSE 0 END), 0) AS "hr",
 		    NVL(SUM(CASE WHEN RESULT = 'SAC' THEN 1 ELSE 0 END), 0) AS "sac",
 		    NVL(SUM(CASE WHEN RESULT = 'BB' THEN 1 ELSE 0 END), 0) AS "bb",
 		    NVL(SUM(CASE WHEN RESULT = 'K' THEN 1 ELSE 0 END), 0) AS "k",
 		    TO_CHAR(
 		        NVL(
-		            SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END)
-		            / NULLIF(COUNT(*), 0),
+		            SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END)
+		            / NULLIF(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR', 'K', 'OUT') THEN 1 ELSE 0 END), 0),
 		            0
 		        ),
 		        'FM0.000'
@@ -134,6 +134,7 @@
 		FROM GAME_RESULT
 		WHERE GAME_IDX = #{game_idx}
 		AND TOP_BOTTOM = 'T'
+		AND HITTER_NUM != 0
 		GROUP BY HITTER_NUM, HITTER_NAME
 		ORDER BY HITTER_NUM
  	</select>
@@ -143,17 +144,17 @@
 		SELECT
 		    HITTER_NUM AS "hitter_num",
 		    HITTER_NAME AS "hitter_name",
-		    COUNT(*) AS "at_bat",
+		    SUM( CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR', 'K', 'OUT') THEN 1 ELSE 0 END) AS "at_bat",
 		    NVL(SUM(GET_SCORE), 0) AS "score",
-		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END), 0) AS "hit",
+		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END), 0) AS "hit",
 		    NVL(SUM(CASE WHEN RESULT = 'HR' THEN 1 ELSE 0 END), 0) AS "hr",
 		    NVL(SUM(CASE WHEN RESULT = 'SAC' THEN 1 ELSE 0 END), 0) AS "sac",
 		    NVL(SUM(CASE WHEN RESULT = 'BB' THEN 1 ELSE 0 END), 0) AS "bb",
 		    NVL(SUM(CASE WHEN RESULT = 'K' THEN 1 ELSE 0 END), 0) AS "k",
 		    TO_CHAR(
 		        NVL(
-		            SUM(CASE WHEN RESULT IN ('1B', '2B', '3B') THEN 1 ELSE 0 END)
-		            / NULLIF(COUNT(*), 0),
+		            SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END)
+		            / NULLIF(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR', 'K', 'OUT') THEN 1 ELSE 0 END), 0),
 		            0
 		        ),
 		        'FM0.000'
@@ -161,6 +162,7 @@
 		FROM GAME_RESULT
 		WHERE GAME_IDX = #{game_idx}
 		AND TOP_BOTTOM = 'B'
+		AND HITTER_NUM != 0
 		GROUP BY HITTER_NUM, HITTER_NAME
 		ORDER BY HITTER_NUM
  	</select>
@@ -295,37 +297,41 @@
 		WHERE GAME_IDX = #{game_idx}
 	</select>
 
-	<!-- insertGameResult -->
-	<insert id="insertGameResult">
-		INSERT INTO game_result (
-		    record_num,
-		    game_idx,
-		    inning,
-		    top_bottom,
-		    hitter_num,
-		    hitter_name,
-		    hitter_id,
-		    pitcher_name,
-		    pitcher_id,
-		    result,
-		    get_score,
-		    era,
-		    content
-		) VALUES ( 
-		    SEQ_RECORD.NEXTVAL,
-		    ${game_idx},
-		    ${inning},
-		    ${top_bottom},
-		    ${hitter_num},
-		    ${hitter_name},
-		    ${hitter_id},
-		    ${pitcher_name},
-		    ${pitcher_id},
-		    ${result},
-		    ${get_score},
-		    ${era},
-		    ${content}
-		)
+	<!-- insertGameResultList -->
+	<insert id="insertGameResultList">
+		INSERT ALL
+			<foreach collection="list" item="item" index="i">
+				INTO GAME_RESULT (
+				    RECORD_NUM,
+				    GAME_IDX,
+				    INNING,
+				    TOP_BOTTOM,
+				    HITTER_NUM,
+				    HITTER_NAME,
+				    HITTER_ID,
+				    PITCHER_NAME,
+				    PITCHER_ID,
+				    RESULT,
+				    GET_SCORE,
+				    ERA,
+				    CONTENT
+				) VALUES (
+				    (SEQ_RECORD.NEXTVAL + #{i}),
+				    #{item.game_idx},
+				    #{item.inning},
+				    #{item.top_bottom},
+				    #{item.hitter_num},
+				    #{item.hitter_name},
+				    #{item.hitter_id},
+				    #{item.pitcher_name},
+				    #{item.pitcher_id},
+				    #{item.result},
+				    #{item.get_score},
+				    #{item.era},
+				    #{item.content}
+				)
+			</foreach>
+		SELECT 1 FROM DUAL
 	</insert>
  </mapper>
  

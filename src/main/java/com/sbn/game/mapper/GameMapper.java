@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.sbn.game.dto.GameDto;
 import com.sbn.game.dto.GameResultDto;
@@ -36,6 +37,8 @@ public interface GameMapper {
 	GameDto getGameInfo(int game_idx);
 
 	void insertGameResult(GameResultDto gameResultDto);
+
+	void insertGameResultList(@Param("list") ArrayList<GameResultDto> resultList);
 
 
 }
