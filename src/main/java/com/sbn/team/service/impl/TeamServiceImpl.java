@@ -17,6 +17,8 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     private TeamMapper teamMapper;
 
+    // ===================== TEAM =====================
+
     /* 팀 목록 조회 (페이징) */
     @Override
     public List<TeamDto> getTeamList(HashMap<String, Object> map) {
@@ -35,23 +37,34 @@ public class TeamServiceImpl implements TeamService {
         return teamMapper.selectTeamInfo(team_idx);
     }
 
-    /* 팀 소속 리그 목록 조회 */
-    @Override
-    public List<String> getTeamLeague(int team_idx) {
-        return teamMapper.selectTeamLeague(team_idx);
-    }
-
-    /* 팀 소속 선수 목록 조회 */
-    @Override
-    public List<MemberTeamDto> getMemberTeamList(int team_idx, String keyword) {
-        return teamMapper.selectMemberTeamList(team_idx, keyword);
-    }
-
     /* 팀 생성 - 시퀀스로 생성된 team_idx 반환 */
     @Override
     public int insertTeam(HashMap<String, Object> map) {
         teamMapper.insertTeam(map);
         return Integer.parseInt(map.get("team_idx").toString());
+    }
+    
+    /* 팀 이름 중복 확인 */
+    @Override
+    public int getTeamNameCount(String team_name) {
+        return teamMapper.selectTeamNameCount(team_name);
+    }
+
+    // ===================== TEAM_LEAGUE =====================
+
+    /* 소속 리그 목록 조회 */
+    @Override
+    public List<String> getTeamLeague(int team_idx) {
+        return teamMapper.selectTeamLeague(team_idx);
+    }
+
+
+    // ===================== MEMBER_TEAM =====================
+
+    /* 소속 선수 목록 조회 */
+    @Override
+    public List<MemberTeamDto> getMemberTeamList(int team_idx, String keyword) {
+        return teamMapper.selectMemberTeamList(team_idx, keyword);
     }
 
     /* 팀 생성자 MEMBER_TEAM 자동 등록 */
@@ -60,39 +73,43 @@ public class TeamServiceImpl implements TeamService {
         teamMapper.insertMemberTeam(map);
     }
 
-    /* 가입 신청 목록 조회 (JOIN_STATUS = 0) */
-    @Override
-    public List<MemberTeamDto> getMemberJoinRequestList(int team_idx) {
-        return teamMapper.selectJoinRequestList(team_idx);
-    }
-
     /* 선수 포지션 / 배번 수정 */
     @Override
     public void updateMemberTeam(HashMap<String, Object> map) {
         teamMapper.updateMemberTeam(map);
     }
 
-    /* 가입 상태 변경 */
-    @Override
-    public void updateJoinStatus(HashMap<String, Object> map) {
-        teamMapper.updateJoinStatus(map);
-    }
-    
-	/* 가입 신청 상태 조회 */
-    @Override
-    public Integer getJoinStatus(HashMap<String, Object> map) {
-    	return teamMapper.selectJoinStatus(map);
-    }
-
-	/* 가입 신청 INSERT */
-    @Override
-    public void joinTeam(HashMap<String, Object> map) {
-    	teamMapper.insertJoinRequest(map);
-    }
-    
     /* 팀원 삭제 (방출 / 가입 거절) */
     @Override
     public void deleteMemberTeam(HashMap<String, Object> map) {
         teamMapper.deleteMemberTeam(map);
     }
+
+
+    // ===================== 가입 신청 =====================
+
+    /* 가입 신청 상태 조회 */
+    @Override
+    public Integer getJoinStatus(HashMap<String, Object> map) {
+        return teamMapper.selectJoinStatus(map);
+    }
+
+    /* 가입 신청 목록 조회 (JOIN_STATUS = 0) */
+    @Override
+    public List<MemberTeamDto> getMemberJoinRequestList(int team_idx) {
+        return teamMapper.selectJoinRequestList(team_idx);
+    }
+
+    /* 가입 신청 INSERT */
+    @Override
+    public void joinTeam(HashMap<String, Object> map) {
+        teamMapper.insertJoinRequest(map);
+    }
+
+    /* 가입 승인 (JOIN_STATUS = 1) */
+    @Override
+    public void updateJoinStatus(HashMap<String, Object> map) {
+        teamMapper.updateJoinStatus(map);
+    }
+
 }

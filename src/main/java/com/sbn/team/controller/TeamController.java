@@ -68,7 +68,8 @@ public class TeamController {
 
     /* 팀 상세 정보 - 팀 정보, 소속 리그, 선수 목록 조회 */
     @RequestMapping("/Info")
-    public ModelAndView info(@RequestParam HashMap<String, Object> map) {
+    public ModelAndView info(@RequestParam HashMap<String, Object> map,
+                             HttpServletRequest request) {
 
         int    teamIdx = Integer.parseInt(map.get("team_idx").toString());
         String keyword = map.getOrDefault("keyword", "").toString();
@@ -78,6 +79,17 @@ public class TeamController {
         mv.addObject("map",         map);
         mv.addObject("league_list", teamService.getTeamLeague(teamIdx));
         mv.addObject("mt_list",     teamService.getMemberTeamList(teamIdx, keyword));
+
+        // 로그인한 경우 현재 사용자의 가입 상태 조회
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("login") != null) {
+            MemberDto login = (MemberDto) session.getAttribute("login");
+            HashMap<String, Object> joinCheckMap = new HashMap<>();
+            joinCheckMap.put("member_idx", login.getMember_idx());
+            joinCheckMap.put("team_idx",   teamIdx);
+            mv.addObject("myJoinStatus", teamService.getJoinStatus(joinCheckMap));
+        }
+
         return mv;
     }
 
@@ -92,6 +104,12 @@ public class TeamController {
     @RequestMapping("/MakeTeam")
     public ModelAndView makeTeam(@RequestParam HashMap<String, Object> map,
                                   HttpServletRequest request) {
+
+        // 팀 이름 중복 확인
+        String teamName = map.get("team_name").toString();
+        if (teamService.getTeamNameCount(teamName) > 0) {
+            return new ModelAndView("redirect:/Team/MakeTeamForm?alert=duplicate_name");
+        }
 
         HttpSession session   = request.getSession();
         MemberDto   login     = (MemberDto) session.getAttribute("login");
@@ -166,21 +184,6 @@ public class TeamController {
         teamService.deleteMemberTeam(map);
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=remove_ok");
     }
-
-    /* 가입 승인 - JOIN_STATUS = 1 (승인) 으로 변경 */
-    @RequestMapping("/ApproveJoin")
-    public ModelAndView approveJoin(@RequestParam HashMap<String, Object> map) {
-        map.put("join_status", 1);
-        teamService.updateJoinStatus(map);
-        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=approve_ok");
-    }
-
-    /* 가입 거절 - MEMBER_TEAM 레코드 삭제 */
-    @RequestMapping("/RejectJoin")
-    public ModelAndView rejectJoin(@RequestParam HashMap<String, Object> map) {
-        teamService.deleteMemberTeam(map);
-        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=reject_ok");
-    }
     
 	/* 팀 가입 신청 */
     @RequestMapping("/Join")
@@ -220,4 +223,20 @@ public class TeamController {
 
         return new ModelAndView("redirect:/Team/Info?team_idx=" + teamIdx + "&keyword=&alert=" + alert);
     }
+    
+    /* 가입 승인 - JOIN_STATUS = 1 (승인) 으로 변경 */
+    @RequestMapping("/ApproveJoin")
+    public ModelAndView approveJoin(@RequestParam HashMap<String, Object> map) {
+        map.put("join_status", 1);
+        teamService.updateJoinStatus(map);
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=approve_ok");
+    }
+
+    /* 가입 거절 - MEMBER_TEAM 레코드 삭제 */
+    @RequestMapping("/RejectJoin")
+    public ModelAndView rejectJoin(@RequestParam HashMap<String, Object> map) {
+        teamService.deleteMemberTeam(map);
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=reject_ok");
+    }
+    
 }
