@@ -110,7 +110,7 @@ public class GameController {
 	
 	// /Game/AddResult?league_idx=${league_idx}&game_idx=${game_idx}
 	@PostMapping("/AddResult")
-	public String addResult(GameResultDto gameResultDto,@RequestParam("league_idx") int league_idx) {
+	public String addResult( GameResultDto gameResultDto, @RequestParam("league_idx") int league_idx ) {
 		
 		gameService.insertGameResult(gameResultDto);
 

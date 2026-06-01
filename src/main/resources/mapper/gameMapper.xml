@@ -276,7 +276,7 @@
 	</update>
 	
 	<!-- getGameInfo -->
-	<select id="getGameInfo" resultType="com.green.sbn.dto.GameDto">
+	<select id="getGameInfo" resultType="com.sbn.game.dto.GameDto">
 		SELECT
 			GAME_IDX,
 			LEAGUE_IDX,
