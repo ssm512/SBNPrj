@@ -25,9 +25,11 @@
 		margin: 15px auto;
 		text-align: center;
 		width: 100%;
+		display: flex;
+		gap: 5px;
 		input {
+			flex: 1;
 			margin: 5px 10px;
-			width: 30%;
 			height: 40px;
 		}
 	}
@@ -79,6 +81,18 @@
   	}
   }
   
+  .hit-pitch-btn input {
+    background: white;
+    border-radius: 15px;
+    border: 2px solid #006500;
+    cursor: pointer;
+	}
+
+	.hit-pitch-btn input.active {
+    background: #FFD700;
+    font-weight: bold;
+	}
+  
 	
 </style>
 
@@ -90,8 +104,8 @@
 	<div class="main-wrapper">
 		<div class="left-side">
 			<div class="hit-pitch-btn">
-				<input type="button" value="타자"/>
-				<input type="button" value="투수"/>
+				<input type="button" id="hitBtn" value="타자"/>
+				<input type="button" id="pitchBtn" value="투수"/>
 			</div>
 			<div class="profile">
 				<p>${ member.member_name } [${ member.elite }]</p>
@@ -110,7 +124,11 @@
 		</div>
 		
 		<div class="right-side">
+		<c:forEach var="team" items="${ teamList }" >
+			<input type="button" id="team-stats-btn" value="${team.team_name}" data-team-idx="${ team.team_idx }"/>
+		</c:forEach>
 			<!-- 타자 -->
+			<div id="hitArea">
 			<table class="stats-top">
 				<tr>
 					<td>타율<br>0.000</td>
@@ -177,7 +195,9 @@
 					<td>.임시 공란</td>
 				</tr>
 			</table>
+			</div>
 			<!-- 투수 -->
+			<div id="pitchArea" style="display:none;">
 			<table class="stats-top">
 				<tr>
 					<td>방어율<br>0.00</td>
@@ -244,6 +264,7 @@
 					<td>.임시 공란</td>
 				</tr>
 			</table>
+			</div>
 		</div>
 	
 	
@@ -257,7 +278,29 @@
 	
 	<script>
 	
+	const hitBtnEl    = document.querySelector('#hitBtn')
+	const pitchBtnEl  = document.querySelector('#pitchBtn')
+	const hitAreaEl   = document.querySelector('#hitArea')
+	const pitchAreaEl = document.querySelector('#pitchArea')
+	
+	// 초기 active 설정
+	hitBtnEl.classList.add('active')
 
+	hitBtnEl.addEventListener('click', function() {
+    hitAreaEl.style.display   = 'block'
+    pitchAreaEl.style.display = 'none'
+    hitBtnEl.classList.add('active')
+    pitchBtnEl.classList.remove('active')
+	})
+
+	pitchBtnEl.addEventListener('click', function() {
+    hitAreaEl.style.display   = 'none'
+    pitchAreaEl.style.display = 'block'
+    pitchBtnEl.classList.add('active')
+    hitBtnEl.classList.remove('active')
+	})
+	
+	
 	
 	</script>
 </body>
