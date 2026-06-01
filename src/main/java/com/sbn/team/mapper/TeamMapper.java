@@ -35,6 +35,8 @@ public interface TeamMapper {
     
     Integer selectJoinStatus(HashMap<String, Object> map);
     
+    void insertJoinRequest(HashMap<String, Object> map);
+    
     
 
     

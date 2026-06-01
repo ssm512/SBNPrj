@@ -157,7 +157,7 @@ public class TeamController {
             }
         }
 
-        return new ModelAndView("redirect:/Team/Managing?team_idx=" + teamIdx + "&keyword=");
+        return new ModelAndView("redirect:/Team/Managing?team_idx=" + teamIdx + "&keyword=&alert=update_ok");
     }
 
     /* 선수 제거 - JOIN_STATUS = 2 (제거) 로 변경 */
@@ -183,5 +183,43 @@ public class TeamController {
         teamService.updateJoinStatus(map);
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
     }
+    
+	/* 팀 가입 신청 */
+    @RequestMapping("/Join")
+    public ModelAndView join(@RequestParam HashMap<String, Object> map,
+    						 HttpServletRequest request) {
+    	
+        HttpSession session   = request.getSession();
+        MemberDto   login     = (MemberDto) session.getAttribute("login");
+        int         memberIdx = login.getMember_idx();
+        int         teamIdx   = Integer.parseInt(map.get("team_idx").toString());
+        
+        HashMap <String, Object> joinMap = new HashMap<>();
+        joinMap.put("member_idx", memberIdx);
+        joinMap.put("team_idx",   teamIdx);
+        
+        Integer joinStatus = teamService.getJoinStatus(joinMap);
+        
+        String alert;
+        if (joinStatus == null) {
+        	// 신규 신청
+        	joinMap.put("position", login.getHope_position());
+        	joinMap.put("elite",    login.getElite());
+        	teamService.joinTeam(joinMap);
+        	alert = "join_ok";
+        } else if (joinStatus == 0) {
+            // 이미 신청 중
+            alert = "already_applied";
+        } else if (joinStatus == 1) {
+            // 이미 소속된 팀
+            alert = "already_member";
+        } else {
+            // 이전에 거절/제거된 경우 → 재신청
+            joinMap.put("join_status", 0);
+            teamService.updateJoinStatus(joinMap);
+            alert = "join_ok";
+        }
 
+        return new ModelAndView("redirect:/Team/Info?team_idx=" + teamIdx + "&keyword=&alert=" + alert);
+    }
 }

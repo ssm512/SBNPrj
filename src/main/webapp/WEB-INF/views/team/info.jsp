@@ -144,7 +144,7 @@
 
         <!-- 하단 바 -->
         <div class="bottom-bar">
-            <a href="/Team/Join?team_idx=${map.team_idx}"><button type="button">팀 가입 신청</button></a>
+            <button type="button" onclick="requestJoin(${map.team_idx})">팀 가입 신청</button>
             <div><%@ include file="/WEB-INF/include/teampaging.jsp" %></div>
             <a href="/Team/Managing?team_idx=${map.team_idx}"><button type="button">팀 관리(승인 및 수정)</button></a>
         </div>
@@ -153,10 +153,30 @@
 
     <%@ include file="/WEB-INF/include/footer.jsp" %>
     
-	    <c:if test="${map.alert == 'no_permission'}">
-	<script>
-	    alert('팀관리 권한이 없습니다.');
-	</script>
-	</c:if>
+    <%-- 가입 신청 결과 알림 --%>
+    <c:if test="${map.alert == 'join_ok'}">
+    <script>alert('가입 신청이 완료되었습니다.');</script>
+    </c:if>
+    <c:if test="${map.alert == 'already_applied'}">
+    <script>alert('이미 가입 신청한 팀입니다.');</script>
+    </c:if>
+    <c:if test="${map.alert == 'already_member'}">
+    <script>alert('이미 소속된 팀입니다.');</script>
+    </c:if>
+
+    <%-- 팀 관리 권한 없음 알림 --%>
+    <c:if test="${map.alert == 'no_permission'}">
+    <script>alert('팀관리 권한이 없습니다.');</script>
+    </c:if>
+
+    <%-- 가입 신청 confirm 함수 --%>
+    <script>
+        function requestJoin(teamIdx) {
+            if (confirm('가입 신청을 하시겠습니까?')) {
+                location.href = '/Team/Join?team_idx=' + teamIdx;
+            }
+        }
+    </script>
+
 </body>
 </html>

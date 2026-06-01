@@ -151,6 +151,11 @@
 		AND    TEAM_IDX   = #{team_idx}
 	</select>
 	
+	<!-- 가입 신청 INSERT (JOIN_STATUS = 0) -->
+	<insert id="insertJoinRequest" parameterType="hashmap">
+		INSERT INTO MEMBER_TEAM (MEMBER_IDX, TEAM_IDX, POSITION, ELITE, JOIN_STATUS)
+		VALUES (#{member_idx}, #{team_idx}, #{position}, #{elite}, 0)
+	</insert>
 	
 
 </mapper>

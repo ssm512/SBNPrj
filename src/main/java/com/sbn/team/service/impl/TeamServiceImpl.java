@@ -84,4 +84,9 @@ public class TeamServiceImpl implements TeamService {
     	return teamMapper.selectJoinStatus(map);
     }
 
+	/* 가입 신청 INSERT */
+    @Override
+    public void joinTeam(HashMap<String, Object> map) {
+    	teamMapper.insertJoinRequest(map);
+    }
 }

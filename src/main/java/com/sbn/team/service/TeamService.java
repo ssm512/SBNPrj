@@ -29,4 +29,6 @@ public interface TeamService {
     void updateJoinStatus(HashMap<String, Object> map);
     
     Integer getJoinStatus(HashMap<String, Object> map);
+    
+    void joinTeam(HashMap<String, Object> map);
 }
