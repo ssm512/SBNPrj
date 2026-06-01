@@ -117,8 +117,10 @@
                             <td><input type="number" name="back_num" value="${mt.back_num}" min="0" max="99"></td>
                             <td>${mt.elite}</td>
                             <td>
+                            	<c:if test="${team.team_manager ne mt.member_idx }" >
                                 <button type="button" class="btn-remove"
                                     onclick="removeMember(${mt.member_idx}, ${map.team_idx})">✕</button>
+                                </c:if>
                             </td>
                         </tr>
                         </c:forEach>
@@ -198,6 +200,22 @@
         }
     }
 </script>
+
+	<%-- 수정 완료 알림 --%>
+	<c:if test="${map.alert == 'update_ok'}">
+	<script>alert('수정이 완료되었습니다.');</script>
+	</c:if>
+	
+	<%-- 승인 / 거절 / 방출 알림 --%>
+	<c:if test="${map.alert == 'approve_ok'}">
+	<script>alert('가입이 승인되었습니다.');</script>
+	</c:if>
+	<c:if test="${map.alert == 'reject_ok'}">
+	<script>alert('가입이 거절되었습니다.');</script>
+	</c:if>
+	<c:if test="${map.alert == 'remove_ok'}">
+	<script>alert('선수가 방출되었습니다.');</script>
+	</c:if>
 
 </body>
 </html>

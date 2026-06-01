@@ -1,25 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
+<nav class="navbar">
+    <div class="navbar-inner">
 
-<a href="/" >HOME - 이미지로 대체</a><br>
-<a href="/Member/List?nowpage=1&keyword=" >선수</a><br>
-<a href="/Team/List?nowpage=1&keyword=" >팀</a><br>
-<a href="/League/List?nowpage=1&keyword=" >리그</a><br>
-<a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE" >게시판</a><br>
-<c:choose>
-    <c:when test="${not empty sessionScope.login}">
-    		<p>${ sessionScope.login.member_name } 님 환영합니다.</p>
-        <a href="/Member/Mypage">마이페이지</a><br>
-        <a href="/Member/Logout">로그아웃</a><br>
-    </c:when>
-    <c:otherwise>
-        <a href="/Member/LoginForm">로그인</a><br>
-    </c:otherwise>
-</c:choose>
+        <%-- 로고 --%>
+        <a href="/" class="navbar-brand">SBN</a>
 
+        <%-- 메뉴 --%>
+        <ul class="navbar-menu">
+            <li><a href="/Member/List?nowpage=1&keyword=">선수</a></li>
+            <li><a href="/Team/List?nowpage=1&keyword=">팀</a></li>
+            <li><a href="/League/List?nowpage=1&keyword=">리그</a></li>
+            <li><a href="/Board/List?nowpage=1&keyword=">게시판</a></li>
+        </ul>
+ 
+        <%-- 로그인 / 로그아웃 --%>
+        <div class="navbar-auth">
+            <c:choose>
+                <c:when test="${not empty sessionScope.login}">
+                    <span>${sessionScope.login.member_name} 님</span>
+                    <a href="/Member/Mypage" class="btn-mypage">마이페이지</a>
+                    <a href="/Member/Logout">로그아웃</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="/Member/LoginForm" class="btn-login">로그인</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
 
-
-
+    </div>
+</nav>

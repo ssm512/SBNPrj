@@ -71,5 +71,10 @@
     </div>
 
     <%@ include file="/WEB-INF/include/footer.jsp" %>
+    
+    <%-- 팀 이름 중복 알림 --%>
+	<c:if test="${param.alert == 'duplicate_name'}">
+	<script>alert('이미 사용 중인 팀 이름입니다.');</script>
+	</c:if>
 </body>
 </html>

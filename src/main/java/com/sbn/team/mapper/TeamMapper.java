@@ -12,27 +12,43 @@ import com.sbn.team.dto.TeamDto;
 @Mapper
 public interface TeamMapper {
 
-    List<TeamDto> selectTeamList(String keyword);
+    // ===================== TEAM =====================
 
-    TeamDto selectTeamInfo(@Param("team_idx") int team_idx);
+    List<TeamDto> selectTeamList(HashMap<String, Object> map);      // 팀 목록 조회 (페이징)
 
-    List<String> selectTeamLeague(int team_idx);
+    int selectTeamCount(HashMap<String, Object> map);               // 팀 전체 건수 (페이징용)
+
+    TeamDto selectTeamInfo(@Param("team_idx") int team_idx);        // 팀 상세 조회
+
+    void insertTeam(HashMap<String, Object> map);                   // 팀 생성
+
+    int selectTeamNameCount(String team_name);  					// 팀 이름 중복 확인
+
+    // ===================== TEAM_LEAGUE =====================
+
+    List<String> selectTeamLeague(@Param("team_idx") int team_idx); // 소속 리그 조회
+
+
+    // ===================== MEMBER_TEAM =====================
 
     List<MemberTeamDto> selectMemberTeamList(@Param("team_idx") int team_idx,
-                                              @Param("keyword")  String keyword);
-    
-    void insertTeam(HashMap<String, Object> map);
-    
-    void insertMemberTeam(HashMap<String, Object> map);
-    
-    List<MemberTeamDto> selectJoinRequestList(int team_idx);
-    
-    void updateMemberTeam(HashMap<String, Object> map);
-    
-    void updateJoinStatus(HashMap<String, Object> map);
-    
+                                             @Param("keyword")  String keyword); // 소속 선수 목록 조회
+
+    void insertMemberTeam(HashMap<String, Object> map);             // 팀 생성자 자동 등록
+
+    void updateMemberTeam(HashMap<String, Object> map);             // 선수 포지션 / 배번 수정
+
+    void deleteMemberTeam(HashMap<String, Object> map);             // 팀원 삭제 (방출 / 가입 거절)
+
+
+    // ===================== 가입 신청 =====================
+
+    Integer selectJoinStatus(HashMap<String, Object> map);              // 가입 신청 상태 조회
+
+    List<MemberTeamDto> selectJoinRequestList(@Param("team_idx") int team_idx); // 가입 신청 목록 조회
+
+    void insertJoinRequest(HashMap<String, Object> map);                // 가입 신청 INSERT
+
+    void updateJoinStatus(HashMap<String, Object> map);                 // 가입 승인 (JOIN_STATUS = 1)
+
 }
-
-
-
-
