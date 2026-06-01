@@ -28,15 +28,11 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/League")
 public class LeagueController {
 
-    private final AuthInterceptor authInterceptor;
 	
 	@Autowired
 	private LeagueService leagueService;
 
-    LeagueController(AuthInterceptor authInterceptor) {
-        this.authInterceptor = authInterceptor;
-    }
-	
+
 	@RequestMapping("/List")
 	public ModelAndView list( @RequestParam HashMap<String, Object> map ) {
 		
@@ -123,14 +119,55 @@ public class LeagueController {
 	}
 	
 	@RequestMapping("/ManagingForm")
-	public ModelAndView managing( @RequestParam HashMap<String, Object> map ) {
+	public ModelAndView managing( 
+		@RequestParam HashMap<String, Object> map,
+		HttpSession session
+			) {
+		
+		// 권한이 없는 사람이 주소창에 ManagingForm 에 해당하는 주소를 직접 입력했을때 info.jsp로 돌려보내기 (시작)
+		// 세션에서 로그인 정보를 꺼냄
+		Object                    loginObj     = session.getAttribute("login");
+		String                    leagueIdx    = String.valueOf(map.get("league_idx"));
+		
+		// 관리자 여부를 체크
+		boolean isAdmin = false;
+		
+		// loginObj 가 Map 타입일때
+		if(loginObj instanceof Map) {
+			// 세션이 map 형태일때(대소문자 전부 시도한다.)
+			Map<String, Object>   loginMember  = (Map<String, Object>) loginObj;
+			
+			Object                roleObj      = loginMember.get("is_admin") != null
+					                           ? loginMember.get("is_admin")
+					                           : loginMember.get("IS_ADMIN");
+			                      isAdmin      = "Y".equals(String.valueOf(roleObj));
+		} else if(loginObj != null) {
+			// 세션이 Dto 객체 형태일 때 — 리플렉션으로 getIs_admin 호출함
+			try {
+				for (java.lang.reflect.Method method : loginObj.getClass().getMethods()) {
+					String        name         = method.getName().toLowerCase();
+					if (name.equals("getis_admin") || name.equals("getisadmin")) {
+						Object    val          = method.invoke(loginObj);
+						          isAdmin      = "Y".equals(String.valueOf(val));
+						break;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Dto에서 is_admin 추출 실패:" + e.getMessage());
+			}
+		}
+		
+		// 관리자가 아닐경우엔 info 페이지로 돌려보내기
+		if(!isAdmin) {
+			ModelAndView          mv           = new ModelAndView();
+			mv.setViewName("redirect:/League/Info?league_idx=" + leagueIdx + "&checkalert=true");
+			return mv;
+		}
+		
+		// 권한이 없는 사람이 주소창에 ManagingForm 에 해당하는 주소를 직접 입력했을때 info.jsp로 돌려보내기 (끝)
 		
 		// managingForm에 해당하는 리그 정보 가져오기
 		LeagueDto                 league       = leagueService.getLeague( map );
-		
-		// 세션에서 관리자 여부 꺼내서 체크.if
-		// 아닐경우에 return /Info?league_idx=map.league_idx 로 보냄
-		// /Info?league_idx=map.league_idx&checkalert=true
 		
 		// 리그 가입 신청 현황 팀 목록 조회 추가
 		List<Map<String, Object>> signTeamList = leagueService.getSignTeamList( map );
@@ -142,7 +179,6 @@ public class LeagueController {
 		mv.addObject(  "signTeamList", signTeamList);
 		
 		return                    mv;
-		
 	}
 	
 	// 팀 가입 승인 처리( join_status를 0에서 1로 바꾸기)

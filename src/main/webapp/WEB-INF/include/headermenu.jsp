@@ -8,7 +8,7 @@
 <a href="/Member/List?nowpage=1&keyword=" >선수</a><br>
 <a href="/Team/List?nowpage=1&keyword=" >팀</a><br>
 <a href="/League/List?nowpage=1&keyword=" >리그</a><br>
-<a href="/Board/List?nowpage=1&keyword=" >게시판</a><br>
+<a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE" >게시판</a><br>
 <c:choose>
     <c:when test="${not empty sessionScope.login}">
     		<p>${ sessionScope.login.member_name } 님 환영합니다.</p>

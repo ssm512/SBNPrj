@@ -50,7 +50,6 @@
       </tr>
       
       <c:forEach var="league" items="${leagueList }">
-      <c:if test="${member.member_id != 'sbnadmin' }">
       <tr>
         <td>
         <a href="/League/Info?league_idx=${league.league_idx }">
@@ -60,7 +59,6 @@
         <td>${league.league_location}</td>
         <td>${league.league_content}</td>
       </tr>
-      </c:if>
       </c:forEach>
       
     </table>
