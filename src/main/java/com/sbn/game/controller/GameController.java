@@ -126,14 +126,19 @@ public class GameController {
 	// /Game/AddResult?league_idx=${league_idx}&game_idx=${game_idx}
 	@PostMapping("/AddResult")
 	public String addResult( GameResultDto gameResultDto ) {
-				
+		
+		for (GameResultDto dto : gameResultDto.getResultList()) {
+			dto.setGame_idx(gameResultDto.getGame_idx());
+			System.out.println(dto);
+		}
+		
 		gameService.insertGameResultList(gameResultDto.getResultList());
 
 	    return "redirect:/Game/GameInfo?league_idx=" + gameResultDto.getLeague_idx() + "&game_idx=" + gameResultDto.getGame_idx();
 	}
 	
 	// /Game/UpdateResultForm?league_idx=1&game_idx=2
-	@PostMapping("/UpdateResultForm")
+	@RequestMapping("/UpdateResultForm")
 	public ModelAndView updateResultForm ( GameResultDto gameResultDto, HttpServletRequest request ) {
 		MemberDto 				login					=	(MemberDto) request.getSession().getAttribute("login");
 		if (login == null || !"Y".equals(login.getIs_admin())) {
@@ -141,11 +146,11 @@ public class GameController {
 			mv.setViewName("redirect:/Game/GameInfo?league_idx=" + gameResultDto.getLeague_idx() +"&game_idx=" + gameResultDto.getGame_idx());
 			return mv;
 		}
-		//GameResultDto	resultList		=	gameService.getGameResultList(gameResultDto);
+		ArrayList<GameResultDto>	resultList		=	gameService.getGameResultList(gameResultDto);
 		
 		ModelAndView 			mv 						=	new ModelAndView();
 		mv.setViewName("/game/updateresult");
-		//mv.addObject("resultList",resultList);
+		mv.addObject("resultList",resultList);
 		return mv;		
 	}
 	
