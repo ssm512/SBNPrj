@@ -92,6 +92,12 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 
+	@Override
+	public int count(HashMap<String, Object> map) {
+		int count = memberMapper.count(map);
+		return count;
+	}
+
 
 
 }

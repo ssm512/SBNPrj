@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import com.sbn.config.WebMvcConfig;
+
 import com.sbn.member.dto.MemberDto;
-import com.sbn.member.mapper.MemberMapper;
 import com.sbn.member.service.MemberService;
+import com.sbn.paging.Pagination;
+import com.sbn.paging.SearchDto;
 import com.sbn.team.dto.TeamDto;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -135,11 +136,32 @@ public class MemberController {
 	@RequestMapping("/List")
 	public  ModelAndView  list(@RequestParam HashMap<String, Object> map) {
 		
+	    // nowpage 없으면 1로 기본값
+	    Object nowpageObj = map.get("nowpage");
+	    int nowpage = (nowpageObj == null || nowpageObj.toString().equals("null"))
+	                  ? 1 : Integer.parseInt(String.valueOf(nowpageObj));
+
+	    // 전체 수 조회
+	    int totalCount = memberService.count(map);
+	    
+	    // 페이징 설정
+	    SearchDto searchDto = new SearchDto();
+	    searchDto.setPageNo(nowpage);
+	    searchDto.setNumOfRows(10);
+	    searchDto.setPageSize(10);
+		
+	    Pagination pagination = new Pagination(totalCount, searchDto);
+	    searchDto.setPagination(pagination);
+
+	    map.put("offset",    searchDto.getOffset());
+	    map.put("numOfRows", searchDto.getNumOfRows());
+	    
 		List<MemberDto> memberList  = memberService.getMemberList(map);
 		
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("member/list");
 		mv.addObject("memberList", memberList);
+		mv.addObject("searchDto", searchDto);
 		mv.addObject("map", map);
 		return  mv;
 	}

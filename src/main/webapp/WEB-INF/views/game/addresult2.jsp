@@ -89,7 +89,7 @@
 		<table id="gameresultinput">
 			<tr>
 				<td>회</td>
-				<td>초(T)/말(F)</td>
+				<td>초(T)/말(B)</td>
 				<td>타순</td>
 				<td>타자</td>
 				<td>타자ID</td>

@@ -32,6 +32,8 @@ public interface MemberMapper {
 
 	MemberDto getMemberProfile(int member_idx);
 
+	int count(HashMap<String, Object> map);
+
 
 
 }

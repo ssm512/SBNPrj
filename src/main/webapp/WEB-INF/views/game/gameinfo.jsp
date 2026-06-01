@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리그경기추가</title>
+<title>SBN - 경기 정보</title>
 <link href="/css/common.css" rel="stylesheet" />
 <style>
 	table {

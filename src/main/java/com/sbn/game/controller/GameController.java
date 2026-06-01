@@ -40,7 +40,7 @@ public class GameController {
 		String					league_idx				=	String.valueOf(map.get("league_idx"));
 		gameService.insertGame(map);
 		ModelAndView 			mv 						= 	new ModelAndView();
-		String					loc						= 	"redirect:/League/List?league_idx="+league_idx;				
+		String					loc						= 	"redirect:/League/Info?league_idx="+league_idx;				
 		System.out.println(loc);
 		mv.setViewName(loc);
 		return mv;
@@ -114,6 +114,6 @@ public class GameController {
 		
 		gameService.insertGameResult(gameResultDto);
 
-	    return "redirect:/Game/Info?league_idx=" + league_idx + "&game_idx=" + gameResultDto.getGame_idx();
+	    return "redirect:/Game/GameInfo?league_idx=" + league_idx + "&game_idx=" + gameResultDto.getGame_idx();
 	}
 }

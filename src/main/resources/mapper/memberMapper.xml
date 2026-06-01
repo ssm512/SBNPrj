@@ -53,6 +53,7 @@
         </if>
     </where>
     ORDER BY M.MEMBER_IDX
+    OFFSET #{offset} ROWS FETCH NEXT #{numOfRows} ROWS ONLY
 </select>
 
 
@@ -203,6 +204,24 @@
 
 </select>
 
+
+<select id="count" resultType="int">
+	SELECT COUNT(DISTINCT M.MEMBER_IDX)
+	FROM   MEMBER M
+	<if test="searchType == 'team_name' and keyword != null and keyword != ''">
+	    LEFT JOIN MEMBER_TEAM MT ON M.MEMBER_IDX = MT.MEMBER_IDX
+	                            AND MT.JOIN_STATUS = 1
+	    LEFT JOIN TEAM T         ON MT.TEAM_IDX   = T.TEAM_IDX
+	</if>
+	<where>
+	    <if test="searchType == 'member_name' and keyword != null and keyword != ''">
+	        AND LOWER(M.MEMBER_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
+	    </if>
+	    <if test="searchType == 'team_name' and keyword != null and keyword != ''">
+	        AND LOWER(T.TEAM_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
+	    </if>
+	</where>
+</select>
 
 
 </mapper>

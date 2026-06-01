@@ -14,12 +14,37 @@
 
 <style>
 	
-	.members {
+	table {
 		width: 90%;
 	}
 	
 	.members tr:first-of-type {
 		background-color: #F5F5DC;
+	}
+	
+	#paging {
+    text-align: center;
+    margin: 15px auto;
+	}
+
+	#paging a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+	}
+
+	#paging a:hover {
+    background-color: #D9D9D9;
+	}
+
+	#paging a.active {
+    background-color: #006500;
+    color: white;
+    border-color: #006500;
 	}
 	
 	
@@ -58,6 +83,8 @@
 			</tr>
 			</c:forEach>			
 		</table>	
+	
+	<%@include file="/WEB-INF/include/memberpaging.jsp" %>
 	
 	</div>
 	

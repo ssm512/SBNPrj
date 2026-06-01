@@ -313,18 +313,18 @@
 		    content
 		) VALUES ( 
 		    SEQ_RECORD.NEXTVAL,
-		    ${game_idx},
-		    ${inning},
-		    ${top_bottom},
-		    ${hitter_num},
-		    ${hitter_name},
-		    ${hitter_id},
-		    ${pitcher_name},
-		    ${pitcher_id},
-		    ${result},
-		    ${get_score},
-		    ${era},
-		    ${content}
+		    #{game_idx},
+		    #{inning},
+		    #{top_bottom},
+		    #{hitter_num},
+		    #{hitter_name},
+		    #{hitter_id},
+		    #{pitcher_name},
+		    #{pitcher_id},
+		    #{result},
+		    #{get_score},
+		    #{era},
+		    #{content}
 		)
 	</insert>
  </mapper>
