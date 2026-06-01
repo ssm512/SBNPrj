@@ -46,7 +46,7 @@
 				<td>투수자책점</td>
 				<td>비고란</td>
 			</tr>
-			<c:forEach var="record" item="resultList">
+			<c:forEach var="record" items="${resultList}">
 			<tr class="result-line">
 				<td>
 					<input type="number" name="resultList[0].inning" value="${record.inning}" />

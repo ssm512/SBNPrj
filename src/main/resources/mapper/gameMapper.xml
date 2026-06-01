@@ -330,6 +330,34 @@
 				)
 
 	</insert>
+	
+	<!-- getGameResultList -->
+	<select id="getGameResultList" resultType="com.sbn.game.dto.GameResultDto">
+		SELECT
+		    RECORD_NUM    AS record_num,
+		    GAME_IDX      AS game_idx,
+		    INNING        AS inning,
+		    TOP_BOTTOM    AS top_bottom,
+		    HITTER_NUM    AS hitter_num,
+		    HITTER_NAME   AS hitter_name,
+		    HITTER_ID     AS hitter_id,
+		    PITCHER_NAME  AS pitcher_name,
+		    PITCHER_ID    AS pitcher_id,
+		    RESULT        AS result,
+		    GET_SCORE     AS get_score,
+		    ERA           AS era,
+		    CONTENT       AS content
+		FROM GAME_RESULT
+		WHERE GAME_IDX = #{game_idx}
+		ORDER BY
+		    INNING,
+		    CASE TOP_BOTTOM
+		        WHEN 'T' THEN 1
+		        WHEN 'B' THEN 2
+		        ELSE 3
+		    END,
+		    RECORD_NUM
+	</select>
  </mapper>
  
  

@@ -36,5 +36,7 @@ public interface GameService {
 
 	void insertGameResultList(GameResultDto result, int game_idx);
 
+	ArrayList<GameResultDto> getGameResultList(GameResultDto gameResultDto);
+
 
 }

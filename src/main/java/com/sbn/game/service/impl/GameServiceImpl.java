@@ -100,5 +100,11 @@ public class GameServiceImpl implements GameService {
 		
 	}
 
+	@Override
+	public ArrayList<GameResultDto> getGameResultList(GameResultDto gameResultDto) {
+		ArrayList<GameResultDto>	resultList		=	gameMapper.getGameResultList(gameResultDto.getGame_idx());
+		return resultList;
+	}
+
 
 }
