@@ -151,6 +151,7 @@
 		AND    TEAM_IDX   = #{team_idx}
 	</select>
 	
+	
 	<!-- 가입 신청 INSERT (JOIN_STATUS = 0) -->
 	<insert id="insertJoinRequest" parameterType="hashmap">
 		INSERT INTO MEMBER_TEAM (MEMBER_IDX, TEAM_IDX, POSITION, ELITE, JOIN_STATUS)
@@ -158,4 +159,25 @@
 	</insert>
 	
 
+	<!-- 팀원 삭제 (방출 / 가입 거절) -->
+	<delete id="deleteMemberTeam" parameterType="hashmap">
+	    DELETE FROM MEMBER_TEAM
+	    WHERE  MEMBER_IDX = #{member_idx}
+	    AND    TEAM_IDX   = #{team_idx}
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

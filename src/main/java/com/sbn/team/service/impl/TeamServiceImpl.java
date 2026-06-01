@@ -89,4 +89,10 @@ public class TeamServiceImpl implements TeamService {
     public void joinTeam(HashMap<String, Object> map) {
     	teamMapper.insertJoinRequest(map);
     }
+    
+    /* 팀원 삭제 (방출 / 가입 거절) */
+    @Override
+    public void deleteMemberTeam(HashMap<String, Object> map) {
+        teamMapper.deleteMemberTeam(map);
+    }
 }

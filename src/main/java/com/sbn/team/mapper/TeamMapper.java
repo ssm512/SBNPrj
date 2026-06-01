@@ -37,6 +37,8 @@ public interface TeamMapper {
     
     void insertJoinRequest(HashMap<String, Object> map);
     
+    void deleteMemberTeam(HashMap<String, Object> map);
+    
     
 
     

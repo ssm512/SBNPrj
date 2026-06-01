@@ -160,11 +160,10 @@ public class TeamController {
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + teamIdx + "&keyword=&alert=update_ok");
     }
 
-    /* 선수 제거 - JOIN_STATUS = 2 (제거) 로 변경 */
+    /* 선수 방출 MEMBER_TEAM 레코드 삭제 */
     @RequestMapping("/RemoveMember")
     public ModelAndView removeMember(@RequestParam HashMap<String, Object> map) {
-        map.put("join_status", 2);
-        teamService.updateJoinStatus(map);
+        teamService.deleteMemberTeam(map);
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
     }
 
@@ -176,11 +175,10 @@ public class TeamController {
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
     }
 
-    /* 가입 거절 - JOIN_STATUS = 2 (거절) 로 변경 */
+    /* 가입 거절 - MEMBER_TEAM 레코드 삭제 */
     @RequestMapping("/RejectJoin")
     public ModelAndView rejectJoin(@RequestParam HashMap<String, Object> map) {
-        map.put("join_status", 2);
-        teamService.updateJoinStatus(map);
+        teamService.deleteMemberTeam(map);
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=");
     }
     

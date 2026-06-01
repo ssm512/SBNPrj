@@ -31,4 +31,6 @@ public interface TeamService {
     Integer getJoinStatus(HashMap<String, Object> map);
     
     void joinTeam(HashMap<String, Object> map);
+    
+    void deleteMemberTeam(HashMap<String, Object> map);
 }
