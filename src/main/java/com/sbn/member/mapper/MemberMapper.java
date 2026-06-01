@@ -34,6 +34,12 @@ public interface MemberMapper {
 
 	int count(HashMap<String, Object> map);
 
+	HashMap<String, Object> getHitStats(HashMap<String, Object> statsMap);
+
+	HashMap<String, Object> getPitchStats(HashMap<String, Object> statsMap);
+
+	HashMap<String, Object> getPitchRecord(HashMap<String, Object> statsMap);
+
 
 
 }

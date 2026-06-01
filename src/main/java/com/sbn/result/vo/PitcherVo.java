@@ -1,8 +1,10 @@
 package com.sbn.result.vo;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class PitcherVo {
 	
 	private   int     gameCount;        // 경기수
@@ -14,11 +16,11 @@ public class PitcherVo {
 	private   int     sac;              // 희타/희비
 	private   int     bbCnt;            // 사사구
 	private   int     strikeOut;        // 탈삼진
-	private   int     outCount;         // 아웃
 	private   int     win;              // 승
 	private   int     lose;             // 패
 	private   int     save;             // 세이브
 	private   int     hold;             // 홀드
+	private   int     outCount;         // 아웃
 	
 	private   String  inning;           // 이닝     **
 	private   int     hitterAtBat;      // 타수     **
@@ -26,7 +28,7 @@ public class PitcherVo {
 	private   String  whip;             // WHIP     **
 	
 	public PitcherVo(int gameCount, int hitter, int hitAllowed, int homeRunAllowed, int totalScore, int earnedRun,
-			int sac, int bbCnt, int strikeOut, int win, int lose, int save, int hold, int outCount) {
+			int sac, int bbCnt, int strikeOut, int outCount, int win, int lose, int save, int hold) {
 		this.gameCount = gameCount;
 		this.hitter = hitter;
 		this.hitAllowed = hitAllowed;

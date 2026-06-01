@@ -62,7 +62,7 @@ public class GameController {
 		ArrayList<HashMap<String, Object>> homeHRecord	=	gameService.getHomeRecord(game_idx);
 		ArrayList<HashMap<String, Object>> awayPRecord	=	gameService.getAwayPRecord(game_idx);
 		ArrayList<HashMap<String, Object>> homePRecord	=	gameService.getHomePRecord(game_idx);
-		System.out.println(homePRecord);
+		System.out.println(homePRecord); // debuging
 		ModelAndView 			mv 						= 	new ModelAndView();
 		mv.setViewName("/game/gameinfo");
 		mv.addObject("gameinfo", gameinfo);

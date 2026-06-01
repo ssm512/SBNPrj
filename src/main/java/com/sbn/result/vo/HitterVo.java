@@ -1,8 +1,10 @@
 package com.sbn.result.vo;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class HitterVo {
 
 	private  int     gameCount;  // 경기수

@@ -18,6 +18,8 @@ import com.sbn.member.dto.MemberDto;
 import com.sbn.member.service.MemberService;
 import com.sbn.paging.Pagination;
 import com.sbn.paging.SearchDto;
+import com.sbn.result.vo.HitterVo;
+import com.sbn.result.vo.PitcherVo;
 import com.sbn.team.dto.TeamDto;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -234,10 +236,19 @@ public class MemberController {
 			return new ModelAndView("redirect:/Member/List?nowpage=1&keyword=");
 		}
 		
+		HashMap<String, Object> statsMap  = new HashMap<>();
+		statsMap.put("member_id", member.getMember_id());
+		
+		// 해당 선수의 record 조회 (member에 있는 id로)
+		HitterVo   hitstats    = memberService.getHitStats(statsMap);
+		PitcherVo  pitchstats  = memberService.getPitchStats(statsMap);
+		
 		ModelAndView  mv = new ModelAndView();
 		mv.setViewName("member/stats");
-		mv.addObject("teamList", teamList);
-		mv.addObject("member",   member);
+		mv.addObject("teamList",    teamList);
+		mv.addObject("member",      member);
+		mv.addObject("hitstats" ,   hitstats);
+		mv.addObject("pitchstats" , pitchstats);
 		mv.addObject("map",      map);
 		return  mv;
 	}

@@ -131,16 +131,16 @@
 			<div id="hitArea">
 			<table class="stats-top">
 				<tr>
-					<td>타율<br>0.000</td>
-					<td>경기 수<br>0 경기</td>
-					<td>총 안타<br>0 개</td>
-					<td>타점<br>0 점</td>
+					<td>타율<br>${ hitstats.avg }</td>
+					<td>경기 수<br>${ hitstats.gameCount }</td>
+					<td>총 안타<br>${ hitstats.totalHit }</td>
+					<td>타점<br>${ hitstats.getScore }</td>
 				</tr>
 				<tr>
-					<td>사사구<br>0 개</td>
-					<td>장타율<br>0.000</td>
-					<td>출루율<br>0.000</td>
-					<td>OPS<br>0.000</td>
+					<td>사사구<br>${ hitstats.bbCnt }</td>
+					<td>장타율<br>${ hitstats.slg }</td>
+					<td>출루율<br>${ hitstats.obp }</td>
+					<td>OPS<br>${ hitstats.ops }</td>
 				</tr>
 			</table>
 			<table class="stats-mid">
@@ -158,15 +158,15 @@
 				</tr>
 				<tr>
 					<td>통산</td>
-					<td>.경기 수</td>
-					<td>.타율</td>
-					<td>.타석</td>
-					<td>.타수</td>
-					<td>.총 안타</td>
-					<td>.1루타</td>
-					<td>.2루타</td>
-					<td>.3루타</td>
-					<td>.홈런</td>
+					<td>${ hitstats.gameCount }</td>
+					<td>${ hitstats.avg }</td>
+					<td>${ hitstats.pa }</td>
+					<td>${ hitstats.atBat }</td>
+					<td>${ hitstats.totalHit }</td>
+					<td>${ hitstats.singleHit }</td>
+					<td>${ hitstats.doubleHit }</td>
+					<td>${ hitstats.tripleHit }</td>
+					<td>${ hitstats.homeRun }</td>
 				</tr>
 			</table>
 			<table class="stats-bottom">
@@ -184,14 +184,14 @@
 				</tr>
 				<tr>
 					<td>통산</td>
-					<td>.루타</td>
-					<td>.타점</td>
-					<td>.사사구</td>
-					<td>.삼진</td>
-					<td>.장타율</td>
-					<td>.출루율</td>
-					<td>.OPS</td>
-					<td>.희타/희비</td>
+					<td>${ hitstats.totalBase }</td>
+					<td>${ hitstats.getScore }</td>
+					<td>${ hitstats.bbCnt }</td>
+					<td>${ hitstats.strikeOut }</td>
+					<td>${ hitstats.slg }</td>
+					<td>${ hitstats.obp }</td>
+					<td>${ hitstats.ops }</td>
+					<td>${ hitstats.sac }</td>
 					<td>.임시 공란</td>
 				</tr>
 			</table>
@@ -200,16 +200,16 @@
 			<div id="pitchArea" style="display:none;">
 			<table class="stats-top">
 				<tr>
-					<td>방어율<br>0.00</td>
-					<td>승<br>0</td>
-					<td>패<br>0</td>
-					<td>탈삼진<br>0 개</td>
+					<td>방어율<br>${ pitchstats.era }</td>
+					<td>승<br>${ pitchstats.win }</td>
+					<td>패<br>${ pitchstats.lose }</td>
+					<td>탈삼진<br>${ pitchstats.strikeOut }</td>
 				</tr>
 				<tr>
-					<td>이닝<br>0</td>
-					<td>사사구<br>0 개</td>
-					<td>피안타<br>0 개</td>
-					<td>WHIP<br>0.00</td>
+					<td>이닝<br>${ pitchstats.inning }</td>
+					<td>사사구<br>${ pitchstats.bbCnt }</td>
+					<td>피안타<br>${ pitchstats.hitAllowed }</td>
+					<td>WHIP<br>${ pitchstats.whip }</td>
 				</tr>
 			</table>
 			<table class="stats-mid">
@@ -226,21 +226,21 @@
 					<td>이닝</td>
 				</tr>
 				<tr>
-					<td>.시즌</td>
-					<td>.경기 수</td>
-					<td>.방어율</td>
-					<td>.승</td>
-					<td>.패</td>
-					<td>.세이브</td>
-					<td>.홀드</td>
-					<td>.타자</td>
-					<td>.타수</td>
-					<td>.이닝</td>
+					<td>통산</td>
+					<td>${ pitchstats.gameCount }</td>
+					<td>${ pitchstats.era }</td>
+					<td>${ pitchstats.win }</td>
+					<td>${ pitchstats.lose }</td>
+					<td>${ pitchstats.save }</td>
+					<td>${ pitchstats.hold }</td>
+					<td>${ pitchstats.hitter }</td>
+					<td>${ pitchstats.hitterAtBat }</td>
+					<td>${ pitchstats.inning }</td>
 				</tr>
 			</table>
 			<table class="stats-bottom">
 				<tr>
-					<td>통산</td>
+					<td>시즌</td>
 					<td>피안타</td>
 					<td>피홈런</td>
 					<td>사사구</td>
@@ -252,16 +252,16 @@
 					<td>임시 공란</td>
 				</tr>
 				<tr>
-					<td>.통산</td>
-					<td>.피안타</td>
-					<td>.피홈런</td>
-					<td>.사사구</td>
-					<td>.희타<br>희비</td>
-					<td>.탈삼진</td>
-					<td>.실점</td>
-					<td>.자책점</td>
-					<td>.WHIP</td>
-					<td>.임시 공란</td>
+					<td>통산</td>
+					<td>${ pitchstats.hitAllowed }</td>
+					<td>${ pitchstats.homeRunAllowed }</td>
+					<td>${ pitchstats.bbCnt }</td>
+					<td>${ pitchstats.sac }</td>
+					<td>${ pitchstats.strikeOut }</td>
+					<td>${ pitchstats.totalScore }</td>
+					<td>${ pitchstats.earnedRun }</td>
+					<td>${ pitchstats.whip }</td>
+					<td>임시</td>
 				</tr>
 			</table>
 			</div>

@@ -224,4 +224,61 @@
 </select>
 
 
+<select id="getHitStats" resultType="hashmap">
+	SELECT
+	    COUNT(DISTINCT GR.GAME_IDX)                          AS "game_count",
+	    COUNT(*)                                             AS "pa",
+	    SUM(CASE WHEN GR.RESULT = '1B'  THEN 1 ELSE 0 END)   AS "single_hit",
+	    SUM(CASE WHEN GR.RESULT = '2B'  THEN 1 ELSE 0 END)   AS "double_hit",
+	    SUM(CASE WHEN GR.RESULT = '3B'  THEN 1 ELSE 0 END)   AS "triple_hit",
+	    SUM(CASE WHEN GR.RESULT = 'HR'  THEN 1 ELSE 0 END)   AS "home_run",
+	    SUM(GR.GET_SCORE)                                    AS "get_score",
+	    SUM(CASE WHEN GR.RESULT = 'BB'  THEN 1 ELSE 0 END)   AS "bb_cnt",
+	    SUM(CASE WHEN GR.RESULT = 'K'   THEN 1 ELSE 0 END)   AS "strike_out",
+	    SUM(CASE WHEN GR.RESULT = 'SAC' THEN 1 ELSE 0 END)   AS "sac"
+	FROM   GAME_RESULT GR
+	JOIN   GAME G ON GR.GAME_IDX = G.GAME_IDX
+	WHERE  G.GAME_STATUS = 1
+	AND    GR.HITTER_ID  = #{member_id}
+  <if test="team_idx != null">
+	  AND (G.HOME_IDX = #{team_idx} OR G.AWAY_IDX = #{team_idx})
+  </if>
+</select>
+
+
+<select id="getPitchStats" resultType="hashmap">
+	SELECT
+	    COUNT(DISTINCT GR.GAME_IDX)                                          AS "game_count",
+	    SUM(CASE WHEN GR.RESULT != 'ETC' THEN 1 ELSE 0 END)                  AS "hitter",
+	    SUM(CASE WHEN GR.RESULT IN ('1B','2B','3B','HR') THEN 1 ELSE 0 END)  AS "hit_allowed",
+	    SUM(CASE WHEN GR.RESULT = 'HR'  THEN 1 ELSE 0 END)                   AS "home_run_allowed",
+	    SUM(GR.GET_SCORE)                                                    AS "total_score",
+	    SUM(GR.ERA)                                                          AS "earned_run",
+	    SUM(CASE WHEN GR.RESULT = 'SAC' THEN 1 ELSE 0 END)                   AS "sac",
+	    SUM(CASE WHEN GR.RESULT = 'BB'  THEN 1 ELSE 0 END)                   AS "bb_cnt",
+	    SUM(CASE WHEN GR.RESULT = 'K'   THEN 1 ELSE 0 END)                   AS "strike_out",
+	    SUM(CASE WHEN GR.RESULT = 'OUT' THEN 1 ELSE 0 END)                   AS "out_count"
+	FROM   GAME_RESULT GR
+	JOIN   GAME G ON GR.GAME_IDX = G.GAME_IDX
+	WHERE  G.GAME_STATUS = 1
+	AND    GR.PITCHER_ID = #{member_id}
+	<if test="team_idx != null">
+	    AND (G.HOME_IDX = #{team_idx} OR G.AWAY_IDX = #{team_idx})
+	</if>
+</select>
+
+<select id="getPitchRecord" resultType="hashmap">
+	SELECT
+	    SUM(CASE WHEN WIN_PITCHER  = #{member_id} THEN 1 ELSE 0 END) AS "win",
+	    SUM(CASE WHEN LOSE_PITCHER = #{member_id} THEN 1 ELSE 0 END) AS "lose",
+	    SUM(CASE WHEN SAVE_PITCHER = #{member_id} THEN 1 ELSE 0 END) AS "save",
+	    SUM(CASE WHEN HOLD_PITCHER = #{member_id} THEN 1 ELSE 0 END) AS "hold"
+	FROM   GAME
+	WHERE  GAME_STATUS = 1
+	<if test="team_idx != null">
+	    AND (HOME_IDX = #{team_idx} OR AWAY_IDX = #{team_idx})
+	</if>
+</select>
+
+
 </mapper>

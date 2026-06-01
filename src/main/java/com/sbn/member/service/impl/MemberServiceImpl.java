@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sbn.member.dto.MemberDto;
 import com.sbn.member.mapper.MemberMapper;
 import com.sbn.member.service.MemberService;
+import com.sbn.result.vo.HitterVo;
+import com.sbn.result.vo.PitcherVo;
 import com.sbn.team.dto.TeamDto;
 
 @Service
@@ -98,6 +100,57 @@ public class MemberServiceImpl implements MemberService {
 		return count;
 	}
 
+	@Override
+	public HitterVo getHitStats(HashMap<String, Object> statsMap) {
+	    HashMap<String, Object> raw = memberMapper.getHitStats(statsMap);
+	    if (raw == null || raw.get("pa") == null) return null;
+
+	    return new HitterVo(
+	        toInt(raw.get("game_count")),
+	        toInt(raw.get("pa")),
+	        toInt(raw.get("single_hit")),
+	        toInt(raw.get("double_hit")),
+	        toInt(raw.get("triple_hit")),
+	        toInt(raw.get("home_run")),
+	        toInt(raw.get("get_score")),
+	        toInt(raw.get("bb_cnt")),
+	        toInt(raw.get("strike_out")),
+	        toInt(raw.get("sac"))
+	    );
+	}
+
+
+	@Override
+	public PitcherVo getPitchStats(HashMap<String, Object> statsMap) {
+		// GAME_RECORD 집계
+	    HashMap<String, Object> raw = memberMapper.getPitchStats(statsMap);
+	    if (raw.get("hitter") == null) raw.put("hitter", 0);
+	    if (raw == null) return null;
+	    // 승패홀세 집계
+	    HashMap<String, Object> record = memberMapper.getPitchRecord(statsMap);
+	    
+	    return new PitcherVo(
+	        toInt(raw.get("game_count")),
+	        toInt(raw.get("hitter")),
+	        toInt(raw.get("hit_allowed")),
+	        toInt(raw.get("home_run_allowed")),
+	        toInt(raw.get("total_score")),
+	        toInt(raw.get("earned_run")),
+	        toInt(raw.get("sac")),
+	        toInt(raw.get("bb_cnt")),
+	        toInt(raw.get("strike_out")),
+	        toInt(raw.get("out_count")),
+	        toInt(record.get("win")),
+	        toInt(record.get("lose")),
+	        toInt(record.get("save")),
+	        toInt(record.get("hold"))
+	    );
+	}
+
+	
+	private int toInt(Object obj) {
+		return obj == null ? 0 : Integer.parseInt(obj.toString());
+	}
 
 
 }
