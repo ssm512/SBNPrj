@@ -16,6 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sbn.game.dto.GameDto;
 import com.sbn.game.dto.GameResultDto;
 import com.sbn.game.service.GameService;
+import com.sbn.member.dto.MemberDto;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/Game")
@@ -25,9 +28,15 @@ public class GameController {
 	private GameService gameService;
 	
 	@RequestMapping("/AddGameForm")
-	public ModelAndView addGameForm ( @RequestParam HashMap<String, Object> map ) {
+	public ModelAndView addGameForm ( @RequestParam HashMap<String, Object> map, HttpServletRequest request ) {
 		// 검증 : 세션.login.is_admin == "Y" 이면 진행
 		// else: 뒤로 보냄 전페이지로 되돌려보냄 errorpage 403.jsp 띄우도록
+		MemberDto 				login		=	(MemberDto) request.getSession().getAttribute("login");
+		if (login == null || !"Y".equals(login.getIs_admin())) {
+			ModelAndView		mv	=	new ModelAndView();
+			mv.setViewName("redirect:/League/Info?league_idx=" + map.get("league_idx"));
+			return mv;
+		}
 		ModelAndView 			mv 						= 	new ModelAndView();
 		mv.setViewName("/game/addgame");
 		mv.addObject("map", map);
@@ -79,21 +88,27 @@ public class GameController {
 		return mv;
 	}
 	
-	// /Game/AddResultForm?league_idx=1&game_dix=2
+	// /Game/AddResultForm?league_idx=1&game_idx=2
 	@RequestMapping("/AddResultForm")
-	public ModelAndView addResultForm ( @RequestParam HashMap<String, Object> map ) {
+	public ModelAndView addResultForm ( @RequestParam HashMap<String, Object> map, HttpServletRequest request ) {
+		MemberDto 				login		=	(MemberDto) request.getSession().getAttribute("login");
 		String					game_idx				=	String.valueOf(map.get("game_idx"));
-		String					league_idx				=	String.valueOf(map.get("game_idx"));
+		String					league_idx				=	String.valueOf(map.get("league_idx"));
+		if (login == null || !"Y".equals(login.getIs_admin())) {
+			ModelAndView		mv	=	new ModelAndView();
+			mv.setViewName("redirect:/Game/GameInfo?league_idx=" + league_idx +"&game_idx=" + game_idx);
+			return mv;
+		}
+		
 		GameDto					gameDto					=	gameService.getGameResult(game_idx);
 		HashMap<String, Object>	teamNames				=	gameService.getGameTeamNames(game_idx);
 		
 		ModelAndView 			mv 						=	new ModelAndView();
-		mv.setViewName("/game/addresult2");
+		mv.setViewName("/game/addresult");
 		mv.addObject("teamNames", teamNames);
 		mv.addObject("league_idx",league_idx);
 		mv.addObject("game_idx",game_idx);
 		mv.addObject("gameDto",gameDto);
-		mv.addObject("map", map);
 		return mv;
 	}
 	
@@ -110,10 +125,29 @@ public class GameController {
 	
 	// /Game/AddResult?league_idx=${league_idx}&game_idx=${game_idx}
 	@PostMapping("/AddResult")
-	public String addResult( GameResultDto gameResultDto, @RequestParam("league_idx") int league_idx ) {
-		
-		gameService.insertGameResult(gameResultDto);
+	public String addResult( GameResultDto gameResultDto ) {
+				
+		gameService.insertGameResultList(gameResultDto.getResultList());
 
-	    return "redirect:/Game/GameInfo?league_idx=" + league_idx + "&game_idx=" + gameResultDto.getGame_idx();
+	    return "redirect:/Game/GameInfo?league_idx=" + gameResultDto.getLeague_idx() + "&game_idx=" + gameResultDto.getGame_idx();
 	}
+	
+	// /Game/UpdateResultForm?league_idx=1&game_idx=2
+	@PostMapping("/UpdateResultForm")
+	public ModelAndView updateResultForm ( GameResultDto gameResultDto, HttpServletRequest request ) {
+		MemberDto 				login					=	(MemberDto) request.getSession().getAttribute("login");
+		if (login == null || !"Y".equals(login.getIs_admin())) {
+			ModelAndView		mv	=	new ModelAndView();
+			mv.setViewName("redirect:/Game/GameInfo?league_idx=" + gameResultDto.getLeague_idx() +"&game_idx=" + gameResultDto.getGame_idx());
+			return mv;
+		}
+		//GameResultDto	resultList		=	gameService.getGameResultList(gameResultDto);
+		
+		ModelAndView 			mv 						=	new ModelAndView();
+		mv.setViewName("/game/updateresult");
+		//mv.addObject("resultList",resultList);
+		return mv;		
+	}
+	
+	
 }

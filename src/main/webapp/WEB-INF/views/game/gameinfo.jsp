@@ -20,6 +20,19 @@
 	.selected {
     background-color: #FFD700;
 	}
+	#gameenv tr:first-of-type {
+		background-color: #F5F5DC;
+	}
+	#gamestat tr:first-of-type {
+		background-color: #F5F5DC;
+	}	
+	#scoreboard tr:first-of-type {
+		background-color: #F5F5DC;
+	}
+	#gamerecord tr:first-of-type {
+		background-color: #F5F5DC;
+	}
+	
 </style>
 </head>
 <body>
@@ -106,11 +119,13 @@
 			<input type="button" id="awayBtn" value="away"/>
 			<input type="button" id="homeBtn" value="home"/>
 		</div>
+		<c:if test="${sessionScope.login.is_admin == 'Y'}">
 		<div id="updatebtn">
 			<input type="button" value="입력" 
 			onclick ="window.location.href='/Game/AddResultForm?league_idx=${league_idx}&game_idx=${game_idx}'"/>
-			<input type="button" value="수정"/>
+			<!-- <input type="button" value="수정"/> -->
 		</div>
+		</c:if>
 		<br>
 		<div id="gamerecord">
 			<table id="awayhitterrecords" class="away">

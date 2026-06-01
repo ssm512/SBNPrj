@@ -94,5 +94,11 @@ public class GameServiceImpl implements GameService {
 		
 	}
 
+	@Override
+	public void insertGameResultList(ArrayList<GameResultDto> resultList) {
+		gameMapper.insertGameResultList(resultList);
+		
+	}
+
 
 }
