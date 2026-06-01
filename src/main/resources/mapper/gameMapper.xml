@@ -299,9 +299,7 @@
 
 	<!-- insertGameResultList -->
 	<insert id="insertGameResultList">
-		INSERT ALL
-			<foreach collection="list" item="item" index="i">
-				INTO GAME_RESULT (
+		INSERT 	INTO GAME_RESULT (
 				    RECORD_NUM,
 				    GAME_IDX,
 				    INNING,
@@ -316,22 +314,21 @@
 				    ERA,
 				    CONTENT
 				) VALUES (
-				    (SEQ_RECORD.NEXTVAL + #{i}),
-				    #{item.game_idx},
-				    #{item.inning},
-				    #{item.top_bottom},
-				    #{item.hitter_num},
-				    #{item.hitter_name},
-				    #{item.hitter_id},
-				    #{item.pitcher_name},
-				    #{item.pitcher_id},
-				    #{item.result},
-				    #{item.get_score},
-				    #{item.era},
-				    #{item.content}
+				    SEQ_RECORD.NEXTVAL,
+				    #{param2},
+				    #{param1.inning},
+				    #{param1.top_bottom},
+				    #{param1.hitter_num},
+				    TRIM(#{param1.hitter_name}),
+				    TRIM(#{param1.hitter_id}),
+				    TRIM(#{param1.pitcher_name}),
+				    TRIM(#{param1.pitcher_id}),
+				    #{param1.result},
+				    #{param1.get_score},
+				    #{param1.era},
+				    #{param1.content}
 				)
-			</foreach>
-		SELECT 1 FROM DUAL
+
 	</insert>
  </mapper>
  

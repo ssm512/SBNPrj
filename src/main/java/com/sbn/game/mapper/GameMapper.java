@@ -38,7 +38,7 @@ public interface GameMapper {
 
 	void insertGameResult(GameResultDto gameResultDto);
 
-	void insertGameResultList(@Param("list") ArrayList<GameResultDto> resultList);
+	void insertGameResultList(@Param("list") GameResultDto result, int i);
 
 
 }

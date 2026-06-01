@@ -2,6 +2,7 @@ package com.sbn.game.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -124,10 +125,14 @@ public class GameController {
 	}
 	
 	// /Game/AddResult?league_idx=${league_idx}&game_idx=${game_idx}
+	@Transactional
 	@PostMapping("/AddResult")
-	public String addResult( GameResultDto gameResultDto ) {
-				
-		gameService.insertGameResultList(gameResultDto.getResultList());
+	public String addResult( GameResultDto gameResultDto ) { 
+		
+		List<GameResultDto> resultList = gameResultDto.getResultList();
+		for (GameResultDto result : resultList) {
+			gameService.insertGameResultList(result, gameResultDto.getGame_idx());
+		}
 
 	    return "redirect:/Game/GameInfo?league_idx=" + gameResultDto.getLeague_idx() + "&game_idx=" + gameResultDto.getGame_idx();
 	}
