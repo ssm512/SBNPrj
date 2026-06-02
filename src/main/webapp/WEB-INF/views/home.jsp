@@ -29,7 +29,7 @@
         z-index: 99;
     }
 
-    /* ===== 네비바 오버라이드 (완전 투명) ===== */
+    /* ===== 네비바 오버라이드 (투명 배경 - 히어로 이미지 위에 띄우기) ===== */
     .navbar {
         position: fixed !important;
         background-color: transparent !important;
@@ -38,23 +38,32 @@
         box-shadow: none;
     }
 
+    /* 스크롤 시 반투명 그린으로 전환 (JS에서 .scrolled 클래스 토글) */
+    .navbar.scrolled {
+        background-color: rgba(26, 61, 26, 0.92) !important;
+    }
+
+    /* navbar-inner - home에서는 padding만 유지 (position: relative는 common.css에서 상속) */
     .navbar-inner {
         width: 100%;
         padding: 0 48px;
         position: relative;
     }
 
+    /* 로고 색상 - 투명 네비바 위에서도 골드 유지 */
     .navbar-brand {
         color: #FFD700;
         text-shadow: none;
     }
 
+    /* 메뉴 위치 - common.css의 -63% 대신 홈 전용 -60% 적용 */
     .navbar-menu {
         position: absolute;
         left: 50%;
         transform: translateX(calc(-60% + 20px));
     }
 
+    /* 메뉴 링크 - 배경 이미지 위 가독성을 위해 텍스트 쉐도우 추가 */
     .navbar-menu a {
         color: #ffffff;
         text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
@@ -64,7 +73,7 @@
         color: #FFD700;
     }
 
-    /* 로그인 / 로그아웃 */
+    /* 로그인 / 로그아웃 - 배경 이미지 위 가독성을 위해 텍스트 쉐도우 추가 */
     .navbar-auth a {
         color: #ffffff;
         text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
@@ -79,11 +88,12 @@
         text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
     }
 
+    /* 로그인 버튼 테두리 - 흰색 배경에서 더 잘 보이게 */
     .navbar-auth .btn-login {
         border-color: rgba(255, 255, 255, 0.8);
     }
 
-    /* ===== 히어로 섹션 (100vh 꽉 채움 + 배경 줌인) ===== */
+    /* ===== 히어로 섹션 (100vh 꽉 채움 + 배경 줌인 애니메이션) ===== */
     .hero-section {
         width: 100%;
         height: 100vh;
@@ -102,15 +112,16 @@
         to   { background-size: 116%; }
     }
 
-    /* ===== 메인 텍스트 (SOCIAL BASEBALL NET) ===== */
+    /* ===== 메인 텍스트 (SOCIAL BASEBALL NET) - 원근감 표현 ===== */
     .hero-text {
         text-align: center;
         position: relative;
         z-index: 1;
-            transform: perspective(700px) rotateX(12deg) translateX(10px);
-    transform-origin: center center;
+        transform: perspective(700px) rotateX(12deg) translateX(10px);
+        transform-origin: center center;
     }
 
+    /* 각 줄 공통 스타일 + fadeInUp 애니메이션 */
     .hero-line {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 100px;
@@ -138,7 +149,7 @@
         text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
     }
 
-    /* ===== 애니메이션 ===== */
+    /* ===== fadeInUp 애니메이션 정의 ===== */
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -150,7 +161,7 @@
         }
     }
 
-    /* ===== 푸터 여백 제거 (스크롤해야 보임) ===== */
+    /* ===== 푸터 여백 제거 (히어로 섹션 바로 아래 붙임) ===== */
     .footer {
         margin-top: 0 !important;
     }
@@ -177,5 +188,17 @@
     </div>
 
     <%@ include file="/WEB-INF/include/footer.jsp" %>
+
+    <%-- 스크롤 시 네비바 반투명 그린 전환 --%>
+    <script>
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>
