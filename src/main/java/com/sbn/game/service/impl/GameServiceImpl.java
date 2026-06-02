@@ -83,8 +83,19 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public GameDto getGameInfo(int game_idx) {
-		GameDto gameDto	=	gameMapper.getGameInfo(game_idx);
+	public GameDto getGameInfo(HashMap<String, Object> map) {
+		GameDto gameDto = new GameDto();
+
+	    gameDto.setGame_idx(Integer.parseInt(map.get("game_idx").toString()));
+	    gameDto.setGame_status(Integer.parseInt(map.get("game_status").toString()));
+	    gameDto.setWinner(Integer.parseInt(map.get("winner").toString()));
+
+	    gameDto.setWin_pitcher(map.get("win_pitcher").toString());
+	    gameDto.setLose_pitcher(map.get("lose_pitcher").toString());
+	    gameDto.setSave_pitcher(map.get("save_pitcher").toString());
+	    gameDto.setHold_pitcher(map.get("hold_pitcher").toString());
+
+	    gameMapper.updateGameStat(gameDto);
 		return gameDto;
 	}
 
@@ -104,6 +115,18 @@ public class GameServiceImpl implements GameService {
 	public ArrayList<GameResultDto> getGameResultList(GameResultDto gameResultDto) {
 		ArrayList<GameResultDto>	resultList		=	gameMapper.getGameResultList(gameResultDto.getGame_idx());
 		return resultList;
+	}
+
+	@Override
+	public void updateGameResult(GameResultDto gameResultDto) {
+		gameMapper.updateGameResult(gameResultDto);
+		
+	}
+
+	@Override
+	public void deleteGameResult(int record_num) {
+		gameMapper.deleteGameResult(record_num);
+		
 	}
 
 
