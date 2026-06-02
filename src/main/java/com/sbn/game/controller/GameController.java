@@ -92,7 +92,7 @@ public class GameController {
 	// /Game/AddResultForm?league_idx=1&game_idx=2
 	@RequestMapping("/AddResultForm")
 	public ModelAndView addResultForm ( @RequestParam HashMap<String, Object> map, HttpServletRequest request ) {
-		MemberDto 				login		=	(MemberDto) request.getSession().getAttribute("login");
+		MemberDto 				login					=	(MemberDto) request.getSession().getAttribute("login");
 		String					game_idx				=	String.valueOf(map.get("game_idx"));
 		String					league_idx				=	String.valueOf(map.get("league_idx"));
 		if (login == null || !"Y".equals(login.getIs_admin())) {
@@ -128,7 +128,7 @@ public class GameController {
 	@PostMapping("/AddResult")
 	public String addResult( GameResultDto gameResultDto ) { 
 		
-		List<GameResultDto> resultList = gameResultDto.getResultList();
+		List<GameResultDto> resultList 					= gameResultDto.getResultList();
 		for (GameResultDto result : resultList) {
 			gameService.insertGameResultList(result, gameResultDto.getGame_idx());
 		}
@@ -139,18 +139,18 @@ public class GameController {
 	// /Game/UpdateResultForm?league_idx=1&game_idx=2
 	@RequestMapping("/UpdateResultForm")
 	public ModelAndView updateResultForm ( GameResultDto gameResultDto, HttpServletRequest request ) {
-		MemberDto 				login					=	(MemberDto) request.getSession().getAttribute("login");
+		MemberDto 					login						=	(MemberDto) request.getSession().getAttribute("login");
 		if (login == null || !"Y".equals(login.getIs_admin())) {
-			ModelAndView		mv	=	new ModelAndView();
+			ModelAndView			mv	=	new ModelAndView();
 			mv.setViewName("redirect:/Game/GameInfo?league_idx=" + gameResultDto.getLeague_idx() +"&game_idx=" + gameResultDto.getGame_idx());
 			return mv;
 		}
-		int		league_idx			=	gameResultDto.getLeague_idx();
-		int		game_idx			=	gameResultDto.getGame_idx();
+		int							league_idx					=	gameResultDto.getLeague_idx();
+		int							game_idx					=	gameResultDto.getGame_idx();
 		
-		ArrayList<GameResultDto>	resultList		=	gameService.getGameResultList(gameResultDto);
+		ArrayList<GameResultDto>	resultList					=	gameService.getGameResultList(gameResultDto);
 		//System.out.println(resultList);
-		ModelAndView 			mv 						=	new ModelAndView();
+		ModelAndView 				mv 							=	new ModelAndView();
 		mv.setViewName("/game/updateresult");
 		mv.addObject("resultList",resultList);
 		mv.addObject("league_idx",league_idx);
@@ -182,7 +182,7 @@ public class GameController {
 	@ResponseBody
 	@PostMapping("/DeleteResultAjax")
 	public String deleteResultAjax (@RequestBody HashMap<String, Object> param) {
-	    int record_num = Integer.parseInt(param.get("record_num").toString());
+	    int 					record_num 						= Integer.parseInt(param.get("record_num").toString());
 		gameService.deleteGameResult(record_num);
 		return "OK";
 	}
