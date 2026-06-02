@@ -15,11 +15,14 @@
 	    <if test="searchType == 'writer' and keyword != null and keyword != ''">
 	      AND LOWER(WRITER) LIKE '%' || LOWER(#{keyword}) || '%'
 	    </if>
+	    <if test="board_type != null and board_type != ''">
+	      AND BOARD_TYPE = #{board_type}
+	    </if>
 	  </where>
 	</select>
     
     <!-- getBoardList -->
-    <select id="getBoardList">
+    <select id="getBoardList" resultType="com.sbn.board.dto.BoardDto">
     
       SELECT
 	    BOARD_IDX,
@@ -71,6 +74,45 @@
        WHERE BOARD_IDX = #{board_idx}
       
     </update>
+    
+    <insert id="writeBoard">
+    
+      INSERT INTO BOARD (
+		    BOARD_IDX,
+		    WRITER,
+		    TITLE,
+		    CONTENT,
+		    HIT,
+		    REGDATE,
+		    BOARD_TYPE
+		) VALUES ( 
+		    ( SELECT NVL( MAX(BOARD_IDX), 0 )+1 FROM BOARD ),
+		    #{writer},
+		    #{title},
+		    #{content},
+		    0,
+		    SYSDATE,
+		    #{board_type}
+		)
+    
+    </insert>
+    
+    <update id="updateBoard">
+    
+      UPDATE BOARD
+       SET   TITLE     = #{title},
+             CONTENT   = #{content}
+       WHERE BOARD_IDX = #{board_idx}
+       
+    </update>
+    
+    <delete id="deleteBoard">
+    
+      DELETE FROM BOARD
+       WHERE BOARD_IDX = #{board_idx}
+       
+    </delete>
+
     
   </mapper>
   

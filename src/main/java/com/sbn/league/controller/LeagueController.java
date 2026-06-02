@@ -56,7 +56,7 @@ public class LeagueController {
 		int             nowpage     = Integer.parseInt( String.valueOf( map.get("nowpage") ) );
 		
 		// 페이징 설정
-		SearchDto searchDto = new SearchDto();
+		SearchDto       searchDto   = new SearchDto();
 		searchDto.setPageNo( nowpage ); // 현재 페이지 설정
 		searchDto.setNumOfRows( 10 );   // 한페이지에 10줄의 자료
 		searchDto.setPageSize( 10 );    // 페이지 번호 목록
@@ -83,7 +83,7 @@ public class LeagueController {
 		mv.addObject("leagueList", leagueList);
 		mv.addObject("searchDto",  searchDto);
 		
-		mv.addObject("map", map);
+		mv.addObject("map",        map);
 		
 		return           mv;
 		
@@ -178,7 +178,7 @@ public class LeagueController {
 		mv.addObject(  "league",       league      );
 		mv.addObject(  "signTeamList", signTeamList);
 		
-		return                    mv;
+		return mv;
 	}
 	
 	// 팀 가입 승인 처리( join_status를 0에서 1로 바꾸기)
@@ -223,33 +223,33 @@ public class LeagueController {
 	@ResponseBody
 	public List<Map<String, Object>> checkManagerTeams(HttpSession session) {
 		
-		Object loginObj = session.getAttribute("login");
+		Object     loginObj    = session.getAttribute("login");
 		
 		if (loginObj == null) {
 			System.out.println("[CheckManagerTeams] 세션에서 로그인 정보를 찾지 못했습니다.");
 			return new ArrayList<>();
 		}
 		
-		String memberIdx = "";
+		String     memberIdx   = "";
 		
 		// 세션 데이터가 Map 형태인 경우
 		if (loginObj instanceof Map) {
 			Map<String, Object> loginMember = (Map<String, Object>) loginObj;
 			// Oracle MyBatis 결과는 대문자 키로 오는 경우가 많으므로 둘 다 시도
-			Object idxObj = loginMember.get("member_idx") != null 
-							? loginMember.get("member_idx") 
-							: loginMember.get("MEMBER_IDX");
-			memberIdx = idxObj != null ? String.valueOf(idxObj) : "";
+			Object idxObj      = loginMember.get("member_idx") != null 
+							   ? loginMember.get("member_idx") 
+							   : loginMember.get("MEMBER_IDX");
+			       memberIdx   = idxObj != null ? String.valueOf(idxObj) : "";
 		}
 		// 세션 데이터가 DTO 객체 형태인 경우 - 리플렉션으로 getMemberIdx 또는 getMember_idx 호출
 		else {
 			try {
 				for (java.lang.reflect.Method method : loginObj.getClass().getMethods()) {
-					String name = method.getName().toLowerCase();
+					String     name      = method.getName().toLowerCase();
 					if (name.equals("getmemberidx") || name.equals("getmember_idx")) {
-						Object val = method.invoke(loginObj);
+						Object val       = method.invoke(loginObj);
 						if (val != null) {
-							memberIdx = String.valueOf(val);
+							   memberIdx = String.valueOf(val);
 						}
 						break;
 					}
@@ -259,14 +259,14 @@ public class LeagueController {
 			}
 		}
 		
-		System.out.println("[CheckManagerTeams] 추출된 member_idx: " + memberIdx);
+		// System.out.println("[CheckManagerTeams] 추출된 member_idx: " + memberIdx);
 		
 		if (memberIdx.isEmpty() || memberIdx.equals("null")) {
 			System.out.println("[CheckManagerTeams] member_idx가 없어 빈 목록 반환");
 			return new ArrayList<>();
 		}
 		
-		HashMap<String, Object> paramMap = new HashMap<>();
+		HashMap<String, Object>   paramMap    = new HashMap<>();
 		paramMap.put("memberIdx", memberIdx);
 		
 		List<Map<String, Object>> rawTeamList = leagueService.getTeamsByManager(paramMap);
@@ -296,3 +296,26 @@ public class LeagueController {
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

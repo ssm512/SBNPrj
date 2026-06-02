@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import com.sbn.board.dto.BoardDto;
 import com.sbn.board.mapper.BoardMapper;
 import com.sbn.board.service.BoardService;
+import com.sbn.member.dto.MemberDto;
 
 @Service
 public class BoardServiceimpl implements BoardService {
@@ -59,5 +61,21 @@ public class BoardServiceimpl implements BoardService {
 	public void setCountUpdate(HashMap<String, Object> map) {
 		boardMapper.setCountUpdate(map);
 	}
+
+	@Override
+	public void writeBoard(HashMap<String, Object> map) {
+		boardMapper.writeBoard(map);
+	}
+
+	@Override
+	public void updateBoard(HashMap<String, Object> map) {
+		boardMapper.updateBoard(map);
+	}
+
+	@Override
+	public void deleteBoard(HashMap<String, Object> map) {
+		boardMapper.deleteBoard(map);
+	}
+
 	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.sbn.board.dto.BoardDto;
+import com.sbn.member.dto.MemberDto;
 
 @Mapper
 public interface BoardMapper {
@@ -17,5 +18,11 @@ public interface BoardMapper {
 	BoardDto getBoard(HashMap<String, Object> map);
 
 	void setCountUpdate(HashMap<String, Object> map);
+
+	void writeBoard(HashMap<String, Object> map);
+
+	void updateBoard(HashMap<String, Object> map);
+
+	void deleteBoard(HashMap<String, Object> map);
 
 }
