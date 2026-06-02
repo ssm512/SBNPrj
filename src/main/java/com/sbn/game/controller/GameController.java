@@ -72,7 +72,7 @@ public class GameController {
 		ArrayList<HashMap<String, Object>> homeHRecord	=	gameService.getHomeRecord(game_idx);
 		ArrayList<HashMap<String, Object>> awayPRecord	=	gameService.getAwayPRecord(game_idx);
 		ArrayList<HashMap<String, Object>> homePRecord	=	gameService.getHomePRecord(game_idx);
-		System.out.println(homePRecord); // debuging
+		
 		ModelAndView 			mv 						= 	new ModelAndView();
 		mv.setViewName("/game/gameinfo");
 		mv.addObject("gameinfo", gameinfo);
@@ -92,7 +92,7 @@ public class GameController {
 	// /Game/AddResultForm?league_idx=1&game_idx=2
 	@RequestMapping("/AddResultForm")
 	public ModelAndView addResultForm ( @RequestParam HashMap<String, Object> map, HttpServletRequest request ) {
-		MemberDto 				login		=	(MemberDto) request.getSession().getAttribute("login");
+		MemberDto 				login					=	(MemberDto) request.getSession().getAttribute("login");
 		String					game_idx				=	String.valueOf(map.get("game_idx"));
 		String					league_idx				=	String.valueOf(map.get("league_idx"));
 		if (login == null || !"Y".equals(login.getIs_admin())) {
@@ -115,11 +115,10 @@ public class GameController {
 	
 	@PostMapping("/UpdateGameStat")
 	@ResponseBody
-	public GameDto updateGameStat(@RequestBody GameDto gameDto) {
-
-		gameService.updateGameStat(gameDto);
-
-		GameDto updatedGame = gameService.getGameInfo(gameDto.getGame_idx());
+	public GameDto updateGameStat(@RequestBody HashMap<String, Object> map) {
+		System.out.println(map);
+		
+		GameDto updatedGame = gameService.getGameInfo(map);
 
 		return updatedGame;
 	}
@@ -127,10 +126,9 @@ public class GameController {
 	// /Game/AddResult?league_idx=${league_idx}&game_idx=${game_idx}
 	@Transactional
 	@PostMapping("/AddResult")
-
 	public String addResult( GameResultDto gameResultDto ) { 
 		
-		List<GameResultDto> resultList = gameResultDto.getResultList();
+		List<GameResultDto> resultList 					= gameResultDto.getResultList();
 		for (GameResultDto result : resultList) {
 			gameService.insertGameResultList(result, gameResultDto.getGame_idx());
 		}
@@ -141,19 +139,51 @@ public class GameController {
 	// /Game/UpdateResultForm?league_idx=1&game_idx=2
 	@RequestMapping("/UpdateResultForm")
 	public ModelAndView updateResultForm ( GameResultDto gameResultDto, HttpServletRequest request ) {
-		MemberDto 				login					=	(MemberDto) request.getSession().getAttribute("login");
+		MemberDto 					login						=	(MemberDto) request.getSession().getAttribute("login");
 		if (login == null || !"Y".equals(login.getIs_admin())) {
-			ModelAndView		mv	=	new ModelAndView();
+			ModelAndView			mv	=	new ModelAndView();
 			mv.setViewName("redirect:/Game/GameInfo?league_idx=" + gameResultDto.getLeague_idx() +"&game_idx=" + gameResultDto.getGame_idx());
 			return mv;
 		}
-		ArrayList<GameResultDto>	resultList		=	gameService.getGameResultList(gameResultDto);
+		int							league_idx					=	gameResultDto.getLeague_idx();
+		int							game_idx					=	gameResultDto.getGame_idx();
 		
-		ModelAndView 			mv 						=	new ModelAndView();
+		ArrayList<GameResultDto>	resultList					=	gameService.getGameResultList(gameResultDto);
+		//System.out.println(resultList);
+		ModelAndView 				mv 							=	new ModelAndView();
 		mv.setViewName("/game/updateresult");
 		mv.addObject("resultList",resultList);
+		mv.addObject("league_idx",league_idx);
+		mv.addObject("game_idx",game_idx);
 		return mv;		
 	}
 	
+	@ResponseBody
+	@PostMapping("/UpdateResultAjax")
+	public String updateResultAjax(@RequestBody GameResultDto gameResultDto) {
+
+	    gameService.updateGameResult(gameResultDto);
+
+	    return "OK";
+	}
 	
+	@Transactional
+	@ResponseBody
+	@PostMapping("/UpdateResultAllAjax")
+	public String updateResultAllAjax(@RequestBody List<GameResultDto> resultList) {
+
+	    for(GameResultDto result : resultList) {
+	    	System.out.println(result);
+	        gameService.updateGameResult(result);
+	    }
+	    return "OK";
+	}
+	
+	@ResponseBody
+	@PostMapping("/DeleteResultAjax")
+	public String deleteResultAjax (@RequestBody HashMap<String, Object> param) {
+	    int 					record_num 						= Integer.parseInt(param.get("record_num").toString());
+		gameService.deleteGameResult(record_num);
+		return "OK";
+	}
 }

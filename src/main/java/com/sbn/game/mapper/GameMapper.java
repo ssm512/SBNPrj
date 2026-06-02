@@ -42,5 +42,9 @@ public interface GameMapper {
 
 	ArrayList<GameResultDto> getGameResultList(int game_idx);
 
+	void updateGameResult(GameResultDto gameResultDto);
+
+	void deleteGameResult(int record_num);
+
 
 }

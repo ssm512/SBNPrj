@@ -31,6 +31,7 @@
 <body>
 <%@include file="/WEB-INF/include/headermenu.jsp" %>
 <div class="main-wrapper">
+	<div class="statdiv">
 	<form id="gamestatForm">
 	<input type="hidden" id="game_idx" value="${gameDto.game_idx}">
 	<input type="hidden" name="league_idx" value="${gameDto.league_idx}">
@@ -42,42 +43,54 @@
 			</tr>
 			<tr>
 				<td>Away : ${teamNames.away_name}</td>
+				<td>경기시각 : ${gameDto.game_time}</td>
 				<td>Home : ${teamNames.home_name}</td>
-				<td>
-					승리투수 : <input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
-				</td>
 			</tr>
 			<tr>
 				<td>경기날짜 : ${gameDto.game_date}</td>
-				<td>경기시각 : ${gameDto.game_time}</td>
+				<td>
+				경기여부 : 
+				<input type="radio" name="game_status" id="statusbeforegame" value="0" 
+				${gameDto.game_status == '0' ? 'checked' : '' }/>
+				<label for="statusbeforegame">경기미진행</label>
+				<input type="radio" name="game_status" id="endgame" value="1"
+				${gameDto.game_status == '1' ? 'checked' : '' }/>
+				<label for="endgame">경기종료</label>
+				<input type="radio" name="game_status" id="ingame" value="2"
+				${gameDto.game_status == '2' ? 'checked' : '' }/>
+				<label for="ingame">경기중</label>
+				<input type="radio" name="game_status" id="rainstop" value="3"
+				${gameDto.game_status == '3' ? 'checked' : '' }/>
+				<label for="rainstop">우천취소</label>
+				</td>
+				<td>경기장 : ${gameDto.game_field}</td>
+			</tr>
+			<tr>
+				<td>
+					승자여부 : ${gameDto.winner}
+					<input type="radio" name="winner" id="beforegame" value="0" 
+					${gameDto.winner == '0' ? 'checked' : '' }/>
+					<label for="beforegame">미정</label>
+					<input type="radio" name="winner" id="awaywin" value="1"
+					${gameDto.winner == '1' ? 'checked' : '' }/>
+					<label for="awaywin">원정승</label>
+					<input type="radio" name="winner" id="homewin" value="2"
+					${gameDto.winner == '2' ? 'checked' : '' }/>
+					<label for="homewin">홈승</label>
+					<input type="radio" name="winner" id="draw" value="3"
+					${gameDto.winner == '3' ? 'checked' : '' }/>
+					<label for="draw">무승부</label>
+				</td>
+				<td>
+					승리투수 : <input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
+				</td>
 				<td>
 					패전투수 : <input type="text" id="lose_pitcher" name="lose_pitcher" value="${gameDto.lose_pitcher}">
 				</td>
 			</tr>
 			<tr>
-				<td>경기장 : ${gameDto.game_field}</td>
-				<td>
-				경기여부 : 
-				<input type="radio" name="game_status" id="beforegame" value="0" checked/>
-				<label for="beforegame">경기미진행</label>
-				<input type="radio" name="game_status" id="aftergame" value="1"/>
-				<label for="aftergame">경기완료</label>
-				</td>
 				<td>
 					세이브투수 : <input type="text" id="save_pitcher" name="save_pitcher" value="${gameDto.save_pitcher}">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					승자여부 : ${gameDto.winner}
-					<input type="radio" name="winner" id="beforegame" value="0" checked/>
-					<label for="beforegame">미정</label>
-					<input type="radio" name="winner" id="awaywin" value="1"/>
-					<label for="awaywin">원정승</label>
-					<input type="radio" name="winner" id="homewin" value="2"/>
-					<label for="homewin">홈승</label>
-					<input type="radio" name="winner" id="draw" value="3"/>
-					<label for="draw">무승부</label>
 				</td>
 				<td>
 					<input type="button" id="btnGameStatUpdate" value="경기정보 수정">
@@ -88,14 +101,16 @@
 			</tr>
 		</table>		
 	</form>
+	</div>
 	<br>
+	<div class="resultdiv">
 	<form id="gameResultForm" action="/Game/AddResult" method="post">
 	<input type="hidden" name="game_idx" value="${gameDto.game_idx}">
 	<input type="hidden" name="league_idx" value="${gameDto.league_idx}">
 		<table id="gameresultinput">
 			<tr>
 				<td>회</td>
-				<td>초(T)/말(F)</td>
+				<td>초(T)/말(B)</td>
 				<td>타순</td>
 				<td>타자</td>
 				<td>타자ID</td>
@@ -110,10 +125,10 @@
 			</tr>
 			<tr class="result-line">
 				<td>
-					<input type="number" name="resultList[0].inning"/>
+					<input type="number" name="resultList[0].inning" value="0"/>
 				</td>
 				<td>
-					<select name="resultList[0].top_bottom">
+					<select name="resultList[0].top_bottom" >
 						<option>T</option>
 						<option>B</option>
 					</select>
@@ -147,10 +162,10 @@
 					</select>
 				</td>
 				<td>
-					<input type="number" name="resultList[0].get_score" min='0' max='4'/>
+					<input type="number" name="resultList[0].get_score" min='0' max='4' value="0"/>
 				</td>
 				<td>
-					<input type="number" name="resultList[0].era" min='0' max='4'/>
+					<input type="number" name="resultList[0].era" min='0' max='4' value='0'/>
 				</td>
 				<td>
 					<textarea rows="1" cols="10" maxlength="2000" name="resultList[0].content"></textarea>
@@ -166,46 +181,56 @@
 		<input type="submit" value="경기결과 입력">
 		<input type="button" value="경기결과 수정" 
 		onclick ="window.location.href='/Game/UpdateResultForm?league_idx=${gameDto.league_idx}&game_idx=${gameDto.game_idx}'">
+		<input type="button" value="경기목록"
+		onclick ="window.location.href='/Game/GameInfo?league_idx=${gameDto.league_idx}&game_idx=${gameDto.game_idx}'">
 	<br>
 	</form>
+	</div>
 </div>
 <%@include file="/WEB-INF/include/footer.jsp" %>
 
 <!-- 게임 stat update -->
 <script>
-	const btnGameStatUpdate = document.querySelector('#btnGameStatUpdate');
-	
-	btnGameStatUpdate.addEventListener('click', function () {
-	
-		const gameIdx = document.querySelector('#game_idx').value;
-	
-		const data = {
-			game_idx: gameIdx,
-			winner: document.querySelector('input[name="winner"]:checked').value,
-			win_pitcher: document.querySelector('#win_pitcher').value,
-			lose_pitcher: document.querySelector('#lose_pitcher').value,
-			save_pitcher: document.querySelector('#save_pitcher').value,
-			hold_pitcher: document.querySelector('#hold_pitcher').value
-		};
-	
-		fetch('/Game/UpdateGameStat', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(data)
-		})
-		.then(response => response.json())
-		.then(updatedGame => {
-			document.querySelector('#win_pitcher').value = updatedGame.win_pitcher ?? '';
-			document.querySelector('#lose_pitcher').value = updatedGame.lose_pitcher ?? '';
-			document.querySelector('#save_pitcher').value = updatedGame.save_pitcher ?? '';
-			document.querySelector('#hold_pitcher').value = updatedGame.hold_pitcher ?? '';
-			document.querySelector('#winner').value = updatedGame.winner ?? '';
-	
-			alert('경기 정보가 수정되었습니다.');
-		});
-	});
+const btnGameStatUpdate = document.querySelector('#btnGameStatUpdate');
+
+btnGameStatUpdate.addEventListener('click', function () {
+    const data = {
+        game_idx: Number(document.querySelector('#game_idx').value),
+        game_status: Number(
+            document.querySelector('input[name="game_status"]:checked').value
+        ),
+        winner: Number(
+            document.querySelector('input[name="winner"]:checked').value
+        ),
+        win_pitcher: document.querySelector('#win_pitcher').value,
+        lose_pitcher: document.querySelector('#lose_pitcher').value,
+        save_pitcher: document.querySelector('#save_pitcher').value,
+        hold_pitcher: document.querySelector('#hold_pitcher').value
+    };
+
+    fetch('/Game/UpdateGameStat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(updatedGame => {
+        document.querySelector('#win_pitcher').value = updatedGame.win_pitcher ?? '';
+        document.querySelector('#lose_pitcher').value = updatedGame.lose_pitcher ?? '';
+        document.querySelector('#save_pitcher').value = updatedGame.save_pitcher ?? '';
+        document.querySelector('#hold_pitcher').value = updatedGame.hold_pitcher ?? '';
+        document.querySelector(
+            'input[name="game_status"][value="' + updatedGame.game_status + '"]'
+        ).checked = true;
+        document.querySelector(
+            'input[name="winner"][value="' + updatedGame.winner + '"]'
+        ).checked = true;
+
+        alert('경기 정보가 수정되었습니다.');
+    });
+});
 </script>
 <!-- 게임결과추가 script -->
 <script>

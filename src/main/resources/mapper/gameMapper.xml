@@ -269,12 +269,14 @@
  	<update id="updateGameStat">
 		UPDATE GAME
 		SET
-			WINNER = #{winner},
-			WIN_PITCHER = #{win_pitcher},
+			GAME_STATUS  = #{game_status},
+			WINNER 			 = #{winner},
+			WIN_PITCHER  = #{win_pitcher},
 			LOSE_PITCHER = #{lose_pitcher},
 			SAVE_PITCHER = #{save_pitcher},
 			HOLD_PITCHER = #{hold_pitcher}
-		WHERE GAME_IDX = #{game_idx}
+		WHERE 
+			GAME_IDX		 = #{game_idx}
 	</update>
 	
 	<!-- getGameInfo -->
@@ -358,6 +360,31 @@
 		    END,
 		    RECORD_NUM
 	</select>
+	
+	<!-- updateGameResult -->
+	<update id="updateGameResult">
+    UPDATE GAME_RESULT
+       SET INNING       = #{inning},
+           TOP_BOTTOM   = #{top_bottom},
+           HITTER_NUM   = #{hitter_num},
+           HITTER_NAME  = TRIM(#{hitter_name}),
+           HITTER_ID    = TRIM(#{hitter_id}),
+           PITCHER_NAME = TRIM(#{pitcher_name}),
+           PITCHER_ID   = TRIM(#{pitcher_id}),
+           RESULT       = #{result},
+           GET_SCORE    = #{get_score},
+           ERA          = #{era},
+           CONTENT      = #{content}
+     WHERE RECORD_NUM   = #{record_num}
+	</update>
+	
+	<!-- deleteGameResult -->
+	<delete id="deleteGameResult" parameterType="int">
+    DELETE
+      FROM GAME_RESULT
+     WHERE RECORD_NUM = #{record_num}
+	</delete>
+	
  </mapper>
  
  

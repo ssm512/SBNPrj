@@ -38,6 +38,7 @@
 <body>
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>
 	<div class="main-wrapper">
+		<div class="envdiv">
 		<table id="gameenv">
 			<tr>
 				<td>경기번호</td>
@@ -54,19 +55,39 @@
 				<td>${gameinfo.game_field}</td>
 			</tr>
 		</table>
+		</div>
 		<br>
+		<div class="statdiv">
 		<table id="gamestat">
+			<tr>
+				<td>로고</td>
+				<td>Away팀</td>
+				<td>Away점수</td>
+				<td>경기상황</td>
+				<td>Home점수</td>
+				<td>Home팀</td>
+				<td>로고</td>
+			</tr>
 			<tr>
 				<td><%-- ${file.awayfile_name} --%></td>
 				<td>${teamNames.away_name}</td>
 				<td>${topScoreBoard.r}</td>
-				<td>${gameinfo.game_status}</td>
+				<td>
+				<c:choose>
+				    <c:when test="${gameinfo.game_status == 0}">경기미진행</c:when>
+				    <c:when test="${gameinfo.game_status == 1}">경기종료</c:when>
+				    <c:when test="${gameinfo.game_status == 2}">경기중</c:when>
+				    <c:when test="${gameinfo.game_status == 3}">우천취소</c:when>
+				</c:choose>
+				</td>
 				<td>${bottomScoreBoard.r}</td>
 				<td>${teamNames.home_name}</td>
 				<td><%-- ${file.homefile_name} --%></td>
 			</tr>
 		</table>
+		</div>
 		<br>
+		<div class="scorediv">
 		<table id="scoreboard">
 			<tr>
 				<td>팀명</td>
@@ -79,9 +100,9 @@
 				<td>7</td>
 				<td>8</td>
 				<td>9</td>
-				<td>R(점수)</td>
-				<td>H(안타+홈런)</td>
-				<td>B(사사구)</td>
+				<td>R</td>
+				<td>H</td>
+				<td>B</td>
 			</tr>
 			<tr>
 				<td>${teamNames.away_name}</td>
@@ -114,8 +135,9 @@
 				<td>${bottomScoreBoard.b}</td>
 			</tr>
 		</table>
+		</div>
 		<br>
-		<div id="awayhomechoose">
+		<div class="awayhomechoose">
 			<input type="button" id="awayBtn" value="away"/>
 			<input type="button" id="homeBtn" value="home"/>
 		</div>
@@ -127,7 +149,7 @@
 		</div>
 		</c:if>
 		<br>
-		<div id="gamerecord">
+		<div class="gamerecord">
 			<table id="awayhitterrecords" class="away">
 				<tr>
 					<td>타순</td>
@@ -242,6 +264,10 @@
 				</c:forEach>
 			</table>
 		</div>
+		<div class="btndiv">
+		<input type="button" value="경기목록"
+		onclick ="window.location.href='/League/Info?league_idx=${league_idx}'">
+		</div>
 	</div>
 	<%@include file="/WEB-INF/include/footer.jsp" %> 
 	
@@ -253,26 +279,19 @@
 	
 		homeEls.forEach(el => {
 	    el.style.display = 'none';
+	    awayBtnEl.classList.add('selected');
 		});
 	
 		awayBtnEl.addEventListener('click', () => {
-	    awayEls.forEach(el => {
-	        el.style.display = '';
-	    });
-	    homeEls.forEach(el => {
-		       el.style.display = 'none';
-	    });
+	    awayEls.forEach(el => {el.style.display = '';});
+	    homeEls.forEach(el => {el.style.display = 'none';});
 	    awayBtnEl.classList.add('selected');
 	    homeBtnEl.classList.remove('selected');
 		});
 	
 		homeBtnEl.addEventListener('click', () => {
-	    homeEls.forEach(el => {
-	        el.style.display = '';
-	    });
-	    awayEls.forEach(el => {
-	        el.style.display = 'none';
-	    });
+	    homeEls.forEach(el => {el.style.display = '';});
+	    awayEls.forEach(el => {el.style.display = 'none';});
 	    homeBtnEl.classList.add('selected');
 	    awayBtnEl.classList.remove('selected');
 		});
