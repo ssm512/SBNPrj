@@ -7,7 +7,7 @@
     <!-- ===================== TEAM ===================== -->
 
     <!-- 팀 목록 조회 (페이징) -->
-    <select id="selectTeamList" parameterType="hashmap" resultType="com.sbn.team.dto.TeamDto">
+    <select id="getTeamList" parameterType="hashmap" resultType="com.sbn.team.dto.TeamDto">
         SELECT * FROM (
             SELECT ROWNUM RN, A.* FROM (
                 SELECT T.TEAM_IDX      TEAM_IDX,
@@ -20,7 +20,13 @@
                        (SELECT L.LEAGUE_NAME FROM TEAM_LEAGUE TL
                         JOIN LEAGUE L ON TL.LEAGUE_IDX = L.LEAGUE_IDX
                         WHERE TL.TEAM_IDX = T.TEAM_IDX AND TL.JOIN_STATUS = 1
-                        AND ROWNUM = 1) LEAGUE_NAME
+                        AND ROWNUM = 1) LEAGUE_NAME,
+                       (SELECT  COUNT(*)
+													FROM    TEAM_LEAGUE
+													WHERE   TEAM_IDX = T.TEAM_IDX AND JOIN_STATUS = 1) JOIN_LEAGUE_COUNT,
+				               (SELECT COUNT(*) FROM MEMBER_TEAM MT
+						               WHERE  MT.TEAM_IDX    = T.TEAM_IDX
+						               AND    MT.JOIN_STATUS = 1)  MEMBER_COUNT
                 FROM   TEAM T
                 JOIN   MEMBER M ON T.TEAM_MANAGER = M.MEMBER_IDX
                 <where>
@@ -36,7 +42,7 @@
 
 
     <!-- 팀 전체 건수 (페이징용) -->
-    <select id="selectTeamCount" parameterType="hashmap" resultType="int">
+    <select id="getTeamCount" parameterType="hashmap" resultType="int">
         SELECT COUNT(*) FROM TEAM T
         JOIN MEMBER M ON T.TEAM_MANAGER = M.MEMBER_IDX
         <where>
@@ -49,7 +55,7 @@
 
 
     <!-- 팀 상세 조회 -->
-    <select id="selectTeamInfo" parameterType="int" resultType="com.sbn.team.dto.TeamDto">
+    <select id="getTeamInfo" parameterType="int" resultType="com.sbn.team.dto.TeamDto">
         SELECT T.TEAM_IDX      TEAM_IDX,
                T.TEAM_NAME     TEAM_NAME,
                T.TEAM_MANAGER  TEAM_MANAGER,
@@ -79,7 +85,7 @@
     <!-- ===================== TEAM_LEAGUE ===================== -->
 
     <!-- 소속 리그 조회 -->
-    <select id="selectTeamLeague" parameterType="int" resultType="String">
+    <select id="getTeamLeague" parameterType="int" resultType="String">
         SELECT L.LEAGUE_NAME
         FROM   TEAM_LEAGUE TL
         JOIN   LEAGUE      L  ON TL.LEAGUE_IDX = L.LEAGUE_IDX
@@ -91,7 +97,7 @@
     <!-- ===================== MEMBER_TEAM ===================== -->
 
     <!-- 소속 선수 목록 조회 -->
-    <select id="selectMemberTeamList" resultType="com.sbn.team.dto.MemberTeamDto">
+    <select id="getMemberTeamList" resultType="com.sbn.team.dto.MemberTeamDto">
         SELECT M.MEMBER_NAME  MEMBER_NAME,
                M.MEMBER_IDX   MEMBER_IDX,
                MT.POSITION    POSITION,
@@ -137,7 +143,7 @@
     <!-- ===================== 가입 신청 ===================== -->
 
     <!-- 가입 신청 상태 조회 (null = 기록 없음) -->
-    <select id="selectJoinStatus" parameterType="hashmap" resultType="java.lang.Integer">
+    <select id="getJoinStatus" parameterType="hashmap" resultType="java.lang.Integer">
         SELECT JOIN_STATUS FROM MEMBER_TEAM
         WHERE  MEMBER_IDX = #{member_idx}
         AND    TEAM_IDX   = #{team_idx}
@@ -145,7 +151,7 @@
 
 
     <!-- 가입 신청 목록 조회 (JOIN_STATUS = 0) -->
-    <select id="selectJoinRequestList" parameterType="int" resultType="com.sbn.team.dto.MemberTeamDto">
+    <select id="getMemberJoinRequestList" parameterType="int" resultType="com.sbn.team.dto.MemberTeamDto">
         SELECT M.MEMBER_NAME MEMBER_NAME,
                M.MEMBER_IDX  MEMBER_IDX,
                MT.POSITION   POSITION,
@@ -176,7 +182,7 @@
 
 
 	<!-- 팀 이름 중복 확인 -->
-	<select id="selectTeamNameCount" parameterType="String" resultType="int">
+	<select id="getTeamNameCount" parameterType="String" resultType="int">
 	    SELECT COUNT(*) FROM TEAM WHERE TEAM_NAME = #{team_name}
 	</select>
 

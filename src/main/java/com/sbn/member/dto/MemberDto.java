@@ -1,5 +1,8 @@
 package com.sbn.member.dto;
 
+import com.sbn.result.vo.HitterVo;
+import com.sbn.result.vo.PitcherVo;
+
 import lombok.Data;
 
 @Data
@@ -18,5 +21,13 @@ public class MemberDto {
 	private  String  hope_position;
 	private  String  member_regdate;
 	private  String  is_admin;
+	
+	// join
+	private  String  join_team_name;
+	private  int     join_team_count;
+	
+	// 스탯 join
+	private HitterVo  hitstats;
+	private PitcherVo pitchstats; 
 	
 }

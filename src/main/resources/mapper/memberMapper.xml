@@ -39,7 +39,15 @@
            M.ELITE         ELITE,
            M.USE_HAND      USE_HAND,
            M.HOPE_POSITION HOPE_POSITION,
-           M.MEMBER_REGDATE MEMBER_REGDATE
+           M.MEMBER_REGDATE MEMBER_REGDATE,
+           (SELECT T.TEAM_NAME FROM MEMBER_TEAM MT
+            JOIN TEAM T ON MT.TEAM_IDX = T.TEAM_IDX
+            WHERE T.TEAM_MANAGER = M.MEMBER_IDX AND ROWNUM = 1 OR
+						MT.MEMBER_IDX = M.MEMBER_IDX AND MT.JOIN_STATUS = 1
+            AND ROWNUM = 1) JOIN_TEAM_NAME,
+           (SELECT COUNT(*) FROM MEMBER_TEAM MT
+             WHERE  MT.MEMBER_IDX    = M.MEMBER_IDX
+             AND    MT.JOIN_STATUS = 1)  JOIN_TEAM_COUNT      
     FROM   MEMBER M
     LEFT JOIN MEMBER_TEAM MT ON M.MEMBER_IDX = MT.MEMBER_IDX
     LEFT JOIN TEAM T          ON MT.TEAM_IDX  = T.TEAM_IDX
@@ -299,5 +307,92 @@
 	</if>
 </select>
 
+<!-- 랭킹 집계용(검토) 모든 유저 조회 -->
+<select id="getAllMember" resultType="com.sbn.member.dto.MemberDto">
+    SELECT DISTINCT
+           M.MEMBER_IDX    MEMBER_IDX,
+           M.MEMBER_ID     MEMBER_ID,
+           M.MEMBER_NAME   MEMBER_NAME,
+           TO_CHAR(M.BIRTH,'YYYY-MM-DD')  BIRTH,
+           M.ELITE         ELITE,
+           M.MEMBER_REGDATE MEMBER_REGDATE,
+           (SELECT T.TEAM_NAME FROM MEMBER_TEAM MT
+            JOIN TEAM T ON MT.TEAM_IDX = T.TEAM_IDX
+            WHERE T.TEAM_MANAGER = M.MEMBER_IDX AND ROWNUM = 1
+              OR MT.MEMBER_IDX = M.MEMBER_IDX AND MT.JOIN_STATUS = 1
+              AND ROWNUM = 1) JOIN_TEAM_NAME,
+           (SELECT COUNT(*) FROM MEMBER_TEAM MT
+             WHERE  MT.MEMBER_IDX    = M.MEMBER_IDX
+             AND    MT.JOIN_STATUS = 1)  JOIN_TEAM_COUNT      
+    FROM   MEMBER M
+    LEFT JOIN MEMBER_TEAM MT ON M.MEMBER_IDX = MT.MEMBER_IDX
+    LEFT JOIN TEAM T          ON MT.TEAM_IDX  = T.TEAM_IDX
+                              AND MT.JOIN_STATUS = 1
+    ORDER BY M.MEMBER_IDX
+</select>
+
+
+<!-- 전체 타자 집계 -->
+<select id="getAllHitStats" resultType="hashmap">
+	SELECT
+	    GR.HITTER_ID                                                        AS "member_id",
+	    COUNT(DISTINCT GR.GAME_IDX)                                         AS "game_count",
+	    COUNT(*)                                                            AS "pa",
+	    SUM(CASE WHEN GR.RESULT = '1B'  THEN 1 ELSE 0 END)                  AS "single_hit",
+	    SUM(CASE WHEN GR.RESULT = '2B'  THEN 1 ELSE 0 END)                  AS "double_hit",
+	    SUM(CASE WHEN GR.RESULT = '3B'  THEN 1 ELSE 0 END)                  AS "triple_hit",
+	    SUM(CASE WHEN GR.RESULT = 'HR'  THEN 1 ELSE 0 END)                  AS "home_run",
+	    SUM(GR.GET_SCORE)                                                   AS "get_score",
+	    SUM(CASE WHEN GR.RESULT = 'BB'  THEN 1 ELSE 0 END)                  AS "bb_cnt",
+	    SUM(CASE WHEN GR.RESULT = 'K'   THEN 1 ELSE 0 END)                  AS "strike_out",
+	    SUM(CASE WHEN GR.RESULT = 'SAC' THEN 1 ELSE 0 END)                  AS "sac"
+	FROM   GAME_RESULT GR
+	JOIN   GAME G ON GR.GAME_IDX = G.GAME_IDX
+	WHERE  G.GAME_STATUS = 1 AND GR.HITTER_ID IS NOT NULL
+	GROUP BY GR.HITTER_ID
+</select>
+
+
+<!-- 전체 투수 집계 -->
+<select id="getAllPitchStats" resultType="hashmap">
+	SELECT
+	    GR.PITCHER_ID                                                        AS "member_id",
+	    COUNT(DISTINCT GR.GAME_IDX)                                          AS "game_count",
+	    SUM(CASE WHEN GR.RESULT != 'ETC' THEN 1 ELSE 0 END)                  AS "hitter",
+	    SUM(CASE WHEN GR.RESULT IN ('1B','2B','3B','HR') THEN 1 ELSE 0 END)  AS "hit_allowed",
+	    SUM(CASE WHEN GR.RESULT = 'HR'  THEN 1 ELSE 0 END)                   AS "home_run_allowed",
+	    SUM(GR.GET_SCORE)                                                    AS "total_score",
+	    SUM(GR.ERA)                                                          AS "earned_run",
+	    SUM(CASE WHEN GR.RESULT = 'SAC' THEN 1 ELSE 0 END)                   AS "sac",
+	    SUM(CASE WHEN GR.RESULT = 'BB'  THEN 1 ELSE 0 END)                   AS "bb_cnt",
+	    SUM(CASE WHEN GR.RESULT = 'K'   THEN 1 ELSE 0 END)                   AS "strike_out",
+	    SUM(CASE WHEN GR.RESULT = 'OUT' THEN 1 ELSE 0 END)                   AS "out_count"
+	FROM   GAME_RESULT GR
+	JOIN   GAME G ON GR.GAME_IDX = G.GAME_IDX
+	WHERE  G.GAME_STATUS = 1
+	AND    GR.PITCHER_ID IS NOT NULL
+	GROUP BY GR.PITCHER_ID
+</select>
+
+
+<!-- 전체 승패홀세 -->
+<select id="getAllPitchRecord" resultType="hashmap">
+	SELECT
+	    PITCHER_ID                                                          AS "member_id",
+	    SUM(CASE WHEN ROLE = 'WIN'  THEN 1 ELSE 0 END)                      AS "win",
+	    SUM(CASE WHEN ROLE = 'LOSE' THEN 1 ELSE 0 END)                      AS "lose",
+	    SUM(CASE WHEN ROLE = 'SAVE' THEN 1 ELSE 0 END)                      AS "save",
+	    SUM(CASE WHEN ROLE = 'HOLD' THEN 1 ELSE 0 END)                      AS "hold"
+	FROM (
+	    SELECT WIN_PITCHER  AS PITCHER_ID, 'WIN'  AS ROLE FROM GAME WHERE GAME_STATUS = 1 AND WIN_PITCHER  IS NOT NULL
+	    UNION ALL
+	    SELECT LOSE_PITCHER AS PITCHER_ID, 'LOSE' AS ROLE FROM GAME WHERE GAME_STATUS = 1 AND LOSE_PITCHER IS NOT NULL
+	    UNION ALL
+	    SELECT SAVE_PITCHER AS PITCHER_ID, 'SAVE' AS ROLE FROM GAME WHERE GAME_STATUS = 1 AND SAVE_PITCHER IS NOT NULL
+	    UNION ALL
+	    SELECT HOLD_PITCHER AS PITCHER_ID, 'HOLD' AS ROLE FROM GAME WHERE GAME_STATUS = 1 AND HOLD_PITCHER IS NOT NULL
+	)
+	GROUP BY PITCHER_ID
+</select>
 
 </mapper>

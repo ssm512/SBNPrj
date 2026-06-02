@@ -14,24 +14,24 @@ public interface TeamMapper {
 
     // ===================== TEAM =====================
 
-    List<TeamDto> selectTeamList(HashMap<String, Object> map);      // 팀 목록 조회 (페이징)
+    List<TeamDto> getTeamList(HashMap<String, Object> map);      // 팀 목록 조회 (페이징)
 
-    int selectTeamCount(HashMap<String, Object> map);               // 팀 전체 건수 (페이징용)
+    int getTeamCount(HashMap<String, Object> map);               // 팀 전체 건수 (페이징용)
 
-    TeamDto selectTeamInfo(@Param("team_idx") int team_idx);        // 팀 상세 조회
+    TeamDto getTeamInfo(@Param("team_idx") int team_idx);        // 팀 상세 조회
 
     void insertTeam(HashMap<String, Object> map);                   // 팀 생성
 
-    int selectTeamNameCount(String team_name);  					// 팀 이름 중복 확인
+    int getTeamNameCount(String team_name);  					// 팀 이름 중복 확인
 
     // ===================== TEAM_LEAGUE =====================
 
-    List<String> selectTeamLeague(@Param("team_idx") int team_idx); // 소속 리그 조회
+    List<String> getTeamLeague(@Param("team_idx") int team_idx); // 소속 리그 조회
 
 
     // ===================== MEMBER_TEAM =====================
 
-    List<MemberTeamDto> selectMemberTeamList(@Param("team_idx") int team_idx,
+    List<MemberTeamDto> getMemberTeamList(@Param("team_idx") int team_idx,
                                              @Param("keyword")  String keyword); // 소속 선수 목록 조회
 
     void insertMemberTeam(HashMap<String, Object> map);             // 팀 생성자 자동 등록
@@ -43,9 +43,9 @@ public interface TeamMapper {
 
     // ===================== 가입 신청 =====================
 
-    Integer selectJoinStatus(HashMap<String, Object> map);              // 가입 신청 상태 조회
+    Integer getJoinStatus(HashMap<String, Object> map);              // 가입 신청 상태 조회
 
-    List<MemberTeamDto> selectJoinRequestList(@Param("team_idx") int team_idx); // 가입 신청 목록 조회
+    List<MemberTeamDto> getMemberJoinRequestList(@Param("team_idx") int team_idx); // 가입 신청 목록 조회
 
     void insertJoinRequest(HashMap<String, Object> map);                // 가입 신청 INSERT
 

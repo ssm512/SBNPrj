@@ -70,6 +70,7 @@
 
     .player-table tr:first-of-type {
         background-color: #F5F5DC;
+        height: 80px;
         td { border: 1px solid white; }
     }
 

@@ -36,10 +36,11 @@
 
     /* 팀 목록 컬럼 너비 */
     #list {
-        td:nth-of-type(1) { width: 150px; }  /* 팀 이름 */
-        td:nth-of-type(2) { width: 100px; }  /* 감독    */
-        td:nth-of-type(3) { width: 150px; }  /* 리그    */
-        td:nth-of-type(4) { width: 600px; }  /* 팀 소개 */
+        td:nth-of-type(1) { width: 230px; }  /* 팀 이름 */
+        td:nth-of-type(2) { width: 110px; }  /* 감독    */
+        td:nth-of-type(3) { width: 270px; }  /* 리그    */
+        td:nth-of-type(4) { width: 160px; }  /* 선수단  */
+        td:nth-of-type(5) { width: 130px; }  /* 연고지  */
     }
 
     #list tr:not(:first-of-type):hover {
@@ -70,7 +71,8 @@
                 <td>팀 이름</td>
                 <td>감독</td>
                 <td>리그</td>
-                <td>팀 소개</td>
+                <td>선수단</td>
+                <td>연고지</td>
             </tr>
 
             <%-- 팀 목록 출력: 클릭 시 팀 상세 페이지로 이동 --%>
@@ -78,8 +80,16 @@
                 <tr onclick="location.href='/Team/Info?team_idx=${team.team_idx}&keyword='" style="cursor:pointer;">
                     <td>${team.team_name   }</td>
                     <td>${team.member_name }</td>
-                    <td>${team.league_name }</td>
-                    <td>${team.team_content}</td>
+                    <td>${team.league_name }
+                    	<c:if test="${ team.join_league_count eq 0 }" >
+                    		<span style="color: gray;">없음</span>
+                    	</c:if>
+                    	<c:if test="${ team.join_league_count gt 1 }" >
+                    		<br><b>외 ${ team.join_league_count - 1}개 리그</b>
+                    	</c:if>
+                    </td>
+                    <td>${team.member_count} 명</td>
+                    <td>${team.team_location}</td>
                 </tr>
             </c:forEach>
         </table>

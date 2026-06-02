@@ -1,6 +1,7 @@
 package com.sbn.team.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,8 +59,11 @@ public class TeamController {
         map.put("numOfRows", searchDto.getNumOfRows());
         map.put("nowpage",   searchDto.getPageNo());
 
+        // 팀 전체 조회
+        List<TeamDto> team_list = teamService.getTeamList(map);
+        
         ModelAndView mv = new ModelAndView("team/list");
-        mv.addObject("team_list",  teamService.getTeamList(map));
+        mv.addObject("team_list",  team_list);
         mv.addObject("map",        map);
         mv.addObject("searchDto",  searchDto);
 

@@ -40,6 +40,12 @@ public interface MemberMapper {
 
 	HashMap<String, Object> getPitchRecord(HashMap<String, Object> statsMap);
 
+	List<MemberDto> getAllMember();
+	
+	List<HashMap<String, Object>> getAllHitStats();
+	List<HashMap<String, Object>> getAllPitchStats();
+	List<HashMap<String, Object>> getAllPitchRecord();
+
 
 
 }

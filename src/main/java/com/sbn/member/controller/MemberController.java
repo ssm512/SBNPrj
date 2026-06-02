@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sbn.member.dto.MemberDto;
+import com.sbn.member.dto.RankerDto;
 import com.sbn.member.service.MemberService;
 import com.sbn.paging.Pagination;
 import com.sbn.paging.SearchDto;
@@ -158,12 +159,18 @@ public class MemberController {
 	    map.put("offset",    searchDto.getOffset());
 	    map.put("numOfRows", searchDto.getNumOfRows());
 	    
+	    // 선수 목록 전체 조회 (페이징 단위로 짜름)
 		List<MemberDto> memberList  = memberService.getMemberList(map);
+		
+		// 랭킹 관련 - 전체 선수에 대해 집계
+		List<MemberDto> allMemberStats = memberService.getMembersVo();
+		RankerDto       rankerList     = memberService.getRankerList(allMemberStats);
 		
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("member/list");
 		mv.addObject("memberList", memberList);
-		mv.addObject("searchDto", searchDto);
+		mv.addObject("searchDto",  searchDto);
+		mv.addObject("rankerList", rankerList);
 		mv.addObject("map", map);
 		return  mv;
 	}

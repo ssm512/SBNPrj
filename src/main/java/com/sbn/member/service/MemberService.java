@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.sbn.member.dto.MemberDto;
+import com.sbn.member.dto.RankerDto;
 import com.sbn.result.vo.HitterVo;
 import com.sbn.result.vo.PitcherVo;
 import com.sbn.team.dto.TeamDto;
@@ -35,6 +36,12 @@ public interface MemberService {
 	HitterVo getHitStats(HashMap<String, Object> statsMap);
 
 	PitcherVo getPitchStats(HashMap<String, Object> statsMap);
+
+	List<MemberDto> getMembersVo();
+
+	RankerDto getRankerList(List<MemberDto> allMemberStats);
+
+
 
 
 }

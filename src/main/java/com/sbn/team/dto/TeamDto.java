@@ -19,6 +19,9 @@ public class TeamDto {
 	private String manager_name; // 감독 이름(MEMBER 테이블)
 	private String league_name; // 리그 이름(LEAGUE 테이블)
 	
+	// 해당팀이 리그에 가입 된 수
+	private int    join_league_count;
+	
 	// INFO 에 '선수단 수' 가 없어서 추가
 	private int    member_count; // 선수단 수
 	

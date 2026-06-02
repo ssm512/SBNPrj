@@ -22,19 +22,19 @@ public class TeamServiceImpl implements TeamService {
     /* 팀 목록 조회 (페이징) */
     @Override
     public List<TeamDto> getTeamList(HashMap<String, Object> map) {
-        return teamMapper.selectTeamList(map);
+        return teamMapper.getTeamList(map);
     }
 
     /* 팀 전체 건수 조회 (페이징용) */
     @Override
     public int getTeamCount(HashMap<String, Object> map) {
-        return teamMapper.selectTeamCount(map);
+        return teamMapper.getTeamCount(map);
     }
 
     /* 팀 상세 정보 조회 */
     @Override
     public TeamDto getTeamInfo(int team_idx) {
-        return teamMapper.selectTeamInfo(team_idx);
+        return teamMapper.getTeamInfo(team_idx);
     }
 
     /* 팀 생성 - 시퀀스로 생성된 team_idx 반환 */
@@ -47,7 +47,7 @@ public class TeamServiceImpl implements TeamService {
     /* 팀 이름 중복 확인 */
     @Override
     public int getTeamNameCount(String team_name) {
-        return teamMapper.selectTeamNameCount(team_name);
+        return teamMapper.getTeamNameCount(team_name);
     }
 
     // ===================== TEAM_LEAGUE =====================
@@ -55,7 +55,7 @@ public class TeamServiceImpl implements TeamService {
     /* 소속 리그 목록 조회 */
     @Override
     public List<String> getTeamLeague(int team_idx) {
-        return teamMapper.selectTeamLeague(team_idx);
+        return teamMapper.getTeamLeague(team_idx);
     }
 
 
@@ -64,7 +64,7 @@ public class TeamServiceImpl implements TeamService {
     /* 소속 선수 목록 조회 */
     @Override
     public List<MemberTeamDto> getMemberTeamList(int team_idx, String keyword) {
-        return teamMapper.selectMemberTeamList(team_idx, keyword);
+        return teamMapper.getMemberTeamList(team_idx, keyword);
     }
 
     /* 팀 생성자 MEMBER_TEAM 자동 등록 */
@@ -91,13 +91,13 @@ public class TeamServiceImpl implements TeamService {
     /* 가입 신청 상태 조회 */
     @Override
     public Integer getJoinStatus(HashMap<String, Object> map) {
-        return teamMapper.selectJoinStatus(map);
+        return teamMapper.getJoinStatus(map);
     }
 
     /* 가입 신청 목록 조회 (JOIN_STATUS = 0) */
     @Override
     public List<MemberTeamDto> getMemberJoinRequestList(int team_idx) {
-        return teamMapper.selectJoinRequestList(team_idx);
+        return teamMapper.getMemberJoinRequestList(team_idx);
     }
 
     /* 가입 신청 INSERT */
