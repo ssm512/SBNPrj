@@ -5,16 +5,19 @@
     <div class="navbar-inner">
 
         <%-- 로고 --%>
-        <a href="/" class="navbar-brand">SBN</a>
+        <a href="/" class="navbar-brand">
+            <img src="/img/logo.png" alt="SBN" class="navbar-logo" />
+            <span class="navbar-brand-text">SBN</span>
+        </a>
 
-        <%-- 메뉴 --%>
+        <%-- 메뉴 (선수, 팀, 리그, 게시판) --%>
         <ul class="navbar-menu">
             <li><a href="/Member/List?nowpage=1&keyword=">선수</a></li>
             <li><a href="/Team/List?nowpage=1&keyword=">팀</a></li>
             <li><a href="/League/List?nowpage=1&keyword=">리그</a></li>
             <li><a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE">게시판</a></li>
         </ul>
- 
+
         <%-- 로그인 / 로그아웃 --%>
         <div class="navbar-auth">
             <c:choose>
