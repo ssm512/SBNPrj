@@ -17,6 +17,7 @@
 	.main-wrapper {
 		margin: 25px auto;
 		display: flex;
+		gap: 20px;
 	}
 	
 	#left-side {
@@ -27,6 +28,9 @@
 		text-align: center;
 		margin-top: 55px;
 		flex: 1;
+		h3 {
+			margin-bottom: 20px;
+		}
 	}
 	
 	#right-side table {
@@ -87,6 +91,40 @@
     color: white;
     border-color: #006500;
 	}
+	
+	/* 타자/투수 전환 버튼 */
+	#hitRankerBtn, #pitchRankerBtn {
+	    width: 45%;
+	    height: 35px;
+	    border: 2px solid #006500;
+	    border-radius: 20px;
+	    background: white;
+	    cursor: pointer;
+	    font-weight: bold;
+	}
+	
+	#hitRankerBtn.active, #pitchRankerBtn.active {
+	    background: #006500;
+	    color: white;
+	}
+	
+	/* 항목 버튼 */
+	.hit-item-btn, .pitch-item-btn {
+	    width: 22%;
+	    height: 30px;
+	    border: 1px solid #006500;
+	    border-radius: 15px;
+	    background: white;
+	    cursor: pointer;
+	    font-size: 12px;
+	    margin: 3px 1px;
+	}
+	
+	.hit-item-btn.active, .pitch-item-btn.active {
+	    background: #FFD700;
+	    font-weight: bold;
+	}
+	
 	
 	
 </style>
@@ -158,8 +196,19 @@
            <tr><td colspan="3">타율 TOP 5</td></tr>
            <c:forEach var="m" items="${rankerList.avgRanker}" varStatus="vs">
 	           <tr>
-		           <td>${vs.index + 1}위</td>
-		           <td>${m.member_name}</td>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
 		           <td>${m.hitstats.avg}</td>
 	           </tr>
            </c:forEach>
@@ -169,11 +218,22 @@
         <table>
 	        <tr><td colspan="3">홈런 TOP 5</td></tr>
 	        <c:forEach var="m" items="${rankerList.homeRunRanker}" varStatus="vs">
-	          <tr>
-	            <td>${vs.index + 1}위</td>
-	            <td>${m.member_name}</td>
-	            <td>${m.hitstats.homeRun}</td>
-	          </tr>
+	           <tr>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+		           <td>${m.hitstats.homeRun}</td>
+	           </tr>
 	        </c:forEach>
         </table>
     	</div>
@@ -181,11 +241,22 @@
 	      <table>
           <tr><td colspan="3">타점 TOP 5</td></tr>
           <c:forEach var="m" items="${rankerList.getScoreRanker}" varStatus="vs">
-	          <tr>
-	            <td>${vs.index + 1}위</td>
-	            <td>${m.member_name}</td>
-	            <td>${m.hitstats.getScore}</td>
-	          </tr>
+	           <tr>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+		           <td>${m.hitstats.getScore}</td>
+	           </tr>
           </c:forEach>
 	      </table>
     	</div>
@@ -193,11 +264,22 @@
 				<table>
 			    <tr><td colspan="3">안타 TOP 5</td></tr>
 			    <c:forEach var="m" items="${rankerList.hitRanker}" varStatus="vs">
-			      <tr>
-		          <td>${vs.index + 1}위</td>
-		          <td>${m.member_name}</td>
-		          <td>${m.hitstats.totalHit}</td>
-			      </tr>
+	           <tr>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+		           <td>${m.hitstats.totalHit}</td>
+	           </tr>
 					</c:forEach>
 				</table>
 	    </div>
@@ -215,11 +297,22 @@
 	      <table>
 	        <tr><td colspan="3">방어율 TOP 5</td></tr>
 	        <c:forEach var="m" items="${rankerList.eraRanker}" varStatus="vs">
-	          <tr>
-	            <td>${vs.index + 1}위</td>
-	            <td>${m.member_name}</td>
-	            <td>${m.pitchstats.era}</td>
-	          </tr>
+	           <tr>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+		           <td>${m.pitchstats.era}</td>
+	           </tr>
 	        </c:forEach>
 	      </table>
 	    </div>
@@ -227,11 +320,22 @@
 	      <table>
 	        <tr><td colspan="3">승리 TOP 5</td></tr>
 	        <c:forEach var="m" items="${rankerList.winRanker}" varStatus="vs">
-	          <tr>
-	            <td>${vs.index + 1}위</td>
-	            <td>${m.member_name}</td>
-	            <td>${m.pitchstats.win}</td>
-	          </tr>
+	           <tr>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+		           <td>${m.pitchstats.win}</td>
+	           </tr>
 	        </c:forEach>
 	      </table>
 	    </div>
@@ -239,11 +343,22 @@
 	      <table>
 	        <tr><td colspan="3">탈삼진 TOP 5</td></tr>
 	        <c:forEach var="m" items="${rankerList.strikeOutRanker}" varStatus="vs">
-	          <tr>
-	            <td>${vs.index + 1}위</td>
-	            <td>${m.member_name}</td>
-	            <td>${m.pitchstats.strikeOut}</td>
-	          </tr>
+	           <tr>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+		           <td>${m.pitchstats.strikeOut}</td>
+	           </tr>
 	        </c:forEach>
 	      </table>
 	    </div>
@@ -251,11 +366,22 @@
 	      <table>
 	        <tr><td colspan="3">이닝 TOP 5</td></tr>
 	        <c:forEach var="m" items="${rankerList.inningRanker}" varStatus="vs">
-	          <tr>
-	            <td>${vs.index + 1}위</td>
-	            <td>${m.member_name}</td>
-	            <td>${m.pitchstats.inning}</td>
-	          </tr>
+	           <tr>
+		           <td rowspan="2">${vs.index + 1}위</td>
+							 <c:if test="${ m.join_team_count eq 0 }" >
+								 <td colspan="2"><span style="color:gray;">무소속</span></td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count eq 1 }" >
+								 <td colspan="2">${ m.join_team_name }</td>
+							 </c:if>
+							 <c:if test="${ m.join_team_count gt 1 }" >
+								 <td colspan="2">${ m.join_team_name }<b> 외 ${ m.join_team_count - 1 }팀</b></td>
+							 </c:if>
+		         </tr>
+		         <tr>
+		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+		           <td>${m.pitchstats.inning}</td>
+	           </tr>
 	        </c:forEach>
 	      </table>
 	    </div>
