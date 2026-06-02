@@ -20,24 +20,44 @@
         min-height: 100vh;
     }
 
-    /* 콘텐츠 영역이 남은 공간을 모두 차지해 푸터를 하단으로 밀어냄 */
+    /* 콘텐츠 영역 - ::before 로 index.png 블러 배경 적용 */
     .page-wrapper {
         flex: 1;
         padding: 104px 0 32px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-wrapper::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: center 60%;
+        filter: blur(10px) brightness(0.85);
+        transform: scale(1.05);
+        z-index: 0;
+    }
+
+    /* main-wrapper가 블러 배경 위에 뜨도록 */
+    .main-wrapper {
+        position: relative;
+        z-index: 1;
     }
 
     /* common.css의 margin-top: 50px 오버라이드 */
     .footer { margin-top: 0 !important; }
 
-    /* ===== 폼 카드 (베이지 배경 + 둥근 모서리) ===== */
+    /* ===== 폼 카드 (반투명 베이지 + 둥근 모서리) ===== */
     .form-card {
-        background: #F5F5DC;
+        background: rgba(245, 245, 220, 0.88);
         border-radius: 10px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 36px 40px;
         margin: 0 auto;
         margin-bottom: 32px;
-        max-width: 700px;
+        max-width: 500px;
     }
 
     /* ===== 폼 필드 그룹 ===== */

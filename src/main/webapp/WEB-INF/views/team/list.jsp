@@ -23,22 +23,44 @@
         min-height: 100vh;
     }
 
-    /* 콘텐츠 영역이 남은 공간을 모두 차지해 푸터를 하단으로 밀어냄 */
+    /* 콘텐츠 영역 - ::before 로 index.png 블러 배경 적용 */
+    /* overflow: hidden 으로 scale(1.05) 삐져나옴 + 푸터 가림 방지 */
     .content-area {
         flex: 1;
         padding: 104px 0 32px;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* common.css의 margin-top: 50px 오버라이드 (히어로 이후 불필요한 여백 제거) */
+    .content-area::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: center 60%;
+        filter: blur(10px) brightness(0.85);
+        transform: scale(1.05); /* 블러 엣지 잘림 방지 */
+        z-index: 0;
+    }
+
+    /* main-wrapper가 블러 배경 위에 뜨도록 */
+    .main-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* common.css의 margin-top: 50px 오버라이드 */
     .footer {
         margin-top: 0 !important;
     }
 
     /* ===== 섹션 헤더 (그린 라벨 + 대각선 줄무늬 + 하단 구분선) ===== */
+    /* margin-bottom: 0 으로 아래 카드와 여백 없이 붙임 */
     .section-header {
         display: flex;
         align-items: stretch;
-        margin-bottom: 16px;
+        margin-bottom: 0;
         border-bottom: 2px solid #1a3d1a;
     }
 
@@ -70,10 +92,11 @@
         );
     }
 
-    /* ===== 컨텐츠 카드 (베이지 배경 + 둥근 모서리) ===== */
+    /* ===== 컨텐츠 카드 (반투명 베이지 + 둥근 모서리) ===== */
+    /* 블러 배경 위 반투명 베이지 - 상단 모서리는 섹션 헤더와 붙어 있어 제거 */
     .list-card {
-        background: #F5F5DC;
-        border-radius: 10px;
+        background: rgba(245, 245, 220, 0.88);
+        border-radius: 0 0 10px 10px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
         margin-bottom: 32px;
@@ -190,10 +213,10 @@
     }
 
     /* 컬럼별 너비 및 색상 */
-    #list td:nth-of-type(1) { width: 180px; color: #1a3d1a; }  /* 구단명 - 그린 */
-    #list td:nth-of-type(2) { width: 120px; color: #111111; }  /* 감독 */
-    #list td:nth-of-type(3) { width: 160px; color: #111111; }  /* 리그 */
-    #list td:nth-of-type(4) { text-align: left; color: #111111; } /* 구단 소개 */
+    #list td:nth-of-type(1) { width: 180px; color: #1a3d1a; }      /* 구단명 - 그린 */
+    #list td:nth-of-type(2) { width: 120px; color: #111111; }      /* 감독 */
+    #list td:nth-of-type(3) { width: 160px; color: #111111; }      /* 리그 */
+    #list td:nth-of-type(4) { text-align: left; color: #111111; }  /* 구단 소개 */
 
     /* ===== 페이징 ===== */
     #paging {
