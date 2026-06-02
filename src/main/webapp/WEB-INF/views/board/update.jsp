@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
     pageEncoding="UTF-8"%>
     
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
-    
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Board Write</title>
+<title>Board Update</title>
 
 <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 <link href="/css/common.css" rel="stylesheet" />
@@ -50,10 +50,6 @@
   #title-text{
     width:75%;
   }
-  #writer-text{
-    text-align:left;
-    padding:0 10px;
-  }
   #content{
     height:400px;
     background-color: #F5F5DC;
@@ -94,15 +90,16 @@
   .category-buttons .btn.active {
     background-color: #FFD700;
   }
+  
 </style>
-
 </head>
 <body>
   <%@include file="/WEB-INF/include/headermenu.jsp" %>
   
   <div class="main-wrapper">
   
-    <div class="top-bar">
+  <div class="top-bar">
+  
       <div class="category-buttons">
         <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE">
           <button type="button" class="btn ${map.board_type == 'BOARD_FREE' ? 'active' : ''}">
@@ -120,7 +117,7 @@
           </button>
         </a>
         <a href="/Board/WriteForm?nowpage=1&keyword=&board_type=${map.board_type}">
-          <button type="button" class="btn active">
+          <button type="button" class="btn">
             새 글 쓰기
           </button>
         </a>
@@ -128,77 +125,43 @@
       
     </div>
   
-    <form action="/Board/Write" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="board_type" value="${map.board_type}" />
-    <input type="hidden" name="nowpage"    value="${map.nowpage}" />
-    <input type="hidden" name="writer"     value="${sessionScope.login.member_id}" />
-    <table>
-      <tr>
-        <td id="title">제목</td>
-        <td id="title-text" colspan="3">
-          <input type="text" name="title" placeholder="제목을 입력하세요" />
-        </td>
-      </tr>
-      <tr>
-        <td id="title">작성자</td>
-        <td id="writer-text" colspan="3">${sessionScope.login.member_id}</td>
-      </tr>
-      <tr>
-        <td id="content">내용</td>
-        <td colspan="3">
-          <textarea name="content" placeholder="내용을 입력하세요"></textarea>
-        </td>
-      </tr>
-      
-      <tr>
-        <td class="list" colspan="2">
-          <input type="button" value="목록" id="goList" />
-        </td>
-        <td class="list" colspan="2">
-          <input type="submit" value="확인" />
-        </td>
-      </tr>
-    </table>
+    <form action="/Board/Update" method="post">
+      <input type="hidden" name="board_idx"  value="${board.board_idx}" />
+      <input type="hidden" name="board_type" value="${board.board_type}" />
+      <input type="hidden" name="nowpage"    value="${map.nowpage}" />
+
+      <table>
+        <tr>
+          <td id="title">제목</td>
+          <td id="title-text" colspan="3">
+            <input type="text" name="title" value="${board.title}" />
+          </td>
+        </tr>
+        <tr>
+          <td id="content">내용</td>
+          <td colspan="3">
+            <textarea name="content">${board.content}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="list" colspan="2">
+            <input type="button" value="취소" id="goView" />
+          </td>
+          <td class="list" colspan="2">
+            <input type="submit" value="수정 완료" />
+          </td>
+        </tr>
+      </table>
     </form>
     
-    <%@include file="/WEB-INF/include/boardpaging.jsp" %>
-    
   </div>
-  
+
   <%@include file="/WEB-INF/include/footer.jsp" %>
-  
+
   <script>
-    
-  // 목록으로 이동하기
-  const goListEl = document.querySelector('#goList')
-  goListEl.onclick = function() {
-	  location.href = '/Board/List?nowpage=1&board_type=${map.board_type}'
-  }
-  
+    document.querySelector('#goView').onclick = function() {
+      location.href = '/Board/View?board_idx=${board.board_idx}&board_type=${board.board_type}&nowpage=${map.nowpage}';
+    }
   </script>
-  
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

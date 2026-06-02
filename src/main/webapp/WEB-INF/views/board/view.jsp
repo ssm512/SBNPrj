@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Board Write</title>
+<title>Board View</title>
 
 <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 <link href="/css/common.css" rel="stylesheet" />
@@ -19,6 +19,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    margin-top:20px;
   }
 
   /* 왼쪽 중상단 카테고리 버튼 스타일 */
@@ -73,6 +74,10 @@
     text-align: left;
     vertical-align: top;
     padding:10px;
+    white-space: pre-wrap; /* 줄 바꿈 문자를 줄 바꿈으로 출력해줌 */
+  }
+  .category-buttons .btn.active {
+    background-color: #FFD700;
   }
 </style>
 
@@ -85,17 +90,17 @@
     <div class="top-bar">
       <div class="category-buttons">
         <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE">
-          <button type="button" class="btn">
+          <button type="button" class="btn ${map.board_type == 'BOARD_FREE' ? 'active' : ''}">
             자유
           </button>
         </a>
         <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_TEAM">
-          <button type="button" class="btn">
+          <button type="button" class="btn ${map.board_type == 'BOARD_TEAM' ? 'active' : ''}">
             팀 모집
           </button>
         </a>
         <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_PLAYER">
-          <button type="button" class="btn">
+          <button type="button" class="btn ${map.board_type == 'BOARD_PLAYER' ? 'active' : ''}">
             선수 모집
           </button>
         </a>
@@ -117,40 +122,47 @@
       </tr>
       <tr>
         <td class="td2">작성자</td>
-        <td>${board.writer}</td>
+        <td>
+            ${board.writer}
+        </td>
         <td class="td2">작성일</td>
         <td>${board.regdate }</td>
       </tr>
       <tr>
         <td class="td3">제목</td>
-        <td id="title" colspan="3">${board.title}</td>
+        <td id="title" colspan="3"><c:out value="${board.title}" /></td>
       </tr>
       <tr>
         <td class="td4">내용</td>
-        <td id="content" colspan="3">${board.content}</td>
+        <td id="content" colspan="3"><c:out value="${board.content}" /></td>
       </tr>
       <tr>
-        <td class="td5">
-          <a href="">
+        <td class="td5" colspan="2">
+          <a href="/Board/WriteForm?nowpage=${map.nowpage}&board_type=${map.board_type}">
             새 글 쓰기
           </a>
         </td>
-        <td class="td5">
-          <a href="">
-            수정
-          </a>
-        </td>
-        <td class="td5">
-          <a href="">
-            삭제
-          </a>
-        </td>
-        <td class="td5">
-          <a href="">
+        <td class="td5" colspan="2">
+          <a href="/Board/List?nowpage=${map.nowpage}&keyword=&board_type=${map.board_type}">
             목록
           </a>
         </td>
       </tr>
+      <c:if test="${sessionScope.login.member_id == board.writer || sessionScope.login.is_admin == 'Y' }">
+      <tr>
+        <td class="td5" colspan="2">
+          <a href="/Board/UpdateForm?board_idx=${board.board_idx}&board_type=${map.board_type}&nowpage=${map.nowpage}">
+            수정
+          </a>
+        </td>
+        <td class="td5" colspan="2">
+          <a href="/Board/Delete?board_idx=${board.board_idx}&board_type=${map.board_type}&nowpage=${map.nowpage}"
+             onclick="return confirm('정말 삭제하시겠습니까?')">
+            삭제
+          </a>
+        </td>
+      </tr>
+      </c:if>
     </table>
     
   </div>

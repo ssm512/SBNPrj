@@ -20,6 +20,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    margin-top:20px;
   }
 
   /* 왼쪽 중상단 카테고리 버튼 스타일 */
@@ -72,6 +73,14 @@
   #tr1 {
     background-color: #F5F5DC;
   }
+  #td1{width:10%;}
+  #td2{width:10%;}
+  #td3{width:50%;}
+  #td4{width:20%;}
+  #td5{width:10%;}
+  .category-buttons .btn.active {
+    background-color: #FFD700;
+  }
 </style>
 
 </head>
@@ -83,17 +92,17 @@
     <div class="top-bar">
       <div class="category-buttons">
         <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE">
-          <button type="button" class="btn">
+          <button type="button" class="btn ${map.board_type == 'BOARD_FREE' ? 'active' : ''}">
             자유
           </button>
         </a>
         <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_TEAM">
-          <button type="button" class="btn">
+          <button type="button" class="btn ${map.board_type == 'BOARD_TEAM' ? 'active' : ''}">
             팀 모집
           </button>
         </a>
         <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_PLAYER">
-          <button type="button" class="btn">
+          <button type="button" class="btn ${map.board_type == 'BOARD_PLAYER' ? 'active' : ''}">
             선수 모집
           </button>
         </a>
@@ -123,11 +132,11 @@
     <table class="board-table">
     
         <tr id="tr1">
-          <td>번호</td>
-          <td>작성자</td>
-          <td>제목</td>
-          <td>작성일</td>
-          <td>조회수</td>
+          <td id="td1">번호</td>
+          <td id="td2">작성자</td>
+          <td id="td3">제목</td>
+          <td id="td4">작성일</td>
+          <td id="td5">조회수</td>
         </tr>
         
         <c:forEach var="board" items="${boardList}">
@@ -136,7 +145,7 @@
           <td>${board.writer}</td>
           <td>
             <a href="/Board/View?nowpage=${map.nowpage}&keyword=${map.keyword}&board_type=${map.board_type}&board_idx=${board.board_idx}">
-              ${board.title}
+              <c:out value="${board.title}" />
             </a>
           </td>
           <td>${board.regdate}</td>
