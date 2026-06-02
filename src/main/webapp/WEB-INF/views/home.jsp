@@ -9,110 +9,196 @@
 <title>SBN</title>
 <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 <link href="/css/common.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet" />
 <style>
 
-    /* ===== 히어로 섹션 ===== */
+    /* ===== 스크롤바 고정 (레이아웃 중앙 일치용) ===== */
+    html {
+        overflow-y: scroll;
+    }
+
+    /* ===== 상단 고정 그라디언트 (네비바 가독성) ===== */
+    .top-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 130px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+        pointer-events: none;
+        z-index: 99;
+    }
+
+    /* ===== 네비바 오버라이드 (투명 배경 - 히어로 이미지 위에 띄우기) ===== */
+    .navbar {
+        position: fixed !important;
+        background-color: transparent !important;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none;
+    }
+
+    /* 스크롤 시 반투명 그린으로 전환 (JS에서 .scrolled 클래스 토글) */
+    .navbar.scrolled {
+        background-color: rgba(26, 61, 26, 0.92) !important;
+    }
+
+    /* navbar-inner - home에서는 padding만 유지 (position: relative는 common.css에서 상속) */
+    .navbar-inner {
+        width: 100%;
+        padding: 0 48px;
+        position: relative;
+    }
+
+    /* 로고 색상 - 투명 네비바 위에서도 골드 유지 */
+    .navbar-brand {
+        color: #FFD700;
+        text-shadow: none;
+    }
+
+    /* 메뉴 위치 - common.css의 -63% 대신 홈 전용 -60% 적용 */
+    .navbar-menu {
+        position: absolute;
+        left: 50%;
+        transform: translateX(calc(-60% + 20px));
+    }
+
+    /* 메뉴 링크 - 배경 이미지 위 가독성을 위해 텍스트 쉐도우 추가 */
+    .navbar-menu a {
+        color: #ffffff;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .navbar-menu a:hover {
+        color: #FFD700;
+    }
+
+    /* 로그인 / 로그아웃 - 배경 이미지 위 가독성을 위해 텍스트 쉐도우 추가 */
+    .navbar-auth a {
+        color: #ffffff;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .navbar-auth a:hover {
+        color: #FFD700;
+    }
+
+    .navbar-auth span {
+        color: #ffffff;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    /* 로그인 버튼 테두리 - 흰색 배경에서 더 잘 보이게 */
+    .navbar-auth .btn-login {
+        border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ===== 히어로 섹션 (100vh 꽉 채움 + 배경 줌인 애니메이션) ===== */
     .hero-section {
         width: 100%;
-        height: 1000px;
+        height: 100vh;
         background-image: url('/img/index.png');
-        background-size: cover;
-        background-position: center;
+        background-size: 110%;
+        background-position: 39% 80%;
         display: flex;
         align-items: center;
+        justify-content: center;
+        position: relative;
+        animation: heroZoom 10s ease-out forwards;
     }
 
-    .hero-content {
-        width: 48%;
-        padding: 0 80px;
+    @keyframes heroZoom {
+        from { background-size: 110%; }
+        to   { background-size: 116%; }
     }
 
-    .hero-title {
-        font-size: 52px;
+    /* ===== 메인 텍스트 (SOCIAL BASEBALL NET) - 원근감 표현 ===== */
+    .hero-text {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        transform: perspective(700px) rotateX(12deg) translateX(10px);
+        transform-origin: center center;
+    }
+
+    /* 각 줄 공통 스타일 + fadeInUp 애니메이션 */
+    .hero-line {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 100px;
         font-weight: 900;
-        color: #006400;
-        line-height: 1.25;
-        margin-bottom: 16px;
-        border: none;
+        line-height: 1.08;
+        letter-spacing: 10px;
+        opacity: 0;
+        animation: fadeInUp 0.7s ease forwards;
     }
 
-    .hero-underline {
-        width: 55px;
-        height: 4px;
-        background-color: #c8a800;
-        margin-bottom: 22px;
+    /* 각 줄 애니메이션 딜레이 */
+    .line-1 { animation-delay: 0.2s; }
+    .line-2 { animation-delay: 0.65s; }
+    .line-3 { animation-delay: 1.1s; }
+
+    /* S, B, N - 골드 */
+    .letter-gold {
+        color: #FFD700;
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.2);
     }
 
-    .hero-sub {
-        font-size: 15px;
-        color: #333;
-        line-height: 1.8;
-        margin-bottom: 36px;
+    /* OCIAL, ASEBALL, ET - 흰색 */
+    .letter-rest {
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
     }
 
-    .hero-buttons {
-        display: flex;
-        gap: 14px;
+    /* ===== fadeInUp 애니메이션 정의 ===== */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .btn-hero-primary {
-        padding: 14px 38px;
-        background-color: #006400;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .btn-hero-primary:hover {
-        background-color: #004d00;
-    }
-
-    .btn-hero-secondary {
-        padding: 14px 38px;
-        background-color: #fff;
-        color: #333;
-        border: 2px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .btn-hero-secondary:hover {
-        background-color: #f0f0f0;
-    }
-
-    /* 히어로 섹션 내 테이블 border 초기화 */
-    .hero-section table,
-    .hero-section td,
-    .hero-section th {
-        border: none;
+    /* ===== 푸터 여백 제거 (히어로 섹션 바로 아래 붙임) ===== */
+    .footer {
+        margin-top: 0 !important;
     }
 
 </style>
 </head>
 <body>
+    <div class="top-gradient"></div>
     <%@ include file="/WEB-INF/include/headermenu.jsp" %>
 
     <%-- 히어로 섹션 --%>
     <div class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title">함께하는 야구,<br>더 큰 즐거움</h1>
-            <div class="hero-underline"></div>
-            <p class="hero-sub">
-                사회인 야구인들을 위한 최고의 커뮤니티<br>
-                팀 찾기부터 경기 정보, 커뮤니티 활동까지 한 곳에서!
-            </p>
-            <div class="hero-buttons">
-                <a href="/Team/List?nowpage=1&keyword="><button class="btn-hero-primary">팀 찾기</button></a>
-                <a href="/League/List?nowpage=1&keyword="><button class="btn-hero-secondary">경기 일정 보기</button></a>
+        <div class="hero-text">
+            <div class="hero-line line-1">
+                <span class="letter-gold">S</span><span class="letter-rest">OCIAL</span>
+            </div>
+            <div class="hero-line line-2">
+                <span class="letter-gold">B</span><span class="letter-rest">ASEBALL</span>
+            </div>
+            <div class="hero-line line-3">
+                <span class="letter-gold">N</span><span class="letter-rest">ET</span>
             </div>
         </div>
     </div>
 
     <%@ include file="/WEB-INF/include/footer.jsp" %>
+
+    <%-- 스크롤 시 네비바 반투명 그린 전환 --%>
+    <script>
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>
