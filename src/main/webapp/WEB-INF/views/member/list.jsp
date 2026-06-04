@@ -21,30 +21,22 @@
         min-height: 100vh;
     }
 
-    /* 콘텐츠 영역 - ::before 로 index.png 블러 배경 적용 */
-    .content-area {
-        flex: 1;
-        padding: 104px 0 32px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .content-area::before {
+    /* fixed 블러 배경 - overflow: hidden 불필요, 콘텐츠 잘림 방지 */
+    body::before {
         content: '';
-        position: absolute;
-        inset: 0;
+        position: fixed;
+        inset: -5%;
         background-image: url('/img/index.png');
         background-size: cover;
         background-position: center 60%;
         filter: blur(10px) brightness(0.85);
-        transform: scale(1.05);
-        z-index: 0;
+        z-index: -1;
     }
 
-    /* main-wrapper가 블러 배경 위에 뜨도록 */
-    .main-wrapper {
-        position: relative;
-        z-index: 1;
+    /* 콘텐츠 영역 */
+    .content-area {
+        flex: 1;
+        padding: 104px 0 32px;
     }
 
     /* common.css의 margin-top: 50px 오버라이드 */

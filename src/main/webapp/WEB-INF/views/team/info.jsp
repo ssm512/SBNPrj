@@ -376,6 +376,27 @@
         color: #ffffff;
     }
 
+    .btn-list {
+        padding: 9px 22px;
+        background: rgba(255, 255, 255, 0.6);
+        color: #1a3d1a;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-list:hover {
+        background: #1a3d1a;
+        color: #FFD700;
+        border-color: #1a3d1a;
+    }
+
 </style>
 </head>
 <body>
@@ -491,7 +512,8 @@
 
                 <%-- 하단 버튼 바 --%>
                 <div class="bottom-bar">
-                    <div>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <a href="/Team/List?nowpage=1&keyword=" class="btn-list">목록</a>
                         <c:if test="${myJoinStatus != 1}">
                             <button class="btn-join" type="button" onclick="requestJoin(${map.team_idx})">팀 가입 신청</button>
                         </c:if>

@@ -294,11 +294,33 @@
         color: #ffffff;
     }
 
-    /* ===== 하단 수정 완료 버튼 바 ===== */
+    /* ===== 하단 버튼 바 ===== */
     .bottom-bar {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         margin-top: 20px;
+    }
+
+    .btn-list {
+        padding: 9px 22px;
+        background: rgba(255, 255, 255, 0.6);
+        color: #1a3d1a;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-list:hover {
+        background: #1a3d1a;
+        color: #FFD700;
+        border-color: #1a3d1a;
     }
 
     /* 수정 완료 버튼 - 골드 배경 + 그린 텍스트 */
@@ -428,8 +450,9 @@
 
                 </div>
 
-                <%-- 수정 완료 버튼 --%>
+                <%-- 하단 버튼 바 --%>
                 <div class="bottom-bar">
+                    <a href="/Team/List?nowpage=1&keyword=" class="btn-list">목록</a>
                     <button type="button" class="btn-submit" onclick="submitUpdate()">수정 완료</button>
                 </div>
 
