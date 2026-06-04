@@ -58,6 +58,7 @@
 			}
 		}
 	}
+
 	
 	form {
 		margin-left: 60px;
@@ -157,7 +158,19 @@
 			</tr>
 			<c:forEach var="member" items="${ memberList }">
 			<tr>
-				<td>선수 사진</td>
+				<td class="member-profile-img">
+			    <c:choose>
+		        <c:when test="${not empty member.sfile_name}">
+	            <img src="/sbndata/${member.sfile_name}"
+	                 style="width:40px; height:40px; border-radius:50%; object-fit:cover;"
+	                 onerror="this.src='/img/404_testimg.jpg'" />
+		        </c:when>
+		        <c:otherwise>
+	            <img src="/img/sbndefaultimg.png"
+	                 style="width:40px; height:40px; border-radius:50%;"/>
+		        </c:otherwise>
+			    </c:choose>
+				</td>
 				<td>${ member.member_name }</td>
 				<td>${ member.join_team_name }
 					<c:if test="${ member.join_team_count eq 0 }" >
@@ -208,7 +221,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.hitstats.avg}</td>
 	           </tr>
            </c:forEach>
@@ -231,7 +249,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.hitstats.homeRun}</td>
 	           </tr>
 	        </c:forEach>
@@ -254,7 +277,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.hitstats.getScore}</td>
 	           </tr>
           </c:forEach>
@@ -277,7 +305,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.hitstats.totalHit}</td>
 	           </tr>
 					</c:forEach>
@@ -310,7 +343,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.pitchstats.era}</td>
 	           </tr>
 	        </c:forEach>
@@ -333,7 +371,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.pitchstats.win}</td>
 	           </tr>
 	        </c:forEach>
@@ -356,7 +399,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.pitchstats.strikeOut}</td>
 	           </tr>
 	        </c:forEach>
@@ -379,7 +427,12 @@
 							 </c:if>
 		         </tr>
 		         <tr>
-		           <td><a href="/Member/Stats?member_idx=${m.member_idx}">${m.member_name}</a></td>
+					     <td><a href="/Member/Stats?member_idx=${m.member_idx}">
+					        <img src="/sbndata/${m.sfile_name}"
+					             style="width:30px; height:30px; border-radius:50%; object-fit:cover; vertical-align:middle;"
+					             onerror="this.src='/img/sbndefaultimg.png'"/>
+					        ${m.member_name}</a>
+			         </td>
 		           <td>${m.pitchstats.inning}</td>
 	           </tr>
 	        </c:forEach>

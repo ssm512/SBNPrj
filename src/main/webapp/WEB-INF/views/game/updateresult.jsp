@@ -80,8 +80,8 @@
 			        </select>
 			    </td>
 			
-			    <td><input class="get_score" type="number" min="0" max="4" value="${record.get_score}" /></td>
-			    <td><input class="era" type="number" min="0" max="4" value="${record.era}" /></td>
+			    <td><input class="get_score" type="number" min="-4" max="4" value="${record.get_score}" /></td>
+			    <td><input class="era" type="number" min="-4" max="4" value="${record.era}" /></td>
 			    <td><textarea class="content" rows="1" cols="10" maxlength="2000">${record.content}</textarea></td>
 			
 			    <td>

@@ -21,6 +21,23 @@
 		grid-template-columns: 1fr 3fr;
 	}
 	
+	.profile-img {
+		border: 1px solid gray;
+		padding: 10px;
+		margin-bottom: 10px;
+	}
+	
+	
+	.profile-img img {
+		border: 1px solid gray;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+	}
+	
 	.hit-pitch-btn {
 		margin: 15px auto;
 		text-align: center;
@@ -120,6 +137,19 @@
 			<div class="hit-pitch-btn">
 				<input type="button" id="hitBtn" value="타자"/>
 				<input type="button" id="pitchBtn" value="투수"/>
+			</div>
+			<div class="profile-img">
+				<c:choose>
+			    <c:when test="${not empty fileInfo}">
+		        <img src="/sbndata/${fileInfo.sfile_name}"
+		             style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/
+		             onerror="this.src='/img/404_testimg.jpg'"/>
+			    </c:when>
+			    <c:otherwise>
+		        <img src="/img/sbndefaultimg.png"
+		             style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/>
+			    </c:otherwise>
+				</c:choose>
 			</div>
 			<div class="profile">
 				<p>${ member.member_name } [${ member.elite }]</p>

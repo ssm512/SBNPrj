@@ -19,12 +19,24 @@
 		justify-content: center;
 		gap: 20px;
 		grid-template-columns: 1fr 3fr;
+		margin-top: 25px;
 	}
 	
 	.member-profile-img {
 		background-color: #FFD700;
 		text-align: center;
+		padding: 15px;
 	}
+	
+	.member-profile-img img {
+		border: 1px solid gray;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+}
 	
 	.myteamlist {
 		margin-top: 25px;
@@ -77,7 +89,17 @@
 	<div class="main-wrapper">
 		<div>
 			<div class="member-profile-img">
-				<p>이미지</p>
+				<c:choose>
+			    <c:when test="${not empty fileInfo}">
+		        <img src="/sbndata/${fileInfo.sfile_name}"
+		             style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/
+		             onerror="this.src='/img/404_testimg.jpg'"/>
+			    </c:when>
+			    <c:otherwise>
+		        <img src="/img/sbndefaultimg.png"
+		             style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/>
+			    </c:otherwise>
+				</c:choose>
 				<p>${ sessionScope.login.member_name }</p>
 				<input type="button" id="mystatsbtn" value="내 전적 조회"  />
 			</div>

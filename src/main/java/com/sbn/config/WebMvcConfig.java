@@ -1,16 +1,21 @@
 package com.sbn.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.sbn.interceptor.AuthInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+	
+	@Value("${part1.upload-path}")
+	private  String           uploadPath;
 	
 	@Autowired
 	private  AuthInterceptor  authInterceptor;
@@ -34,6 +39,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				    "/Member/EmailDupCheck/**");
 		
 	    WebMvcConfigurer.super.addInterceptors(registry);
+	}
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	    registry.addResourceHandler("/sbndata/**")
+	            .addResourceLocations("file:///" + uploadPath);
 	}
 	
 	@Bean

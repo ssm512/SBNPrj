@@ -1,9 +1,13 @@
 package com.sbn.member.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sbn.member.dto.MemberDto;
@@ -31,6 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/Member")
 public class MemberController {
+	
+	@Value("${part1.upload-path}")
+	private  String         uploadPath;
 
 	@Autowired
 	private  MemberService  memberService;
@@ -187,10 +195,13 @@ public class MemberController {
 		// idx 로 가입된 팀 전체 조회
 		List<TeamDto> teamList = memberService.getMyTeamList(member_idx);
 		// System.out.println(teamList);
+		// 사진 파일 조회
+	    HashMap<String, Object> fileInfo = memberService.getMemberFile(member_idx);
 		
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("member/mypage");
 		mv.addObject("teamList", teamList);
+		mv.addObject("fileInfo", fileInfo);
 		return  mv;
 	}
 	
@@ -203,20 +214,56 @@ public class MemberController {
 		
 		// idx 로 가입된 팀 전체 조회
 		List<TeamDto> teamList = memberService.getMyTeamList(member_idx);
+		// 사진 조회
+		HashMap<String, Object> fileInfo = memberService.getMemberFile(member_idx);
 		
 		ModelAndView  mv  = new ModelAndView();
 		mv.setViewName("member/update");
 		mv.addObject("teamList", teamList);
+		mv.addObject("fileInfo", fileInfo);
 		return  mv;
 	}
 	
 	@Transactional
 	@PostMapping("/Update")
 	public  ModelAndView  update(@RequestParam HashMap<String, Object> map,
-								HttpServletRequest request) {
+			 				     @RequestParam(name="file", required = false) MultipartFile file,
+								HttpServletRequest request) throws IllegalStateException, IOException {
 
 		// 멤버 개인 정보 수정 + member_team 테이블의 elite 여부도 함께 수정
 		memberService.updateMember(map);
+		
+	    // 파일 있으면 저장
+	    if (file != null && !file.isEmpty()) {
+	        String originalName = file.getOriginalFilename();
+	        String ext          = originalName.substring(originalName.lastIndexOf(".") + 1);
+	        String saveName     = UUID.randomUUID().toString() + "." + ext;
+	
+	        file.transferTo(new java.io.File(uploadPath + saveName));
+	
+	        HashMap<String, Object> fileMap = new HashMap<>();
+	        fileMap.put("member_idx", map.get("member_idx"));
+	        fileMap.put("file_name",  originalName);
+	        fileMap.put("file_ext",   ext);
+	        fileMap.put("sfile_name", saveName);
+	
+	        // 기존 이미지 있으면 update, 없으면 insert
+	        HashMap<String, Object> existing = memberService.getMemberFile(
+	            Integer.parseInt(map.get("member_idx").toString()));
+	        if (existing != null) {
+	            // 기존 파일 디스크에서 삭제
+	        	Object sfileObj = existing.get("SFILE_NAME") != null 
+	                    ? existing.get("SFILE_NAME") 
+	                    : existing.get("sfile_name");
+	            File oldFile = new File(uploadPath + sfileObj.toString());
+	            if (oldFile.exists()) {
+	                oldFile.delete();
+	            }
+	            memberService.updateMemberFile(fileMap);
+	        } else {
+	            memberService.insertMemberFile(fileMap);
+	        }
+	    }
 		
 		// 수정된 정보 재 조회후 세션 갱신
 		MemberDto  updated = memberService.getMemberById(map);
@@ -238,6 +285,8 @@ public class MemberController {
 		List<TeamDto> teamList   = memberService.getMyTeamList(member_idx);
 		// 해당 선수 기본정보(최소화) 조회
 		MemberDto     member     = memberService.getMemberProfile(member_idx);
+		// 사진 파일 조회
+	    HashMap<String, Object> fileInfo = memberService.getMemberFile(member_idx);
 		// 해당 번호의 선수가 없다면
 		if (member == null) {
 			return new ModelAndView("redirect:/Member/List?nowpage=1&keyword=");
@@ -260,6 +309,7 @@ public class MemberController {
 		mv.addObject("member",      member);
 		mv.addObject("hitstats" ,   hitstats);
 		mv.addObject("pitchstats" , pitchstats);
+		mv.addObject("fileInfo",    fileInfo);
 		mv.addObject("map",      map);
 		return  mv;
 	}

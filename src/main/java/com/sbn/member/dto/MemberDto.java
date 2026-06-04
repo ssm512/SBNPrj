@@ -30,4 +30,7 @@ public class MemberDto {
 	private HitterVo  hitstats;
 	private PitcherVo pitchstats; 
 	
+	// 사진
+	private String    sfile_name;
+	
 }

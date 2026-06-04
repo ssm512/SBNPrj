@@ -46,6 +46,12 @@ public interface MemberMapper {
 	List<HashMap<String, Object>> getAllPitchStats();
 	List<HashMap<String, Object>> getAllPitchRecord();
 
+	HashMap<String, Object> getMemberFile(int member_idx);
+
+	void updateMemberFile(HashMap<String, Object> fileMap);
+
+	void insertMemberFile(HashMap<String, Object> fileMap);
+
 
 
 }
