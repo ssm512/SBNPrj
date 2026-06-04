@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
@@ -102,6 +102,78 @@
         flex: 1;
     }
 
+    /* ===== 구단 로고 영역 ===== */
+    .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #c8c4aa;
+        margin-bottom: 24px;
+    }
+
+    .team-logo-img {
+        width: 88px;
+        height: 88px;
+        object-fit: contain;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        background: #fff;
+        padding: 5px;
+        flex-shrink: 0;
+    }
+
+    .logo-placeholder {
+        width: 88px;
+        height: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        color: #bbb;
+        letter-spacing: 1px;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        background: #fff;
+        flex-shrink: 0;
+    }
+
+    .logo-info .logo-team-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a3d1a;
+        letter-spacing: 1px;
+    }
+
+    .logo-info .logo-hint {
+        font-size: 12px;
+        color: #888;
+        margin: 4px 0 8px;
+    }
+
+    .btn-logo-change {
+        display: inline-block;
+        padding: 5px 14px;
+        background: rgba(26, 61, 26, 0.06);
+        color: #1a3d1a;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+        text-transform: uppercase;
+    }
+
+    .btn-logo-change:hover {
+        background: #1a3d1a;
+        color: #FFD700;
+        border-color: #1a3d1a;
+    }
     /* 소섹션 타이틀 (소속 선수 리스트 / 가입 신청 현황) */
     .subsection-title {
         font-family: 'Oswald', sans-serif;
@@ -259,6 +331,29 @@
 
             <div class="managing-card">
 
+                <%-- 구단 로고 영역 (감독만 변경 가능) --%>
+                <div class="logo-row">
+                    <c:choose>
+                        <c:when test="${not empty team.sfile_name}">
+                            <img src="/sbndata/${team.sfile_name}" class="team-logo-img" alt="구단 로고">
+                        </c:when>
+                        <c:otherwise>
+                            <div class="logo-placeholder">NO<br>LOGO</div>
+                        </c:otherwise>
+                    </c:choose>
+                    <div class="logo-info">
+                        <div class="logo-team-name">${team.team_name}</div>
+                        <div class="logo-hint">클릭하여 로고를 변경하세요.</div>
+                        <form action="/Team/UpdateLogo" method="post" enctype="multipart/form-data" style="margin:0">
+                            <input type="hidden" name="team_idx" value="${team.team_idx}">
+                            <input type="hidden" name="from" value="managing">
+                            <label class="btn-logo-change">
+                                로고 변경
+                                <input type="file" name="team_logo" accept="image/*" onchange="this.form.submit()" style="display:none">
+                            </label>
+                        </form>
+                    </div>
+                </div>
                 <div class="managing-area">
 
                     <%-- 좌측: 소속 선수 리스트 --%>

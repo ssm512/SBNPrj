@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -217,6 +217,60 @@
         color: #999;
     }
 
+    /* ===== 구단 로고 ===== */
+    .logo-card {
+        background: #fff;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        padding: 10px;
+        text-align: center;
+        margin-bottom: 12px;
+        overflow: hidden;
+    }
+
+    .team-logo-img {
+        width: 100%;
+        max-height: 150px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .logo-placeholder {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Oswald', sans-serif;
+        font-size: 12px;
+        color: #ccc;
+        letter-spacing: 2px;
+    }
+
+    .btn-logo-change {
+        display: block;
+        margin-top: 8px;
+        padding: 5px 10px;
+        background: rgba(26, 61, 26, 0.06);
+        color: #1a3d1a;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .btn-logo-change:hover {
+        background: #1a3d1a;
+        color: #FFD700;
+        border-color: #1a3d1a;
+    }
     /* ===== 우측: 선수 목록 테이블 ===== */
     .player-table {
         width: 100%;
@@ -350,6 +404,29 @@
                     <%-- 좌측: 구단 정보 패널 (stats.jsp 스타일) --%>
                     <div class="left-panel">
 
+
+                        <%-- 구단 로고 --%>
+                        <div class="logo-card">
+                            <c:choose>
+                                <c:when test="${not empty team.sfile_name}">
+                                    <img src="/sbndata/${team.sfile_name}" class="team-logo-img" alt="구단 로고"
+                                     onerror="this.src='/img/logo.png'" />
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="logo-placeholder">NO LOGO</div>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:if test="${sessionScope.login.member_idx == team.team_manager}">
+                                <form action="/Team/UpdateLogo" method="post" enctype="multipart/form-data" style="margin:0">
+                                    <input type="hidden" name="team_idx" value="${team.team_idx}">
+                                    <input type="hidden" name="from" value="info">
+                                    <label class="btn-logo-change">
+                                        로고 변경
+                                        <input type="file" name="team_logo" accept="image/*" onchange="this.form.submit()" style="display:none">
+                                    </label>
+                                </form>
+                            </c:if>
+                        </div>
                         <%-- 구단명 프로필 카드 --%>
                         <div class="profile-card">
                             <div class="profile-name">${team.team_name}</div>
