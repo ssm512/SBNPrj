@@ -470,9 +470,9 @@
                                 <td>날짜</td>
                                 <td>시간</td>
                                 <td>장소</td>
-                                <td>홈</td>
-                                <td>vs</td>
                                 <td>원정</td>
+                                <td>vs</td>
+                                <td>홈</td>
                             </tr>
                             <c:choose>
                                 <c:when test="${not empty gameList}">
@@ -482,9 +482,9 @@
                                         <td>${game.game_date}</td>
                                         <td>${game.game_time}</td>
                                         <td>${game.game_field}</td>
-                                        <td>${game.home_team_name}</td>
-                                        <td><span class="vs-badge">VS</span></td>
                                         <td>${game.away_team_name}</td>
+                                        <td><span class="vs-badge">VS</span></td>
+                                        <td>${game.home_team_name}</td>
                                     </tr>
                                     </c:forEach>
                                 </c:when>
