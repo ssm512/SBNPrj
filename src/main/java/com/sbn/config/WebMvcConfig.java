@@ -16,7 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Value("${part1.upload-path}")
 	private  String           uploadPath;
-
+	
 	@Autowired
 	private  AuthInterceptor  authInterceptor;
 
@@ -49,7 +49,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	    registry.addResourceHandler("/sbndata/**")
 	            .addResourceLocations("file:///" + uploadPath);
 	}
-	
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {

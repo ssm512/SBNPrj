@@ -272,10 +272,10 @@
 					</select>
 				</td>
 				<td>
-					<input type="number" name="resultList[0].get_score" min="-4" max='4' value="0"/>
+					<input type="number" name="resultList[0].get_score" min='-4' max='4' value="0"/>
 				</td>
 				<td>
-					<input type="number" name="resultList[0].era" min="-4" max='4' value='0'/>
+					<input type="number" name="resultList[0].era" min='-4' max='4' value='0'/>
 				</td>
 				<td>
 					<textarea rows="1" cols="10" maxlength="2000" name="resultList[0].content"></textarea>

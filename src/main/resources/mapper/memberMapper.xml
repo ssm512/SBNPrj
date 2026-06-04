@@ -429,11 +429,13 @@
     WHERE  MEMBER_IDX = #{member_idx}
 </update>
 
+
 <!-- 비밀번호 변경 -->
 <update id="changePassword">
     UPDATE MEMBER
     SET    PASSWORD   = #{password}
     WHERE  MEMBER_IDX = #{member_idx}
 </update>
+
 
 </mapper>

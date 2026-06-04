@@ -250,6 +250,7 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.insertMemberFile(fileMap);
 	}
 
+
 	@Override
 	public boolean changePassword(HashMap<String, Object> map) {
 	    // 현재 비번 검증
