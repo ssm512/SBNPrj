@@ -302,6 +302,11 @@ public class TeamController {
             if (team.getSfile_name() == null) {
                 teamService.insertTeamLogo(savedLogoMap);
             } else {
+                // 기존 파일 디스크에서 삭제
+                File oldFile = new File(uploadPath + team.getSfile_name());
+                if (oldFile.exists()) {
+                    oldFile.delete();
+                }
                 teamService.updateTeamLogo(savedLogoMap);
             }
         }

@@ -1,410 +1,597 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@taglib prefix="c" uri="jakarta.tags.core" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>League Info</title>
-
+<title>SBN - 리그 정보</title>
 <link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
-
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
-  /* 기본 스타일 초기화 및 레이아웃 설정 */
-  body {
-    font-family: 'Malgun Gothic', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* 메인 콘텐츠 영역 (Flexbox 배치) */
-  .main-wrapper {
-    display: flex;
-    width:90%;
-    margin: 20px auto;
-    padding: 0 20px;
-    gap: 20px;
-  }
 
-  /* --- 좌측 콘텐츠 스타일 --- */
-  .left-container {
-    display: flex;
-    gap: 15px;
-    width: 40%;
-  }
+    html, body { height: 100%; }
 
-  .left-section-1, .left-section-2 {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .left-section-2 {
-    border:2px solid #1a5c1a;
-  }
+    body {
+        background-color: #f5f7fa;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
 
-  /* 카드/박스 공통 스타일 */
-  .info-box {
-    background-color: #f6f8e7;
-    border: 2px solid #1a5c1a;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    font-weight: bold;
-    color: #333;
-  }
+    body::before {
+        content: '';
+        position: fixed;
+        inset: -5%;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: center 60%;
+        filter: blur(10px) brightness(0.85);
+        z-index: -1;
+    }
 
-  /* 소개 영역 길게 늘리기 */
-  .intro-box {
-    flex-grow: 1;
-    min-height: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .page-wrapper {
+        flex: 1;
+        padding: 84px 32px 48px;
+    }
 
-  /* 팀 리스트 내부 항목 스타일 */
-  .team-item {
-    background-color: #ffffff;
-    border: 2px solid #1a5c1a;
-    border-radius: 20px;
-    padding: 10px;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: bold;
-  }
-  /* 마우스 호버 색상 예시 */
-  .team-item.hover-effect:hover {
-    background-color: #d1e7dd;
-    cursor: pointer;
-  }
+    .footer { margin-top: 0 !important; }
 
-  /* --- 우측 콘텐츠 스타일 (테이블) --- */
-  .right-container {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+    /* ===== 섹션 헤더 ===== */
+    .section-header {
+        background-color: #1a3d1a;
+        color: #FFD700;
+        padding: 10px 20px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        margin: 0 auto 16px;
+        border-radius: 3px;
+        max-width: 1160px;
+        position: relative;
+        overflow: hidden;
+    }
 
-  .league-table {
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 8px;
-    overflow: hidden;
-  }
+    .section-header::after {
+        content: '';
+        position: absolute;
+        top: -20px; right: -10px;
+        width: 100px; height: 100px;
+        background: repeating-linear-gradient(
+            45deg,
+            transparent, transparent 5px,
+            rgba(255, 215, 0, 0.12) 5px, rgba(255, 215, 0, 0.12) 10px
+        );
+        pointer-events: none;
+    }
 
-  .league-table th {
-    background-color: #f6f8e7;
-    color: #333;
-    font-weight: bold;
-    padding: 12px;
-    border: 1px solid #ddd;
-  }
+    /* ===== 메인 래퍼 ===== */
+    .main-wrapper {
+        max-width: 1160px;
+        margin: 0 auto;
+    }
 
-  .league-table td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ddd;
-    color: #444;
-  }
+    /* ===== 카드 ===== */
+    .info-card {
+        background: rgba(245, 245, 220, 0.88);
+        border-radius: 4px;
+        box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
+        padding: 28px 32px;
+    }
 
-  /* 테이블 빈 행 채우기용 (와이어프레임 느낌 재현) */
-  .league-table tr:not(:first-child) {
-    height: 45px;
-  }
+    /* ===== 3단 레이아웃 ===== */
+    .info-body {
+        display: grid;
+        grid-template-columns: 210px 210px 1fr;
+        gap: 28px;
+        align-items: start;
+    }
 
-  /* --- 버튼 스타일 --- */
-  .btn-container {
-    margin-top: 15px;
-    display: flex;
-  }
-  .justify-start { justify-content: flex-start; }
-  .justify-end { justify-content: flex-end; }
+    /* ===== 공통: 섹션 타이틀 ===== */
+    .panel-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        color: #1a3d1a;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #c8c4aa;
+        margin-bottom: 10px;
+    }
 
-  .green-btn {
-    background-color: #ffffff;
-    color: #1a5c1a;
-    border: 2px solid #1a5c1a;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+    /* ===== 좌측 패널: 리그 정보 ===== */
 
-  .green-btn:hover {
-    background-color: #1a5c1a;
-    color: #ffffff;
-  }
-  
-  .left-table {
-    text-align:center;
-    border-radius:20px;
-  }
-  .left-td {
-    border: 1px solid #1a5c1a;
-    border-radius:8px;
-    padding:10px;
-  }
-  .right-td{background-color:#D3B6D3;}
-  .wintd, .drawtd {
-    width:33%;
-    background-color: #f6f8e7;
-    padding:10px;
-  }
-  .losetd {
-    width:34%;
-    background-color: #f6f8e7;
-  }
-  .game-info{
-    background-color: #f6f8e7;
-  }
-  .win-td, .draw-td, .lose-td {
-    padding:5px;
-  }
-  .win-td{background-color:#C8E1FA;}
-  .draw-td{background-color:#E6E6E6;}
-  .lose-td{background-color:#F8A1A4;}
+    .profile-card {
+        background: #1a3d1a;
+        border-radius: 3px;
+        padding: 14px 16px;
+        text-align: center;
+        margin-bottom: 14px;
+    }
+
+    .profile-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #FFD700;
+        letter-spacing: 1px;
+        word-break: keep-all;
+    }
+
+    .profile-sub {
+        font-size: 11px;
+        color: rgba(255, 215, 0, 0.65);
+        margin-top: 4px;
+        font-family: 'Oswald', sans-serif;
+        letter-spacing: 1px;
+    }
+
+    .info-item {
+        padding: 8px 4px;
+        font-size: 13px;
+        color: #111;
+        border-bottom: 1px solid #ece8d0;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+    }
+
+    .info-label {
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: #1a3d1a;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        min-width: 44px;
+        flex-shrink: 0;
+    }
+
+    /* 리그 소개 */
+    .content-box {
+        font-size: 13px;
+        color: #333;
+        line-height: 1.65;
+        padding: 9px 4px 10px;
+        border-bottom: 1px solid #ece8d0;
+        white-space: pre-line;
+        word-break: keep-all;
+    }
+
+    .content-none {
+        padding: 7px 4px;
+        font-size: 13px;
+        color: #bbb;
+        font-style: italic;
+        border-bottom: 1px solid #ece8d0;
+    }
+
+    /* 액션 버튼 영역 */
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 14px;
+    }
+
+    .btn-apply {
+        padding: 9px 0;
+        background: #1a3d1a;
+        color: #FFD700;
+        border: none;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.15s;
+    }
+
+    .btn-apply:hover { background: #2a5a2a; }
+
+    .btn-manage {
+        display: block;
+        padding: 9px 0;
+        background: #FFD700;
+        color: #1a3d1a;
+        border: none;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        text-decoration: none;
+        transition: background 0.15s;
+    }
+
+    .btn-manage:hover { background: #e6c200; }
+
+    /* ===== 중앙 패널: 팀 순위 ===== */
+    .standings-tbl {
+        width: 100%;
+        border-collapse: collapse;
+        border: none !important;
+    }
+
+    .standings-tbl tr { border: none !important; }
+
+    .standings-tbl tr:first-of-type td {
+        font-family: 'Oswald', sans-serif;
+        font-size: 10px !important;
+        font-weight: 600 !important;
+        color: #1a3d1a !important;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 8px 6px 10px !important;
+        background: rgba(26, 61, 26, 0.08) !important;
+        border: none !important;
+        border-bottom: 2px solid #1a3d1a !important;
+        text-align: center !important;
+    }
+
+    .standings-tbl tr:not(:first-of-type) td {
+        border: none !important;
+        border-bottom: 1px solid #e0dcc8 !important;
+        padding: 9px 6px !important;
+        font-size: 13px !important;
+        color: #222 !important;
+        background: rgba(255, 255, 255, 0.4) !important;
+        text-align: center !important;
+    }
+
+    .standings-tbl tr:not(:first-of-type):hover td {
+        background: #ece8d0 !important;
+        cursor: pointer;
+    }
+
+    .standings-tbl .td-name {
+        text-align: left !important;
+        font-weight: 600 !important;
+    }
+
+    .standings-tbl a { text-decoration: none; color: #1a3d1a; font-weight: 600; }
+    .standings-tbl a:hover { text-decoration: underline; }
+
+    .td-win  { color: #1a6b1a !important; font-weight: 700 !important; }
+    .td-draw { color: #888 !important; }
+    .td-lose { color: #b03030 !important; font-weight: 700 !important; }
+
+    .td-score {
+        font-family: 'Oswald', sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        color: #1a3d1a !important;
+    }
+
+    /* ===== 우측 패널: 경기 일정 ===== */
+    .schedule-tbl {
+        width: 100%;
+        border-collapse: collapse;
+        border: none !important;
+    }
+
+    .schedule-tbl tr { border: none !important; }
+
+    .schedule-tbl tr:first-of-type td {
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        color: #1a3d1a !important;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 8px 10px 10px !important;
+        background: rgba(26, 61, 26, 0.08) !important;
+        border: none !important;
+        border-bottom: 2px solid #1a3d1a !important;
+        text-align: center !important;
+    }
+
+    .schedule-tbl tr:not(:first-of-type) td {
+        border: none !important;
+        border-bottom: 1px solid #e0dcc8 !important;
+        padding: 11px 10px !important;
+        font-size: 13px !important;
+        color: #222 !important;
+        background: rgba(255, 255, 255, 0.4) !important;
+        text-align: center !important;
+    }
+
+    .schedule-tbl tr:not(:first-of-type):hover td {
+        background: #ece8d0 !important;
+        cursor: pointer;
+    }
+
+    .schedule-tbl a { text-decoration: none; color: #1a3d1a; font-weight: 600; }
+    .schedule-tbl a:hover { text-decoration: underline; }
+
+    .schedule-empty td {
+        color: #aaa !important;
+        font-style: italic;
+    }
+
+    /* 경기 일정 추가 버튼 */
+    .schedule-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 12px;
+    }
+
+    .btn-add-game {
+        padding: 8px 20px;
+        background: #1a3d1a;
+        color: #FFD700;
+        border: none;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.15s;
+    }
+
+    .btn-add-game:hover { background: #2a5a2a; }
+
+    /* vs 구분자 */
+    .vs-badge {
+        display: inline-block;
+        font-family: 'Oswald', sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        color: #888;
+        letter-spacing: 1px;
+        margin: 0 4px;
+    }
+
+    /* 하단 목록 버튼 */
+    .bottom-bar {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 20px;
+        padding-top: 16px;
+        border-top: 1px solid #e0dcc8;
+    }
+
+    .btn-list {
+        padding: 8px 22px;
+        background: rgba(255, 255, 255, 0.6);
+        color: #1a3d1a;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-list:hover {
+        background: #1a3d1a;
+        color: #FFD700;
+        border-color: #1a3d1a;
+    }
+
 </style>
 </head>
 <body>
+    <%@ include file="/WEB-INF/include/headermenu.jsp" %>
 
-  <%@include file="/WEB-INF/include/headermenu.jsp" %>
-  
-  <div class="main-wrapper">
-    <div class="left-container">
-      
-      <div class="left-section-1">
-        <div class="info-box">${league.league_name}</div>
-        <div class="info-box">${league.league_location}</div>
-        <div class="info-box intro-box">${league.league_content}</div>
-        <div class="btn-container justify-start">
-          <button type="button" class="green-btn"
-                  id="btn-apply-league" data-league="${league.league_idx}">
-              리그 가입 신청
-          </button>
-          <c:if test="${sessionScope.login.is_admin == 'Y' }">
-          <button type="button" class="green-btn">
-            <a href="/League/ManagingForm?league_idx=${league.league_idx}">
-              리그 관리
-            </a>
-          </button>
-          </c:if>
+    <div class="page-wrapper">
+
+        <div class="section-header">리그 정보</div>
+
+        <div class="main-wrapper">
+            <div class="info-card">
+                <div class="info-body">
+
+                    <%-- 좌측: 리그 기본 정보 --%>
+                    <div class="left-panel">
+
+                        <div class="profile-card">
+                            <div class="profile-name">${league.league_name}</div>
+                            <div class="profile-sub">${league.league_location}</div>
+                        </div>
+
+                        <div class="panel-title">리그 소개</div>
+                        <c:choose>
+                            <c:when test="${not empty league.league_content}">
+                                <div class="content-box">${league.league_content}</div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="content-none">소개글이 없습니다.</div>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn-apply"
+                                    id="btn-apply-league" data-league="${league.league_idx}">
+                                리그 가입 신청
+                            </button>
+                            <c:if test="${sessionScope.login.is_admin == 'Y'}">
+                                <a href="/League/ManagingForm?league_idx=${league.league_idx}" class="btn-manage">리그 관리</a>
+                            </c:if>
+                        </div>
+
+                    </div>
+
+                    <%-- 중앙: 팀 순위 --%>
+                    <div class="center-panel">
+
+                        <div class="panel-title">팀 순위</div>
+                        <table class="standings-tbl">
+                            <tr>
+                                <td>팀명</td>
+                                <td>승</td>
+                                <td>무</td>
+                                <td>패</td>
+                                <td>점수</td>
+                            </tr>
+                            <c:choose>
+                                <c:when test="${not empty teamList}">
+                                    <c:forEach var="team" items="${teamList}">
+                                    <tr onclick="location.href='/Team/Info?team_idx=${team.team_idx}&keyword='" style="cursor:pointer;">
+                                        <td class="td-name">
+                                            <a href="/Team/Info?team_idx=${team.team_idx}&keyword=">${team.team_name}</a>
+                                        </td>
+                                        <td class="td-win">${team.win}</td>
+                                        <td class="td-draw">${team.draw}</td>
+                                        <td class="td-lose">${team.lose}</td>
+                                        <td class="td-score">${team.score}</td>
+                                    </tr>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr>
+                                        <td colspan="5" style="color:#aaa; font-style:italic; padding:14px !important;">소속 팀이 없습니다.</td>
+                                    </tr>
+                                </c:otherwise>
+                            </c:choose>
+                        </table>
+
+                    </div>
+
+                    <%-- 우측: 경기 일정 --%>
+                    <div class="right-panel">
+
+                        <div class="panel-title">경기 일정</div>
+                        <table class="schedule-tbl">
+                            <tr>
+                                <td>번호</td>
+                                <td>날짜</td>
+                                <td>시간</td>
+                                <td>장소</td>
+                                <td>원정</td>
+                                <td>vs</td>
+                                <td>홈</td>
+                            </tr>
+                            <c:choose>
+                                <c:when test="${not empty gameList}">
+                                    <c:forEach var="game" items="${gameList}">
+                                    <tr onclick="location.href='/Game/GameInfo?league_idx=${league.league_idx}&game_idx=${game.game_idx}'" style="cursor:pointer;">
+                                        <td><a href="/Game/GameInfo?league_idx=${league.league_idx}&game_idx=${game.game_idx}">${game.game_idx}</a></td>
+                                        <td>${game.game_date}</td>
+                                        <td>${game.game_time}</td>
+                                        <td>${game.game_field}</td>
+                                        <td>${game.away_team_name}</td>
+                                        <td><span class="vs-badge">VS</span></td>
+                                        <td>${game.home_team_name}</td>
+                                    </tr>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr class="schedule-empty">
+                                        <td colspan="7" style="color:#aaa; font-style:italic; padding:16px !important;">경기 일정이 없습니다.</td>
+                                    </tr>
+                                </c:otherwise>
+                            </c:choose>
+                        </table>
+
+                        <c:if test="${sessionScope.login.is_admin == 'Y'}">
+                            <div class="schedule-footer">
+                                <a href="/Game/AddGameForm?league_idx=${map.league_idx}" class="btn-add-game">+ 경기 일정 추가</a>
+                            </div>
+                        </c:if>
+
+                    </div>
+
+                </div>
+
+                <div class="bottom-bar">
+                    <a href="/League/List?nowpage=1&keyword=" class="btn-list">목록</a>
+                </div>
+
+            </div>
         </div>
-      </div>
-      
-      <div class="left-section-2">
-        <table class="left-table">
-        <tr>
-          <td class="wintd">승 3점</td>
-          <td class="drawtd">무 1점</td>
-          <td class="losetd">패 0점</td>
-        </tr>
-        <c:forEach var="team" items="${teamList}">
-          <tr>
-            <td colspan="2" class="left-td">
-              <a href="/Team/Info?team_idx=${team.team_idx}&keyword=">
-                ${team.team_name}
-              </a>
-            </td>
-            <td class="right-td">${team.score}점</td>
-          </tr>
-          <tr>
-          <td class="win-td">${team.win}승</td>
-          <td class="draw-td">${team.draw}무</td>
-          <td class="lose-td">${team.lose}패</td>
-          </tr>
-        </c:forEach>
-        
-        <c:if test="${empty teamList}">
-          <tr>
-            <td colspan="3" class="left-td">소속된 팀이 없습니다.</td>
-          </tr>
-        </c:if>
-        
-        </table>
-      </div>
-      
     </div>
-    
-    <div class="right-container">
-      <table class="league-table">
-          <tr class="game-info">
-            <td>경기 번호</td>
-            <td>날짜</td>
-            <td>시간</td>
-            <td>장소</td>
-            <td>Home</td> 
-            <td>Away</td>
-          </tr>
 
-		  <c:forEach var="game" items="${gameList}"> 
-		    <tr>
-			  <td>
-			    <a href="/Game/GameInfo?league_idx=${league.league_idx}&game_idx=${game.game_idx}">
-			      ${game.game_idx}
-			    </a>
-			  </td>
-			  <td>${game.game_date}</td>
-			  <td>${game.game_time}</td>
-			  <td>${game.game_field}</td>
-			  
-			  <td>${game.home_team_name}</td> 
-			  <td>${game.away_team_name}</td>
-			  
-			</tr>
-		  </c:forEach>
-		  
-		  <c:if test="${empty gameList}">
-		    <tr>
-		      <td colspan="6">경기 일정이 비어있습니다.</td>
-		    </tr>
-		  </c:if>
-          
-      </table>
-      
-      <div class="btn-container justify-end">
-      <c:if test="${sessionScope.login.is_admin == 'Y' }">
-        <a href="/Game/AddGameForm?league_idx=${ map.league_idx }">
-        <button type="button" class="green-btn">
-          경기 일정 추가
-        </button>
-        </a>
-      </c:if>
-      </div>
-    </div>
-  </div>
-  
-  <%@include file="/WEB-INF/include/footer.jsp" %> 
-  
-  <c:if test="${map.checkalert == 'true' }">
-  	<script>
-  		alert('권한이 없습니다.')
-  	</script>
-  </c:if>
-  
-  <script>
-  	document.addEventListener("DOMContentLoaded", function() {
-	    const applyBtn = document.getElementById('btn-apply-league');
-	    if(applyBtn) {
-	        applyBtn.addEventListener('click', function() {
-	            const leagueIdx = this.getAttribute('data-league');
-	            
-	            // 1. 로그인한 유저가 감독인 팀 목록을 비동기로 요청
-	            fetch('/League/CheckManagerTeams', {
-	                method: 'POST'
-	            })
-	            .then(response => response.json())
-	            .then(teamList => {
-	            	
-	            	if (teamList.length === 0) {
-	            	    alert('가입 신청 가능한 팀이 없습니다. 본인이 감독인 팀이 있는지 확인해주세요.');
-	            	    return;
-	            	}
-	            	
-	            	// 신청할 팀의 idx를 담을 변수 선언
-	            	let selectedTeamIdx = null;
-	            	
-	            	// 팀이 1개인 경우 바로 선택
-	            	if (teamList.length === 1) {
-	            		// console.log('teamList 확인:', JSON.stringify(teamList[0]));
-	            		if (!confirm('[' + teamList[0].team_name + '] 팀으로 이 리그에 가입 신청을 하시겠습니까?')) return;
-	            	    selectedTeamIdx = teamList[0].team_idx;
-	            	    
-	            	    // 실제 가입 신청 함수 호출
-	            	    applyForLeague(leagueIdx, selectedTeamIdx);
-	            	} 
-	            	// 팀이 여러 개인 경우 선택창(Prompt) 띄우기
-	            	else {
-	            	    let message = "가입 신청할 팀의 번호를 입력해주세요:\n";
-	            	    teamList.forEach((team, index) => {
-	            	    	message += '\n[' + (index + 1) + '] ' + team.team_name;
-	            	    });
-	            	    
-	            	    const userInput = prompt(message);
-	            	    if (!userInput) return; // 취소 누른 경우
-	            	    
-	            	    const selectedIndex = parseInt(userInput.trim()) - 1;
-	            	    
-	            	    if (isNaN(selectedIndex) || selectedIndex < 0 || selectedIndex >= teamList.length) {
-	            	        alert('올바른 번호를 선택해주세요.');
-	            	        return;
-	            	    }
-	            	    
-	            	    selectedTeamIdx = teamList[selectedIndex].team_idx;
-	            	    
-	            	    // 실제 가입 신청 함수 호출
-	            	    applyForLeague(leagueIdx, selectedTeamIdx);
-	            	}
-	            })
-	            .catch(error => {
-	                console.error('Error:', error);
-	                alert('팀 정보를 가져오는 중 오류가 발생했습니다. 로그인을 확인해주세요.');
-	            });
-	        });
-	    }
-	    
-	    // 실제 team_league 테이블에 insert를 요청하는 함수
-	    function applyForLeague(leagueIdx, teamIdx) {
-	        if (!leagueIdx || !teamIdx) {
-	            alert('필수 정보가 누락되었습니다.');
-	            return;
-	        }
+    <%@ include file="/WEB-INF/include/footer.jsp" %>
 
-	        const formData = new URLSearchParams();
-	        formData.append('league_idx', leagueIdx);
-	        formData.append('team_idx', teamIdx);
-	        
-	        fetch('/League/ApplyTeam', {
-	            method: 'POST',
-	            headers: {
-	                'Content-Type': 'application/x-www-form-urlencoded'
-	            },
-	            body: formData
-	        })
-	        .then(response => response.text())
-	        .then(data => {
-	            if (data.trim() === "success") {
-	                alert('리그 가입 신청이 완료되었습니다!');
-	                location.reload(); // 신청 현황 갱신을 위해 새로고침
-	            } else if (data.trim() === "already") {
-	                alert('이미 이 리그에 가입 신청 중이거나 가입된 팀입니다.');
-	            } else {
-	                alert('신청 처리 중 오류가 발생했습니다.');
-	            }
-	        })
-	        .catch(error => {
-	            console.error('Error:', error);
-	            alert('서버 통신 오류가 발생했습니다.');
-	        });
-	    }
-	});
-  </script>
-  
+    <c:if test="${map.checkalert == 'true'}">
+        <script>alert('권한이 없습니다.');</script>
+    </c:if>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const applyBtn = document.getElementById('btn-apply-league');
+            if (applyBtn) {
+                applyBtn.addEventListener('click', function() {
+                    const leagueIdx = this.getAttribute('data-league');
+
+                    fetch('/League/CheckManagerTeams', { method: 'POST' })
+                    .then(response => response.json())
+                    .then(teamList => {
+                        if (teamList.length === 0) {
+                            alert('가입 신청 가능한 팀이 없습니다. 본인이 감독인 팀이 있는지 확인해주세요.');
+                            return;
+                        }
+
+                        let selectedTeamIdx = null;
+
+                        if (teamList.length === 1) {
+                            if (!confirm('[' + teamList[0].team_name + '] 팀으로 이 리그에 가입 신청을 하시겠습니까?')) return;
+                            selectedTeamIdx = teamList[0].team_idx;
+                            applyForLeague(leagueIdx, selectedTeamIdx);
+                        } else {
+                            let message = "가입 신청할 팀의 번호를 입력해주세요:\n";
+                            teamList.forEach((team, index) => {
+                                message += '\n[' + (index + 1) + '] ' + team.team_name;
+                            });
+                            const userInput = prompt(message);
+                            if (!userInput) return;
+                            const selectedIndex = parseInt(userInput.trim()) - 1;
+                            if (isNaN(selectedIndex) || selectedIndex < 0 || selectedIndex >= teamList.length) {
+                                alert('올바른 번호를 선택해주세요.');
+                                return;
+                            }
+                            selectedTeamIdx = teamList[selectedIndex].team_idx;
+                            applyForLeague(leagueIdx, selectedTeamIdx);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('팀 정보를 가져오는 중 오류가 발생했습니다. 로그인을 확인해주세요.');
+                    });
+                });
+            }
+
+            function applyForLeague(leagueIdx, teamIdx) {
+                if (!leagueIdx || !teamIdx) { alert('필수 정보가 누락되었습니다.'); return; }
+                const formData = new URLSearchParams();
+                formData.append('league_idx', leagueIdx);
+                formData.append('team_idx', teamIdx);
+                fetch('/League/ApplyTeam', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.trim() === "success") {
+                        alert('리그 가입 신청이 완료되었습니다!');
+                        location.reload();
+                    } else if (data.trim() === "already") {
+                        alert('이미 이 리그에 가입 신청 중이거나 가입된 팀입니다.');
+                    } else {
+                        alert('신청 처리 중 오류가 발생했습니다.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('서버 통신 오류가 발생했습니다.');
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

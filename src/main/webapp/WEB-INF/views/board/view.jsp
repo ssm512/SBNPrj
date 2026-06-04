@@ -280,13 +280,12 @@
                         </div>
                     </c:if>
                 </div>
-
             </div>
         </div>
     </div>
 
     
-   
+
   
   <%@include file="/WEB-INF/include/footer.jsp" %> 
 
