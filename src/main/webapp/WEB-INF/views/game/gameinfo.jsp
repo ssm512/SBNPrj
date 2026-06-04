@@ -158,6 +158,12 @@
 		.btndiv {
 		    text-align: center;
 		}
+		
+		.team-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+		}
 </style>
 </head>
 <body>
@@ -195,7 +201,11 @@
 				<td>로고</td>
 			</tr>
 			<tr>
-				<td><%-- ${file.awayfile_name} --%></td>
+				<td>
+			    <c:if test="${not empty teamNames.away_logo}">
+			        <img src="/sbndata/${teamNames.away_logo}" class="team-logo">
+	        </c:if>
+				</td>
 				<td>${teamNames.away_name}</td>
 				<td>${topScoreBoard.r}</td>
 				<td>
@@ -208,7 +218,11 @@
 				</td>
 				<td>${bottomScoreBoard.r}</td>
 				<td>${teamNames.home_name}</td>
-				<td><%-- ${file.homefile_name} --%></td>
+				<td>
+			    <c:if test="${not empty teamNames.home_logo}">
+			        <img src="/sbndata/${teamNames.home_logo}" class="team-logo">
+	        </c:if>
+				</td>
 			</tr>
 		</table>
 		</div>

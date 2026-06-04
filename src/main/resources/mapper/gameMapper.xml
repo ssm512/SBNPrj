@@ -100,15 +100,21 @@
  	
  	<!-- getGameTeamNames -->
  	<select id="getGameTeamNames" resultType="hashmap">
-		SELECT
-		            AWAY.TEAM_NAME AS "away_name",
-		            HOME.TEAM_NAME AS "home_name"
-		FROM        GAME G
-		LEFT JOIN   TEAM AWAY
-		ON          G.AWAY_IDX = AWAY.TEAM_IDX
-		LEFT JOIN   TEAM HOME
-		ON          G.HOME_IDX = HOME.TEAM_IDX
-		WHERE       G.GAME_IDX = #{game_idx}
+    SELECT
+        AWAY.TEAM_NAME AS "away_name",
+        HOME.TEAM_NAME AS "home_name",
+        AWAY_FILE.SFILE_NAME AS "away_logo",
+        HOME_FILE.SFILE_NAME AS "home_logo"
+    FROM GAME G
+    LEFT JOIN TEAM AWAY
+        ON G.AWAY_IDX = AWAY.TEAM_IDX
+    LEFT JOIN TEAM HOME
+        ON G.HOME_IDX = HOME.TEAM_IDX
+    LEFT JOIN FILES AWAY_FILE
+        ON AWAY_FILE.TEAM_IDX = G.AWAY_IDX
+    LEFT JOIN FILES HOME_FILE
+        ON HOME_FILE.TEAM_IDX = G.HOME_IDX
+    WHERE G.GAME_IDX = #{game_idx}
  	</select>
  	
  	<!-- getAwayRecord -->
