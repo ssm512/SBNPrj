@@ -190,7 +190,54 @@
 
     <%-- 팀 이름 중복 알림 --%>
     <script>
-        <c:if test="${param.alert == 'duplicate_name'}">alert('이미 사용 중인 구단 이름입니다.');</c:if>
+      
+      <c:if test="${param.alert == 'duplicate_name'}">alert('이미 사용 중인 구단 이름입니다.');</c:if>
+      
+      const formEl         = document.querySelector('form');
+      const teamNameEl     = document.querySelector('[name="team_name"]');
+      const teamLocationEl = document.querySelector('[name="team_location"]');
+      const teamContentEl  = document.querySelector('[name="team_content"]');
+      
+      // 작성한 내용의 양이 DB 설정값을 초과했을때 500 에러 방지
+      function getByteSize(str) {
+    	  let byte = 0;
+    	  for (let i = 0; i < str.length; i++) {
+    		byte += str.charCodeAt(i) > 127 ? 3 : 1;
+    	}
+    	  return byte;
+      }
+      
+      formEl.addEventListener('submit', function( e ) {
+    	  
+	      // 팀이름이 값을 초과했을 때
+	   	  if( getByteSize(teamNameEl.value) > 100 ) {
+	   		  alert('팀이름이 너무 깁니다. (현재' + getByteSize(teamNameEl.value) + 'byte / 최대 100byte)');
+	   		  teamNameEl.focus();
+	   		  e.preventDefault()  // 이벤트 취소
+	   		  e.stopPropagation() // 이벤트 버블링 방지
+	   		  return;
+	   	  }
+	      
+	      // 팀 연고지가 값을 초과했을 때
+	   	  if( getByteSize(teamLocationEl.value) > 20 ) {
+	   		  alert('연고지가 너무 깁니다. (현재' + getByteSize(teamLocationEl.value) + 'byte / 최대 20byte)');
+	   		  teamLocationEl.focus();
+	   		  e.preventDefault()  // 이벤트 취소
+	   		  e.stopPropagation() // 이벤트 버블링 방지
+	   		  return;
+	   	  }
+	      
+	      // 팀 소개가 값을 초과했을 때
+	   	  if( getByteSize(teamContentEl.value) > 2000 ) {
+	   		  alert('소개가 너무 깁니다. (현재' + getByteSize(teamContentEl.value) + 'byte / 최대 2000byte)');
+	   		  teamContentEl.focus();
+	   		  e.preventDefault()  // 이벤트 취소
+	   		  e.stopPropagation() // 이벤트 버블링 방지
+	   		  return;
+	   	  }
+	      
+      })
+      
     </script>
 </body>
 </html>

@@ -492,6 +492,32 @@
         <c:if test="${map.alert == 'approve_ok'}">alert('가입이 승인되었습니다.');</c:if>
         <c:if test="${map.alert == 'reject_ok'}">alert('가입이 거절되었습니다.');</c:if>
         <c:if test="${map.alert == 'remove_ok'}">alert('선수가 방출되었습니다.');</c:if>
+        
+        const formEl         = document.querySelector('form');
+        const positionEl     = document.querySelector('[name="position"]');
+        
+        // 작성한 내용의 양이 DB 설정값을 초과했을때 500 에러 방지
+        function getByteSize(str) {
+      	  let byte = 0;
+      	  for (let i = 0; i < str.length; i++) {
+      		byte += str.charCodeAt(i) > 127 ? 3 : 1;
+      	}
+      	  return byte;
+        }
+        
+        formEl.addEventListener('submit', function( e ) {
+        	
+          // 포지션이 값을 초과했을 때
+  	   	  if( getByteSize(positionEl.value) > 100 ) {
+  	   		  alert('팀이름이 너무 깁니다. (현재' + getByteSize(positionEl.value) + 'byte / 최대 100byte)');
+  	   		  positionEl.focus();
+  	   		  e.preventDefault()  // 이벤트 취소
+  	   		  e.stopPropagation() // 이벤트 버블링 방지
+  	   		  return;
+  	   	  }
+        	
+        })
+        
     </script>
 
 </body>
