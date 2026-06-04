@@ -44,11 +44,24 @@ public class TeamServiceImpl implements TeamService {
         return Integer.parseInt(map.get("team_idx").toString());
     }
     
+
     /* 팀 이름 중복 확인 */
     @Override
     public int getTeamNameCount(String team_name) {
         return teamMapper.getTeamNameCount(team_name);
     }
+    
+    /* 팀 로고 추가 */
+	@Override
+	public void insertTeamLogo(HashMap<String, Object> saveLogoMap) {
+		teamMapper.insertTeamLogo(saveLogoMap);
+	}
+    
+    /* 팀 로고 수정 */
+	@Override
+	public void updateTeamLogo(HashMap<String, Object> logoMap) {
+		teamMapper.updateTeamLogo(logoMap);
+	}
 
     // ===================== TEAM_LEAGUE =====================
 
@@ -111,5 +124,9 @@ public class TeamServiceImpl implements TeamService {
     public void updateJoinStatus(HashMap<String, Object> map) {
         teamMapper.updateJoinStatus(map);
     }
+
+
+
+
 
 }

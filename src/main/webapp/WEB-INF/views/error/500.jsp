@@ -1,18 +1,111 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>페이지를 찾을 수 없습니다</title>
-<link href="/css/common.css" rel="stylesheet"/>
+<title>SBN - 500 Server Error</title>
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
+<link href="/css/common.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        background-color: #f5f7fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        inset: -5%;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: center 60%;
+        filter: blur(10px) brightness(0.85);
+        z-index: -1;
+    }
+
+    .error-card {
+        background: rgba(245, 245, 220, 0.92);
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(26, 61, 26, 0.12);
+        padding: 52px 56px;
+        text-align: center;
+        max-width: 440px;
+        width: calc(100% - 48px);
+    }
+
+    .error-code {
+        font-family: 'Oswald', sans-serif;
+        font-size: 88px;
+        font-weight: 700;
+        color: #FFD700;
+        line-height: 1;
+        letter-spacing: 4px;
+        text-shadow: 0 2px 8px rgba(26, 61, 26, 0.15);
+    }
+
+    .error-divider {
+        width: 48px;
+        height: 3px;
+        background: #1a3d1a;
+        border-radius: 2px;
+        margin: 16px auto;
+    }
+
+    .error-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a3d1a;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+
+    .error-msg {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 32px;
+    }
+
+    .btn-home {
+        display: inline-block;
+        padding: 11px 36px;
+        background-color: #FFD700;
+        color: #1a3d1a;
+        border: none;
+        border-radius: 6px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .btn-home:hover {
+        background-color: #e6c200;
+    }
+
+</style>
 </head>
 <body>
-    <div class="main-wrapper" style="text-align:center; padding-top:100px;">
-        <h1>500 Internal Server Error</h1>
-        <h3>서버 오류가 발생했습니다</h3>
-        <p>일시적인 오류입니다. 잠시 후 다시 시도해주세요.</p>
-        <a href="/"><button>홈으로</button></a>
+    <div class="error-card">
+        <div class="error-code">500</div>
+        <div class="error-divider"></div>
+        <div class="error-title">서버 오류가 발생했습니다</div>
+        <div class="error-msg">일시적인 오류입니다. 잠시 후 다시 시도해주세요.</div>
+        <a href="/" class="btn-home">홈으로</a>
     </div>
 </body>
 </html>

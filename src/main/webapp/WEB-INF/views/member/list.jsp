@@ -46,7 +46,6 @@
 			height: 40px;
 		}
 	}
-
 	
 	.members {
 		margin: 25px auto;

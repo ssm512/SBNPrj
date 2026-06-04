@@ -17,8 +17,12 @@ public interface TeamService {
     TeamDto getTeamInfo(int team_idx);                          // 팀 상세 조회
 
     int insertTeam(HashMap<String, Object> map);                // 팀 생성
-    
+
     int getTeamNameCount(String team_name);  					// 팀 이름 중복 확인
+    
+	void updateTeamLogo(HashMap<String, Object> logoMap);       // 팀 로고 수정
+
+	void insertTeamLogo(HashMap<String, Object> saveLogoMap);   // 팀 로고 추가
 
     // ===================== TEAM_LEAGUE =====================
 
@@ -45,5 +49,7 @@ public interface TeamService {
     void joinTeam(HashMap<String, Object> map);                           // 가입 신청 INSERT
 
     void updateJoinStatus(HashMap<String, Object> map);                   // 가입 승인 (JOIN_STATUS = 1)
+
+
 
 }

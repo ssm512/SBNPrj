@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>SBN - 구단 관리</title>
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <style>
 
@@ -23,7 +24,7 @@
     /* overflow: hidden 으로 scale(1.05) 삐져나옴 + 푸터 가림 방지 */
     .page-wrapper {
         flex: 1;
-        padding: 104px 0 32px;
+        padding: 84px 32px 48px;
         position: relative;
         overflow: hidden;
     }
@@ -44,50 +45,46 @@
     .main-wrapper {
         position: relative;
         z-index: 1;
+        max-width: 1160px;
+        margin: 0 auto;
     }
 
     /* common.css의 margin-top: 50px 오버라이드 */
     .footer { margin-top: 0 !important; }
 
-    /* ===== 섹션 헤더 (그린 라벨 + 대각선 줄무늬 + 하단 구분선) ===== */
-    /* margin-bottom: 0 으로 아래 카드와 여백 없이 붙임 */
+    /* ===== 섹션 헤더 ===== */
     .section-header {
-        display: flex;
-        align-items: stretch;
-        margin-bottom: 0;
-        border-bottom: 2px solid #1a3d1a;
-    }
-
-    .section-title {
         background-color: #1a3d1a;
         color: #FFD700;
+        padding: 10px 20px;
         font-family: 'Oswald', sans-serif;
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 700;
-        padding: 9px 22px;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
+        margin: 0 auto 16px;
+        border-radius: 3px;
+        max-width: 1160px;
         position: relative;
+        overflow: hidden;
     }
 
-    /* 라벨 우측 대각선 줄무늬 장식 */
-    .section-title::after {
+    .section-header::after {
         content: '';
         position: absolute;
-        right: -18px;
-        top: 0;
-        width: 18px;
-        height: 100%;
+        top: -20px; right: -10px;
+        width: 100px; height: 100px;
         background: repeating-linear-gradient(
-            -55deg,
-            #1a3d1a 0px, #1a3d1a 4px,
-            transparent 4px, transparent 9px
+            45deg,
+            transparent, transparent 5px,
+            rgba(255, 215, 0, 0.12) 5px, rgba(255, 215, 0, 0.12) 10px
         );
+        pointer-events: none;
     }
 
-    /* ===== 관리 카드 (반투명 베이지 + 섹션 헤더와 붙어 상단 모서리 제거) ===== */
+    /* ===== 관리 카드 ===== */
     .managing-card {
         background: rgba(245, 245, 220, 0.88);
-        border-radius: 0 0 10px 10px;
+        border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
         margin-bottom: 32px;
@@ -105,6 +102,78 @@
         flex: 1;
     }
 
+    /* ===== 구단 로고 영역 ===== */
+    .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #c8c4aa;
+        margin-bottom: 24px;
+    }
+
+    .team-logo-img {
+        width: 88px;
+        height: 88px;
+        object-fit: contain;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        background: #fff;
+        padding: 5px;
+        flex-shrink: 0;
+    }
+
+    .logo-placeholder {
+        width: 88px;
+        height: 88px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        color: #bbb;
+        letter-spacing: 1px;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        background: #fff;
+        flex-shrink: 0;
+    }
+
+    .logo-info .logo-team-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a3d1a;
+        letter-spacing: 1px;
+    }
+
+    .logo-info .logo-hint {
+        font-size: 12px;
+        color: #888;
+        margin: 4px 0 8px;
+    }
+
+    .btn-logo-change {
+        display: inline-block;
+        padding: 5px 14px;
+        background: rgba(26, 61, 26, 0.06);
+        color: #1a3d1a;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+        text-transform: uppercase;
+    }
+
+    .btn-logo-change:hover {
+        background: #1a3d1a;
+        color: #FFD700;
+        border-color: #1a3d1a;
+    }
     /* 소섹션 타이틀 (소속 선수 리스트 / 가입 신청 현황) */
     .subsection-title {
         font-family: 'Oswald', sans-serif;
@@ -147,8 +216,8 @@
     }
 
     /* 헤더 좌우 상단 모서리 둥글게 */
-    .manage-table tr:first-of-type td:first-child { border-radius: 6px 0 0 0; }
-    .manage-table tr:first-of-type td:last-child  { border-radius: 0 6px 0 0; }
+    .manage-table tr:first-of-type td:first-child { border-radius: 3px 0 0 0; }
+    .manage-table tr:first-of-type td:last-child  { border-radius: 0 3px 0 0; }
 
     /* 데이터 행 hover */
     .manage-table tr:not(:first-of-type):hover td {
@@ -162,7 +231,7 @@
         padding: 5px 6px;
         text-align: center;
         border: 1px solid #c8c4aa;
-        border-radius: 4px;
+        border-radius: 3px;
         font-size: 13px;
         background-color: #ffffff;
         outline: none;
@@ -194,7 +263,7 @@
         cursor: pointer;
         border: 1px solid #1a3d1a;
         background: none;
-        border-radius: 4px;
+        border-radius: 3px;
         padding: 3px 10px;
         font-size: 13px;
         font-family: 'Oswald', sans-serif;
@@ -213,7 +282,7 @@
         cursor: pointer;
         border: 1px solid #c0392b;
         background: none;
-        border-radius: 4px;
+        border-radius: 3px;
         padding: 3px 10px;
         font-size: 13px;
         font-family: 'Oswald', sans-serif;
@@ -225,11 +294,33 @@
         color: #ffffff;
     }
 
-    /* ===== 하단 수정 완료 버튼 바 ===== */
+    /* ===== 하단 버튼 바 ===== */
     .bottom-bar {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         margin-top: 20px;
+    }
+
+    .btn-list {
+        padding: 9px 22px;
+        background: rgba(255, 255, 255, 0.6);
+        color: #1a3d1a;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-list:hover {
+        background: #1a3d1a;
+        color: #FFD700;
+        border-color: #1a3d1a;
     }
 
     /* 수정 완료 버튼 - 골드 배경 + 그린 텍스트 */
@@ -238,7 +329,7 @@
         background-color: #FFD700;
         color: #1a3d1a;
         border: none;
-        border-radius: 6px;
+        border-radius: 3px;
         font-family: 'Oswald', sans-serif;
         font-size: 14px;
         font-weight: 700;
@@ -255,15 +346,36 @@
     <%@ include file="/WEB-INF/include/headermenu.jsp" %>
 
     <div class="page-wrapper">
-        <div class="main-wrapper">
+        <%-- 섹션 헤더 --%>
+        <div class="section-header">구단 관리</div>
 
-            <%-- 섹션 헤더 --%>
-            <div class="section-header">
-                <span class="section-title">구단 관리</span>
-            </div>
+        <div class="main-wrapper">
 
             <div class="managing-card">
 
+                <%-- 구단 로고 영역 (감독만 변경 가능) --%>
+                <div class="logo-row">
+                    <c:choose>
+                        <c:when test="${not empty team.sfile_name}">
+                            <img src="/sbndata/${team.sfile_name}" class="team-logo-img" alt="구단 로고">
+                        </c:when>
+                        <c:otherwise>
+                            <div class="logo-placeholder">NO<br>LOGO</div>
+                        </c:otherwise>
+                    </c:choose>
+                    <div class="logo-info">
+                        <div class="logo-team-name">${team.team_name}</div>
+                        <div class="logo-hint">클릭하여 로고를 변경하세요.</div>
+                        <form action="/Team/UpdateLogo" method="post" enctype="multipart/form-data" style="margin:0">
+                            <input type="hidden" name="team_idx" value="${team.team_idx}">
+                            <input type="hidden" name="from" value="managing">
+                            <label class="btn-logo-change">
+                                로고 변경
+                                <input type="file" name="team_logo" accept="image/*" onchange="this.form.submit()" style="display:none">
+                            </label>
+                        </form>
+                    </div>
+                </div>
                 <div class="managing-area">
 
                     <%-- 좌측: 소속 선수 리스트 --%>
@@ -338,8 +450,9 @@
 
                 </div>
 
-                <%-- 수정 완료 버튼 --%>
+                <%-- 하단 버튼 바 --%>
                 <div class="bottom-bar">
+                    <a href="/Team/List?nowpage=1&keyword=" class="btn-list">목록</a>
                     <button type="button" class="btn-submit" onclick="submitUpdate()">수정 완료</button>
                 </div>
 

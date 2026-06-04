@@ -15,7 +15,7 @@
 <style>
 
 	.main-wrapper {
-		display: grid; 
+		display: grid;
 		justify-content: center;
 		gap: 20px;
 		grid-template-columns: 1fr 3fr;

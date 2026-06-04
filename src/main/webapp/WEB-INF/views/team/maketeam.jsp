@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SBN - 구단 만들기</title>
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <style>
 
@@ -52,7 +53,7 @@
     /* ===== 폼 카드 (반투명 베이지 + 둥근 모서리) ===== */
     .form-card {
         background: rgba(245, 245, 220, 0.88);
-        border-radius: 10px;
+        border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 36px 40px;
         margin: 0 auto;
@@ -89,7 +90,7 @@
         width: 100%;
         padding: 10px 14px;
         border: 1px solid #c8c4aa;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 14px;
         color: #111111;
         background-color: #ffffff;
@@ -129,7 +130,7 @@
         background-color: #FFD700;
         color: #1a3d1a;
         border: none;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 15px;
         font-family: 'Oswald', sans-serif;
         font-weight: 700;

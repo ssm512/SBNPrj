@@ -16,9 +16,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Value("${part1.upload-path}")
 	private  String           uploadPath;
-	
+
 	@Autowired
 	private  AuthInterceptor  authInterceptor;
+
+	public String getUploadPath() { return uploadPath; }
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -40,6 +42,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		
 	    WebMvcConfigurer.super.addInterceptors(registry);
 	}
+
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -47,6 +50,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	            .addResourceLocations("file:///" + uploadPath);
 	}
 	
+
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();

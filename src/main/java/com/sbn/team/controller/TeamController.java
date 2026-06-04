@@ -1,16 +1,19 @@
-package com.sbn.team.controller;
+﻿package com.sbn.team.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sbn.config.WebMvcConfig;
 import com.sbn.member.dto.MemberDto;
 import com.sbn.paging.Pagination;
 import com.sbn.paging.SearchDto;
@@ -24,13 +27,31 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/Team")
 public class TeamController {
 
-    private final WebMvcConfig webMvcConfig;
+
+    @Value("${part1.upload-path}")
+    private String uploadPath;
 
     @Autowired
     private TeamService teamService;
 
-    TeamController(WebMvcConfig webMvcConfig) {
-        this.webMvcConfig = webMvcConfig;
+
+    /* 공통: 로고 파일 저장 후 파일명 반환 (실패 시 null) */
+    private HashMap<String, Object> saveLogoFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) return null;
+        try {
+            String original = file.getOriginalFilename();
+            String ext = original.substring(original.lastIndexOf("."));
+            String savedName = UUID.randomUUID().toString() + ext;
+            file.transferTo(new File(uploadPath + savedName));
+            HashMap<String, Object> saveLogoMap = new HashMap<>();
+            saveLogoMap.put("file_name", original);
+            saveLogoMap.put("file_ext", ext);
+            saveLogoMap.put("sfile_name", savedName);
+            return saveLogoMap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /* 팀 목록 - 페이징 및 키워드 검색 */
@@ -107,6 +128,7 @@ public class TeamController {
     @Transactional
     @RequestMapping("/MakeTeam")
     public ModelAndView makeTeam(@RequestParam HashMap<String, Object> map,
+                                  @RequestParam(value = "team_logo", required = false) MultipartFile logoFile,
                                   HttpServletRequest request) {
 
         // 팀 이름 중복 확인
@@ -122,6 +144,13 @@ public class TeamController {
         map.put("team_manager", memberIdx);
 
         int teamIdx = teamService.insertTeam(map);
+        
+        HashMap<String, Object> saveLogoMap = saveLogoFile(logoFile);  // null if no file
+        if (saveLogoMap != null ) {
+        	saveLogoMap.put("team_idx", teamIdx);
+        	// FILES 테이블에 사진 추가
+        	teamService.insertTeamLogo(saveLogoMap);
+        }
 
         // 팀 생성자를 JOIN_STATUS = 1 (승인) 으로 MEMBER_TEAM 자동 등록
         HashMap<String, Object> mtMap = new HashMap<>();
@@ -243,4 +272,44 @@ public class TeamController {
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=reject_ok");
     }
     
+	/* 팀 탈퇴 */
+    @RequestMapping("/LeaveTeam")
+    public ModelAndView leaveTeam(@RequestParam HashMap<String, Object> map) {
+    	teamService.deleteMemberTeam(map);
+    	return new ModelAndView("redirect:/Team/Info?team_idx=" + map.get("team_idx") + "&keyword=&alert=leave_ok");
+    }
+
+    /* 구단 로고 변경 - 감독 전용 */
+    @RequestMapping("/UpdateLogo")
+    public ModelAndView updateLogo(@RequestParam HashMap<String, Object> map,
+                                   @RequestParam(value = "team_logo", required = false) MultipartFile logoFile,
+                                   HttpServletRequest request) {
+
+        int teamIdx = Integer.parseInt(map.get("team_idx").toString());
+
+        HttpSession session = request.getSession();
+        MemberDto   login   = (MemberDto) session.getAttribute("login");
+        TeamDto     team    = teamService.getTeamInfo(teamIdx);
+
+        if (team.getTeam_manager() != login.getMember_idx()) {
+            return new ModelAndView("redirect:/Team/Info?team_idx=" + teamIdx + "&keyword=&alert=no_permission");
+        }
+
+        HashMap<String, Object> savedLogoMap = saveLogoFile(logoFile);
+        if (savedLogoMap != null) {
+            savedLogoMap.put("team_idx", teamIdx);
+            // 기존 로고 여부로 INSERT / UPDATE 분기
+            if (team.getSfile_name() == null) {
+                teamService.insertTeamLogo(savedLogoMap);
+            } else {
+                teamService.updateTeamLogo(savedLogoMap);
+            }
+        }
+
+        String from = map.getOrDefault("from", "info").toString();
+        if ("managing".equals(from)) {
+            return new ModelAndView("redirect:/Team/Managing?team_idx=" + teamIdx + "&keyword=");
+        }
+        return new ModelAndView("redirect:/Team/Info?team_idx=" + teamIdx + "&keyword=");
+    }
 }

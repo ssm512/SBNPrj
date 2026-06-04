@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>리그경기결과추가</title>
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 
 <style>
