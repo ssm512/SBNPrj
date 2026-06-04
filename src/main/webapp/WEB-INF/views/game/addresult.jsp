@@ -6,30 +6,123 @@
 <meta charset="UTF-8">
 <title>리그경기결과추가</title>
 <link href="/css/common.css" rel="stylesheet" />
+
 <style>
-	table {
-		border-collapse: collapse;
-		width: 100%;
-	}
-	td {
-		border: 1px solid black;
-		padding: 5px;
-		text-align: center;
-	}
-	input, select, textarea {
-		width: 100%;
-		box-sizing: border-box;
-	}
-	#gamestat {
-	background-color: #F5F5DC;
-	}
-	#gameresultinput tr:first-of-type{
-	background-color: #F5F5DC;
-	}
+		html, body {
+		    height: 100%;
+		}
+		
+		body {
+		    background-color: #f5f7fa;
+		    display: flex;
+		    flex-direction: column;
+		    min-height: 100vh;
+		}
+
+    .content-area {
+        flex: 1;
+        padding: 104px 0 32px;
+        position: relative;
+        overflow: visible;
+    }
+
+    .content-area::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: center 60%;
+        filter: blur(10px) brightness(0.85);
+        transform: scale(1.05);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .main-wrapper {
+        position: relative;
+        z-index: 1;
+        
+    }
+
+    .footer {
+		    position: relative;
+		    z-index: 2;
+    }
+    
+		.statdiv, .resultdiv {
+		    width: 95%;
+		    margin: 30px auto;
+		    padding: 24px 28px;
+		
+		    background: rgba(245,245,220,0.88);
+		    border-radius: 10px;
+		    box-shadow: 0 2px 16px rgba(26,61,26,0.07);
+		
+		    box-sizing: border-box;
+		}
+		
+		table {
+		    width: 100%;
+		    border-collapse: collapse;
+		}
+		
+		td {
+		    border-bottom: 1px solid #e0dcc8;
+		    padding: 10px;
+		    text-align: center;
+		}
+		
+		tr:first-child td {
+		    background-color: #1a3d1a;
+		    color: white;
+		    border-bottom: 2px solid #FFD700;
+		}
+		
+		input, select, textarea {
+		    width: 100%;
+		    height: 34px;
+		
+		    border: 1px solid #dde2ea;
+		    border-radius: 6px;
+		
+		    padding: 0 8px;
+		    box-sizing: border-box;
+		}
+		
+		input[type="radio"] {
+    width: auto;
+    height: auto;
+    transform: scale(0.8);
+    margin-right: 3px;
+		}
+		
+		input[type="submit"],	input[type="button"],	button {
+		    background-color: #FFD700;
+		    color: #1a3d1a;
+		
+		    border: none;
+		    border-radius: 6px;
+		
+		    font-weight: 700;
+		    cursor: pointer;
+		    width: 130px;
+		}
+		
+		#btns {
+				margin: 20px auto 0;
+				text-align: center;
+		}
+		
+		#btnGameStatUpdate {
+				width: 130px;
+		}
 </style>
+
 </head>
 <body>
 <%@include file="/WEB-INF/include/headermenu.jsp" %>
+<div class="content-area">
 <div class="main-wrapper">
 	<div class="statdiv">
 	<form id="gamestatForm">
@@ -50,39 +143,55 @@
 				<td>경기날짜 : ${gameDto.game_date}</td>
 				<td>
 				경기여부 : 
+				<span style="display:inline-block; width:100px;">
 				<input type="radio" name="game_status" id="statusbeforegame" value="0" 
 				${gameDto.game_status == '0' ? 'checked' : '' }/>
 				<label for="statusbeforegame">경기미진행</label>
+				</span>
+				<span style="display:inline-block; width:100px;">
 				<input type="radio" name="game_status" id="endgame" value="1"
 				${gameDto.game_status == '1' ? 'checked' : '' }/>
 				<label for="endgame">경기종료</label>
+				</span>
+				<span style="display:inline-block; width:100px;">
 				<input type="radio" name="game_status" id="ingame" value="2"
 				${gameDto.game_status == '2' ? 'checked' : '' }/>
 				<label for="ingame">경기중</label>
+				</span>
+				<span style="display:inline-block; width:100px;">
 				<input type="radio" name="game_status" id="rainstop" value="3"
 				${gameDto.game_status == '3' ? 'checked' : '' }/>
 				<label for="rainstop">우천취소</label>
+				</span>
 				</td>
 				<td>경기장 : ${gameDto.game_field}</td>
 			</tr>
 			<tr>
 				<td>
-					승자여부 : ${gameDto.winner}
+					승리투수 : <input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
+				</td>
+				<td>
+					승자여부 : 
+					<span style="display:inline-block; width:100px;">
 					<input type="radio" name="winner" id="beforegame" value="0" 
 					${gameDto.winner == '0' ? 'checked' : '' }/>
 					<label for="beforegame">미정</label>
+					</span>
+					<span style="display:inline-block; width:100px;">
 					<input type="radio" name="winner" id="awaywin" value="1"
 					${gameDto.winner == '1' ? 'checked' : '' }/>
 					<label for="awaywin">원정승</label>
+					</span>
+					<span style="display:inline-block; width:100px;">
 					<input type="radio" name="winner" id="homewin" value="2"
 					${gameDto.winner == '2' ? 'checked' : '' }/>
 					<label for="homewin">홈승</label>
+					</span>
+					<span style="display:inline-block; width:100px;">
 					<input type="radio" name="winner" id="draw" value="3"
 					${gameDto.winner == '3' ? 'checked' : '' }/>
 					<label for="draw">무승부</label>
-				</td>
-				<td>
-					승리투수 : <input type="text" id="win_pitcher" name="win_pitcher" value="${gameDto.win_pitcher}">
+					</span>
 				</td>
 				<td>
 					패전투수 : <input type="text" id="lose_pitcher" name="lose_pitcher" value="${gameDto.lose_pitcher}">
@@ -162,33 +271,34 @@
 					</select>
 				</td>
 				<td>
-					<input type="number" name="resultList[0].get_score" min='-4' max='4' value="0"/>
+					<input type="number" name="resultList[0].get_score" min="-4" max='4' value="0"/>
 				</td>
 				<td>
-					<input type="number" name="resultList[0].era" min='-4' max='4' value='0'/>
+					<input type="number" name="resultList[0].era" min="-4" max='4' value='0'/>
 				</td>
 				<td>
 					<textarea rows="1" cols="10" maxlength="2000" name="resultList[0].content"></textarea>
 				</td>
 				<td>
-					<input type="button" class="btn-row-add" value="행추가"/>
+					<input type="button" class="btn-row-add" style="width:auto;" value="행추가"/>
 				</td>
 				<td>
-					<input type="button" class="btn-row-remove" value="행삭제"/>
+					<input type="button" class="btn-row-remove" style="width:auto;" value="행삭제"/>
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="경기결과 입력">
-		<input type="button" value="경기결과 수정" 
-		onclick ="window.location.href='/Game/UpdateResultForm?league_idx=${gameDto.league_idx}&game_idx=${gameDto.game_idx}'">
-		<input type="button" value="경기목록"
-		onclick ="window.location.href='/Game/GameInfo?league_idx=${gameDto.league_idx}&game_idx=${gameDto.game_idx}'">
-	<br>
+		<div id="btns">
+			<input type="submit" value="경기결과 입력">
+			<input type="button" value="경기결과 수정" 
+			onclick ="window.location.href='/Game/UpdateResultForm?league_idx=${gameDto.league_idx}&game_idx=${gameDto.game_idx}'">
+			<input type="button" value="경기목록"
+			onclick ="window.location.href='/Game/GameInfo?league_idx=${gameDto.league_idx}&game_idx=${gameDto.game_idx}'">
+		</div>
 	</form>
 	</div>
 </div>
+</div>
 <%@include file="/WEB-INF/include/footer.jsp" %>
-
 <!-- 게임 stat update -->
 <script>
 const btnGameStatUpdate = document.querySelector('#btnGameStatUpdate');

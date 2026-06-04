@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.sbn.game.dto.GameDto;
 import com.sbn.game.dto.GameResultDto;
+import com.sbn.paging.SearchDto;
 
 public interface GameService {
 
@@ -43,6 +44,10 @@ public interface GameService {
 	void updateGameResult(GameResultDto gameResultDto);
 
 	void deleteGameResult(int record_num);
+	// updateresult부분 pagination을 위한 game별 MaxInning 
+	int getMaxInning(int game_idx);
+	// updateresult부분 inning별 GameResultList
+	ArrayList<GameResultDto> getGameResultListByInning(int game_idx, SearchDto searchDto);
 
 
 }

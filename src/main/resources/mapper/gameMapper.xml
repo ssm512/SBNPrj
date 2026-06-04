@@ -116,6 +116,7 @@
 		SELECT
 		    HITTER_NUM AS "hitter_num",
 		    HITTER_NAME AS "hitter_name",
+ 		    COUNT(*)                                             AS "pa",
 		    SUM( CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR', 'K', 'OUT') THEN 1 ELSE 0 END) AS "at_bat",
 		    NVL(SUM(GET_SCORE), 0) AS "score",
 		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END), 0) AS "hit",
@@ -144,6 +145,7 @@
 		SELECT
 		    HITTER_NUM AS "hitter_num",
 		    HITTER_NAME AS "hitter_name",
+		    COUNT(*)                                             AS "pa",
 		    SUM( CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR', 'K', 'OUT') THEN 1 ELSE 0 END) AS "at_bat",
 		    NVL(SUM(GET_SCORE), 0) AS "score",
 		    NVL(SUM(CASE WHEN RESULT IN ('1B', '2B', '3B', 'HR') THEN 1 ELSE 0 END), 0) AS "hit",
@@ -384,6 +386,41 @@
       FROM GAME_RESULT
      WHERE RECORD_NUM = #{record_num}
 	</delete>
+	
+	<!-- getMaxInning -->
+	<select id="getMaxInning" resultType="int">
+    SELECT NVL(MAX(INNING), 0)
+    FROM GAME_RESULT
+    WHERE GAME_IDX = #{game_idx}
+	</select>
+	
+	<!-- getGameResultListByInning -->
+	<select id="getGameResultListByInning" resultType="com.sbn.game.dto.GameResultDto">
+	    SELECT
+	        RECORD_NUM    AS record_num,
+	        GAME_IDX      AS game_idx,
+	        INNING        AS inning,
+	        TOP_BOTTOM    AS top_bottom,
+	        HITTER_NUM    AS hitter_num,
+	        HITTER_NAME   AS hitter_name,
+	        HITTER_ID     AS hitter_id,
+	        PITCHER_NAME  AS pitcher_name,
+	        PITCHER_ID    AS pitcher_id,
+	        RESULT        AS result,
+	        GET_SCORE     AS get_score,
+	        ERA           AS era,
+	        CONTENT       AS content
+	    FROM GAME_RESULT
+	    WHERE GAME_IDX = #{game_idx}
+	      AND INNING = #{searchDto.pageNo}
+	    ORDER BY
+	        CASE TOP_BOTTOM
+	            WHEN 'T' THEN 1
+	            WHEN 'B' THEN 2
+	            ELSE 3
+	        END,
+	        RECORD_NUM
+	</select>
 	
  </mapper>
  

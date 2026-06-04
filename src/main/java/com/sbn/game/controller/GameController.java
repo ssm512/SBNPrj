@@ -18,6 +18,8 @@ import com.sbn.game.dto.GameDto;
 import com.sbn.game.dto.GameResultDto;
 import com.sbn.game.service.GameService;
 import com.sbn.member.dto.MemberDto;
+import com.sbn.paging.Pagination;
+import com.sbn.paging.SearchDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -138,7 +140,11 @@ public class GameController {
 	
 	// /Game/UpdateResultForm?league_idx=1&game_idx=2
 	@RequestMapping("/UpdateResultForm")
-	public ModelAndView updateResultForm ( GameResultDto gameResultDto, HttpServletRequest request ) {
+	public ModelAndView updateResultForm ( 
+						GameResultDto gameResultDto, 
+						SearchDto searchDto, 
+						@RequestParam(value = "nowpage", required = false, defaultValue = "1") int nowpage,
+						HttpServletRequest request ) {
 		MemberDto 					login						=	(MemberDto) request.getSession().getAttribute("login");
 		if (login == null || !"Y".equals(login.getIs_admin())) {
 			ModelAndView			mv	=	new ModelAndView();
@@ -148,13 +154,20 @@ public class GameController {
 		int							league_idx					=	gameResultDto.getLeague_idx();
 		int							game_idx					=	gameResultDto.getGame_idx();
 		
-		ArrayList<GameResultDto>	resultList					=	gameService.getGameResultList(gameResultDto);
-		//System.out.println(resultList);
+		searchDto.setPageNo(nowpage);
+		searchDto.setNumOfRows(1);
+		searchDto.setPageSize(10);
+		int totalCount	=	gameService.getMaxInning(game_idx);
+		Pagination		pagination		=	new	Pagination(totalCount, searchDto);
+		searchDto.setPagination(pagination);
+		
+		ArrayList<GameResultDto>	resultList					=	gameService.getGameResultListByInning(game_idx, searchDto);
 		ModelAndView 				mv 							=	new ModelAndView();
 		mv.setViewName("/game/updateresult");
 		mv.addObject("resultList",resultList);
 		mv.addObject("league_idx",league_idx);
 		mv.addObject("game_idx",game_idx);
+		mv.addObject("searchDto",searchDto);
 		return mv;		
 	}
 	
