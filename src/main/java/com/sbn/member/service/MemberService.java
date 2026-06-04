@@ -47,11 +47,9 @@ public interface MemberService {
 
 	void insertMemberFile(HashMap<String, Object> fileMap);
 
-<<<<<<< HEAD
 	boolean changePassword(HashMap<String, Object> map);
 
-=======
->>>>>>> 53d40c51b68624208005b0ecc0e4d65e2fda220d
+
 
 
 
