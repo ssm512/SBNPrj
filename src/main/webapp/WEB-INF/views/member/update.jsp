@@ -19,11 +19,13 @@
 		justify-content: center;
 		gap: 20px;
 		grid-template-columns: 1fr 3fr;
+		margin-top: 25px;
 	}
 	
 	.member-profile-img {
 		background-color: #FFD700;
 		text-align: center;
+		padding: 15px;
 	}
 	
 	.myteamlist {
@@ -43,6 +45,17 @@
 		background: #F5F5DC;
 		width: 100%;
 	}
+	
+	.member-profile-img img {
+		border: 1px solid gray;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+	}
+	
 	
 	.member-profile table {
 		margin: 20px auto;
@@ -105,8 +118,18 @@
 	<div class="main-wrapper">
 		<div>
 			<div class="member-profile-img">
-				<p>이미지</p>
-				<p>${ sessionScope.login.member_name }</p>
+		    <c:choose>
+	        <c:when test="${not empty fileInfo}">
+	          <img src="/sbndata/${fileInfo.sfile_name}"
+	               style="width:100px; height:100px; border-radius:50%; object-fit:cover;"
+	               onerror="this.src='/img/404_testimg.jpg'" />
+	        </c:when>
+	        <c:otherwise>
+	          <img src="/img/sbndefaultimg.png"
+	               style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/>
+	        </c:otherwise>
+		    </c:choose>
+		    <p>${ sessionScope.login.member_name }</p>
 				<input type="button" id="mystatsbtn" value="내 전적 조회"  />
 			</div>
 			<table class="myteamlist">
@@ -123,7 +146,7 @@
 		</div>
 		<div class="member-profile">
 			<h3>회원 정보</h3>
-			<form action="/Member/Update" method="post" >
+			<form action="/Member/Update" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="member_idx" value="${ sessionScope.login.member_idx }" />
 				<input type="hidden" name="member_id" value="${ sessionScope.login.member_id }" />
 				<table>
@@ -182,6 +205,8 @@
 					
 				<span>선호 포지션</span> &emsp;
 				<input type="text"  name="hope_position"  value="${ sessionScope.login.hope_position }"/>
+				<br><br><span>프로필 사진</span> &emsp;
+				<input type="file" name="file" accept="image/*"/> <br>
 				<input type="submit"  id="updatebtn" value="수정 완료"  />
 			</form>
 		</div>
@@ -206,6 +231,8 @@
 	const emailEl        = document.querySelector('[name="email"]')
 	const phoneDupBtnEl  = document.querySelector('#phoneDupCheck')
 	const emailDupBtnEl  = document.querySelector('#emailDupCheck')
+	
+	const mystatsbtnEl   = document.querySelector('#mystatsbtn')
 	
 	
 	// 입력항목 체크
@@ -336,6 +363,11 @@
 	
 	emailEl.addEventListener('change', function () {
 		emailDupChecked = false;
+	})
+	
+	// 내 전적보기 이동
+	mystatsbtnEl.addEventListener('click', function () {
+		location.href = "/Member/Stats?member_idx=" + ${sessionScope.login.member_idx}
 	})
 	
 	

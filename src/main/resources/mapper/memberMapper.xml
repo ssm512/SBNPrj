@@ -47,7 +47,10 @@
             AND ROWNUM = 1) JOIN_TEAM_NAME,
            (SELECT COUNT(*) FROM MEMBER_TEAM MT
              WHERE  MT.MEMBER_IDX    = M.MEMBER_IDX
-             AND    MT.JOIN_STATUS = 1)  JOIN_TEAM_COUNT      
+             AND    MT.JOIN_STATUS = 1)  JOIN_TEAM_COUNT ,
+           (SELECT F.SFILE_NAME FROM FILES F
+       			 WHERE  F.MEMBER_IDX = M.MEMBER_IDX
+       			 AND    ROWNUM = 1) SFILE_NAME     
     FROM   MEMBER M
     LEFT JOIN MEMBER_TEAM MT ON M.MEMBER_IDX = MT.MEMBER_IDX
     LEFT JOIN TEAM T          ON MT.TEAM_IDX  = T.TEAM_IDX
@@ -323,7 +326,10 @@
               AND ROWNUM = 1) JOIN_TEAM_NAME,
            (SELECT COUNT(*) FROM MEMBER_TEAM MT
              WHERE  MT.MEMBER_IDX    = M.MEMBER_IDX
-             AND    MT.JOIN_STATUS = 1)  JOIN_TEAM_COUNT      
+             AND    MT.JOIN_STATUS = 1)  JOIN_TEAM_COUNT,
+           (SELECT F.SFILE_NAME FROM FILES F
+       			 WHERE  F.MEMBER_IDX = M.MEMBER_IDX
+       			 AND    ROWNUM = 1) SFILE_NAME         
     FROM   MEMBER M
     LEFT JOIN MEMBER_TEAM MT ON M.MEMBER_IDX = MT.MEMBER_IDX
     LEFT JOIN TEAM T          ON MT.TEAM_IDX  = T.TEAM_IDX
@@ -394,5 +400,33 @@
 	)
 	GROUP BY PITCHER_ID
 </select>
+
+
+<!-- 멤버 이미지  -->
+<!-- 회원 이미지 조회 -->
+<select id="getMemberFile" resultType="hashmap">
+    SELECT FILE_NUM    AS "file_num",
+           FILE_NAME   AS "file_name",
+           FILE_EXT    AS "file_ext",
+           SFILE_NAME  AS "sfile_name"
+    FROM   FILES
+    WHERE  MEMBER_IDX = #{member_idx}
+    AND    ROWNUM = 1
+</select>
+
+<!-- 이미지 insert -->
+<insert id="insertMemberFile">
+    INSERT INTO FILES (FILE_NUM, MEMBER_IDX, FILE_NAME, FILE_EXT, SFILE_NAME)
+    VALUES (SEQ_FILE.NEXTVAL, #{member_idx}, #{file_name}, #{file_ext}, #{sfile_name})
+</insert>
+
+<!-- 이미지 update -->
+<update id="updateMemberFile">
+    UPDATE FILES
+    SET    FILE_NAME  = #{file_name},
+           FILE_EXT   = #{file_ext},
+           SFILE_NAME = #{sfile_name}
+    WHERE  MEMBER_IDX = #{member_idx}
+</update>
 
 </mapper>

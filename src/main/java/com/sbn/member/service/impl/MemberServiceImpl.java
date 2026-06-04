@@ -234,6 +234,22 @@ public class MemberServiceImpl implements MemberService {
 		return obj == null ? 0 : Integer.parseInt(obj.toString());
 	}
 
+	@Override
+	public HashMap<String, Object> getMemberFile(int member_idx) {
+		HashMap<String, Object> fileInfo = memberMapper.getMemberFile(member_idx);
+		return fileInfo;
+	}
+
+	@Override
+	public void updateMemberFile(HashMap<String, Object> fileMap) {
+		memberMapper.updateMemberFile(fileMap);
+	}
+
+	@Override
+	public void insertMemberFile(HashMap<String, Object> fileMap) {
+		memberMapper.insertMemberFile(fileMap);
+	}
+
 
 
 

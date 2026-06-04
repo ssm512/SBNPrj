@@ -41,6 +41,12 @@ public interface MemberService {
 
 	RankerDto getRankerList(List<MemberDto> allMemberStats);
 
+	HashMap<String, Object> getMemberFile(int member_idx);
+
+	void updateMemberFile(HashMap<String, Object> fileMap);
+
+	void insertMemberFile(HashMap<String, Object> fileMap);
+
 
 
 
