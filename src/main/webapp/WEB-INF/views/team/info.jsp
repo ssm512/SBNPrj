@@ -217,6 +217,24 @@
         color: #999;
     }
 
+    /* 팀 소개 */
+    .content-box {
+        font-size: 13px;
+        color: #333;
+        line-height: 1.65;
+        padding: 9px 4px 10px;
+        border-bottom: 1px solid #ece8d0;
+        word-break: keep-all;
+        white-space: pre-line;
+    }
+
+    .content-none {
+        padding: 7px 4px;
+        font-size: 13px;
+        color: #bbb;
+        font-style: italic;
+    }
+
     /* ===== 구단 로고 ===== */
     .logo-card {
         background: #fff;
@@ -469,6 +487,17 @@
                             <span class="info-label">선수단</span>
                             <span>${team.member_count}명</span>
                         </div>
+
+                        <%-- 팀 소개 --%>
+                        <div class="info-section-title" style="margin-top:14px;">팀 소개</div>
+                        <c:choose>
+                            <c:when test="${not empty team.team_content}">
+                                <div class="content-box">${team.team_content}</div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="content-none">소개글이 없습니다.</div>
+                            </c:otherwise>
+                        </c:choose>
 
                         <%-- 리그 --%>
                         <div class="info-section-title" style="margin-top:14px;">리그</div>

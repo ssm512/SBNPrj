@@ -20,31 +20,23 @@
         min-height: 100vh;
     }
 
-    /* 콘텐츠 영역 - ::before 로 index.png 블러 배경 적용 */
-    /* overflow: hidden 으로 scale(1.05) 삐져나옴 + 푸터 가림 방지 */
-    .page-wrapper {
-        flex: 1;
-        padding: 84px 32px 48px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .page-wrapper::before {
+    body::before {
         content: '';
-        position: absolute;
-        inset: 0;
+        position: fixed;
+        inset: -5%;
         background-image: url('/img/index.png');
         background-size: cover;
         background-position: center 60%;
         filter: blur(10px) brightness(0.85);
-        transform: scale(1.05); /* 블러 엣지 잘림 방지 */
-        z-index: 0;
+        z-index: -1;
     }
 
-    /* main-wrapper가 블러 배경 위에 뜨도록 */
+    .page-wrapper {
+        flex: 1;
+        padding: 84px 32px 48px;
+    }
+
     .main-wrapper {
-        position: relative;
-        z-index: 1;
         max-width: 1160px;
         margin: 0 auto;
     }
@@ -323,6 +315,66 @@
         border-color: #1a3d1a;
     }
 
+    /* 팀 소개 */
+    .intro-section {
+        padding: 20px 0 20px;
+        border-bottom: 1px solid #c8c4aa;
+        margin-bottom: 24px;
+    }
+
+    .intro-label {
+        font-family: 'Oswald', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        color: #1a3d1a;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #c8c4aa;
+        margin-bottom: 10px;
+    }
+
+    .intro-textarea {
+        width: 100%;
+        min-height: 90px;
+        padding: 10px 12px;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-size: 13px;
+        color: #333;
+        background: rgba(255, 255, 255, 0.8);
+        resize: vertical;
+        outline: none;
+        box-sizing: border-box;
+        font-family: inherit;
+        line-height: 1.6;
+        transition: border-color 0.15s;
+    }
+
+    .intro-textarea:focus { border-color: #1a3d1a; }
+
+    .intro-save-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+    }
+
+    .btn-intro-save {
+        padding: 6px 20px;
+        background: #1a3d1a;
+        color: #FFD700;
+        border: none;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+
+    .btn-intro-save:hover { background: #2a5a2a; }
+
     /* 수정 완료 버튼 - 골드 배경 + 그린 텍스트 */
     .btn-submit {
         padding: 10px 32px;
@@ -376,6 +428,17 @@
                         </form>
                     </div>
                 </div>
+                <%-- 팀 소개글 편집 --%>
+                <form action="/Team/UpdateContent" method="post" class="intro-section">
+                    <input type="hidden" name="team_idx" value="${team.team_idx}">
+                    <div class="intro-label">팀 소개</div>
+                    <textarea class="intro-textarea" name="team_content"
+                              placeholder="팀 소개글을 입력하세요.">${team.team_content}</textarea>
+                    <div class="intro-save-row">
+                        <button type="submit" class="btn-intro-save">저장</button>
+                    </div>
+                </form>
+
                 <div class="managing-area">
 
                     <%-- 좌측: 소속 선수 리스트 --%>
