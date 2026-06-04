@@ -52,6 +52,8 @@ public interface MemberMapper {
 
 	void insertMemberFile(HashMap<String, Object> fileMap);
 
+	void changePassword(HashMap<String, Object> map);
+
 
 
 }

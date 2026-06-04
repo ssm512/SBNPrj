@@ -250,6 +250,23 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.insertMemberFile(fileMap);
 	}
 
+	@Override
+	public boolean changePassword(HashMap<String, Object> map) {
+	    // 현재 비번 검증
+	    MemberDto member = memberMapper.getMemberById(map);
+	    String currentPw = map.get("current_pw").toString();
+
+	    if (!encoder.matches(currentPw, member.getPassword())) {
+	        return false; // 현재 비번 틀림
+	    }
+
+	    // 새 비번 암호화 후 update
+	    String newPw = map.get("new_pw").toString();
+	    map.put("password", encoder.encode(newPw));
+	    memberMapper.changePassword(map);
+	    return true;
+	}
+
 
 
 

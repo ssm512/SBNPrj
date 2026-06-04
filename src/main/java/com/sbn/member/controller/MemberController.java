@@ -315,4 +315,21 @@ public class MemberController {
 	}
 	
 	
+	@PostMapping("/ChangePassword")
+	@ResponseBody
+	public HashMap<String, Object> changePassword(
+	        @RequestParam HashMap<String, Object> map,
+	        HttpServletRequest request) {
+
+	    MemberDto login = (MemberDto) request.getSession().getAttribute("login");
+	    map.put("member_id",  login.getMember_id());
+	    map.put("member_idx", login.getMember_idx());
+
+	    boolean result = memberService.changePassword(map);
+
+	    HashMap<String, Object> res = new HashMap<>();
+	    res.put("result", result);
+	    return res;
+	}
+	
 }

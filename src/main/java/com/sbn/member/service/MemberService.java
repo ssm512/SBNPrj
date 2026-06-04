@@ -47,6 +47,8 @@ public interface MemberService {
 
 	void insertMemberFile(HashMap<String, Object> fileMap);
 
+	boolean changePassword(HashMap<String, Object> map);
+
 
 
 

@@ -256,6 +256,7 @@
                 <div class="post-meta">
                     <div class="post-meta-item"><span>작성자</span>${board.writer}</div>
                     <div class="post-meta-item"><span>작성일</span>${board.regdate}</div>
+                    <div class="post-meta-item"><span>글번호</span>${board.board_idx}</div>
                     <div class="post-meta-item"><span>조회수</span>${board.hit}</div>
                 </div>
 
@@ -285,61 +286,7 @@
     </div>
 
     
-    <table>
-      <tr>
-        <td class="td1" style="width:25%;">글 번호</td>
-        <td style="width:25%;">${board.board_idx}</td>
-        <td class="td1" style="width:25%;">조회수</td>
-        <td style="width:25%;">${board.hit}</td>
-      </tr>
-      <tr>
-        <td class="td2">작성자</td>
-        <td class="td-writer">
-          <a href="/Member/Stats?member_idx=${map.member_idx}">
-            ${board.writer}
-          </a>
-        </td>
-        <td class="td2">작성일</td>
-        <td>${board.regdate }</td>
-      </tr>
-      <tr>
-        <td class="td3">제목</td>
-        <td id="title" colspan="3"><c:out value="${board.title}" /></td>
-      </tr>
-      <tr>
-        <td class="td4">내용</td>
-        <td id="content" colspan="3"><c:out value="${board.content}" /></td>
-      </tr>
-      <tr>
-        <td class="td5" colspan="2">
-          <a href="/Board/WriteForm?nowpage=${map.nowpage}&board_type=${map.board_type}">
-            새 글 쓰기
-          </a>
-        </td>
-        <td class="td5" colspan="2">
-          <a href="/Board/List?nowpage=${map.nowpage}&keyword=&board_type=${map.board_type}">
-            목록
-          </a>
-        </td>
-      </tr>
-      <c:if test="${sessionScope.login.member_id == board.writer || sessionScope.login.is_admin == 'Y' }">
-      <tr>
-        <td class="td5" colspan="2">
-          <a href="/Board/UpdateForm?board_idx=${board.board_idx}&board_type=${map.board_type}&nowpage=${map.nowpage}">
-            수정
-          </a>
-        </td>
-        <td class="td5" colspan="2">
-          <a href="/Board/Delete?board_idx=${board.board_idx}&board_type=${map.board_type}&nowpage=${map.nowpage}"
-             onclick="return confirm('정말 삭제하시겠습니까?')">
-            삭제
-          </a>
-        </td>
-      </tr>
-      </c:if>
-    </table>
-    
-  </div>
+   
   
   <%@include file="/WEB-INF/include/footer.jsp" %> 
 
