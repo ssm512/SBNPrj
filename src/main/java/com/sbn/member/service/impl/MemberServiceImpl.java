@@ -268,6 +268,11 @@ public class MemberServiceImpl implements MemberService {
 	    return true;
 	}
 
+	@Override
+	public void deleteMember(int member_idx) {
+		memberMapper.deleteMember(member_idx);
+	}
+
 
 
 

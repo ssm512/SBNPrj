@@ -27,10 +27,11 @@
                        (SELECT COUNT(*)
                         FROM   MEMBER_TEAM MT
                         WHERE  MT.TEAM_IDX    = T.TEAM_IDX
-                        AND    MT.JOIN_STATUS = 1) MEMBER_COUNT
+                        AND    MT.JOIN_STATUS = 1 ) MEMBER_COUNT
                 FROM   TEAM T
                 JOIN   MEMBER M ON T.TEAM_MANAGER = M.MEMBER_IDX
                 <where>
+                        AND T.IS_ACTIVE = 'Y'
                     <if test="keyword != null and keyword != ''">
                         AND (T.TEAM_NAME     LIKE '%' || #{keyword} || '%'
                           OR T.TEAM_LOCATION LIKE '%' || #{keyword} || '%')
@@ -47,6 +48,7 @@
         SELECT COUNT(*) FROM TEAM T
         JOIN MEMBER M ON T.TEAM_MANAGER = M.MEMBER_IDX
         <where>
+        			AND T.IS_ACTIVE = 'Y'
             <if test="keyword != null and keyword != ''">
                 AND (T.TEAM_NAME     LIKE '%' || #{keyword} || '%'
                   OR T.TEAM_LOCATION LIKE '%' || #{keyword} || '%')
@@ -82,8 +84,8 @@
         <selectKey keyProperty="team_idx" resultType="int" order="BEFORE">
             SELECT SEQ_TEAM.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO TEAM (TEAM_IDX, TEAM_NAME, TEAM_MANAGER, TEAM_CONTENT, TEAM_LOCATION, TEAM_REGDATE)
-        VALUES (#{team_idx}, #{team_name}, #{team_manager}, #{team_content}, #{team_location}, SYSDATE)
+        INSERT INTO TEAM (TEAM_IDX, TEAM_NAME, TEAM_MANAGER, TEAM_CONTENT, TEAM_LOCATION, TEAM_REGDATE, IS_ACTIVE)
+        VALUES (#{team_idx}, #{team_name}, #{team_manager}, #{team_content}, #{team_location}, SYSDATE, 'Y')
     </insert>
 
 

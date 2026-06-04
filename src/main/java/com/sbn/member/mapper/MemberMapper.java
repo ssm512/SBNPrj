@@ -55,6 +55,8 @@ public interface MemberMapper {
 
 	void changePassword(HashMap<String, Object> map);
 
+	void deleteMember(int member_idx);
+
 
 
 

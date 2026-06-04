@@ -191,7 +191,7 @@
     <%-- 팀 이름 중복 알림 --%>
     <script>
       
-      <c:if test="${param.alert == 'duplicate_name'}">alert('이미 사용 중인 구단 이름입니다.');</c:if>
+      <c:if test="${param.alert == 'duplicate_name'}">alert('해체된 팀이거나, 이미 사용 중인 구단 이름입니다.');</c:if>
       
       const formEl         = document.querySelector('form');
       const teamNameEl     = document.querySelector('[name="team_name"]');

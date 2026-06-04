@@ -21,6 +21,7 @@ public class MemberDto {
 	private  String  hope_position;
 	private  String  member_regdate;
 	private  String  is_admin;
+	private  String  is_active;
 	
 	// join
 	private  String  join_team_name;

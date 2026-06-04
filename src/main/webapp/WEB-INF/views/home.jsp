@@ -202,5 +202,10 @@
             }
         });
     </script>
+    <script>
+			if('${param.memberDeleted}' == 'true') {
+			    alert(' 탈퇴 처리가 완료되었습니다.\n SBN을 이용해 주셔서 감사합니다.\n 앞으로의 여정을 항상 응원합니다. ')
+			}
+</script>
 </body>
 </html>

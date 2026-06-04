@@ -57,10 +57,15 @@ public class MemberController {
 		
 		MemberDto     member  = memberService.login(map);
 		HttpSession   session =  request.getSession();
-
+		
 	    if (member == null) {
 	        model.addAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
 	        return "member/login"; // 로그인 폼으로 다시
+	    }
+	    
+	    if (member.getIs_active().equals("N")) {
+	    	model.addAttribute("msg", "이미 탈퇴한 회원입니다.");
+	    	return "member/login"; // 로그인 폼으로 다시
 	    }
 	    
 		session.setAttribute("login", member);
@@ -330,6 +335,26 @@ public class MemberController {
 	    HashMap<String, Object> res = new HashMap<>();
 	    res.put("result", result);
 	    return res; 
+	}
+	
+	@RequestMapping("/LeaveSbn")
+	public  ModelAndView  leaveSbn(HttpServletRequest request) {
+		HttpSession  session    = request.getSession();
+		MemberDto    login      = (MemberDto) session.getAttribute("login");
+		int          member_idx = login.getMember_idx();
+		
+	    // 소속 팀 있으면 탈퇴 불가
+	    List<TeamDto> teamList = memberService.getMyTeamList(member_idx);
+	    if (teamList != null && !teamList.isEmpty()) {
+	        return new ModelAndView("redirect:/Member/Mypage?deleteError=true");
+	    }
+		
+	    memberService.deleteMember(member_idx);
+	    session.invalidate();
+	    
+		ModelAndView  mv  = new ModelAndView();
+		mv.setViewName("redirect:/?memberDeleted=true");
+		return  mv;
 	}
 	
 }

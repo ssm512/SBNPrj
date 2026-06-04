@@ -274,7 +274,31 @@
     }
 
     .btn-update:hover { background: #e6c200; }
-
+    
+    /* 회원 탈퇴 버튼 */
+    .btn-leave {
+        display: inline-block;
+        margin-top: 24px;
+        padding: 10px 32px;
+        color: #b03030;
+        border: 1.5px solid #b03030;
+        background: transparent;
+        border-radius: 3px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+    
+    .bottom-btn {
+    	display: flex;
+    	justify-content: space-between;
+    	align-items: center;
+    }
+    
+    
 </style>
 </head>
 <body>
@@ -357,9 +381,11 @@
                             <span class="extra-label">선호 포지션</span>
                             <span>${sessionScope.login.hope_position}</span>
                         </div>
-
-                        <button type="button" class="btn-update" id="updatebtn">정보 수정</button>
-
+												<div class="bottom-btn" >
+                        	<button type="button" class="btn-update" id="updatebtn">정보 수정</button>
+                        	<button type="button" class="btn-leave" id="leavebtn" onclick="leaveSbn()"
+                        	       >회원 탈퇴</button>
+												</div>
                     </div>
 
                 </div>
@@ -386,7 +412,26 @@
         mystatsbtnEl.addEventListener('click', function () {
             location.href = '/Member/Stats?member_idx=' + ${sessionScope.login.member_idx};
         });
+        
+        
+        function leaveSbn() {
+        	if (confirm("탈퇴하시겠습니까?\n탈퇴 후엔 해당 아이디로 재가입이 불가능 합니다.")) {
+        		if (${not empty teamList}) {
+        			alert("소속된 팀이 있으면 탈퇴 할 수 없습니다.\n팀을 탈퇴한 후 다시 시도해주세요.")
+        		} else {
+        			location.href="/Member/LeaveSbn"
+        		}
+        	} else {
+	          alert("SBN 에서의 활약을 응원합니다!")
+        	}
+        }
 
     </script>
+    
+    <c:if test="${param.deleteError == 'true'}">
+    	<script>
+      	alert('소속된 팀이 있어 탈퇴할 수 없습니다.')
+    	</script>
+		</c:if>
 </body>
 </html>

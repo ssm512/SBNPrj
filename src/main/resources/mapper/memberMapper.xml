@@ -20,7 +20,8 @@
 				 USE_HAND,
 				 HOPE_POSITION,
 				 MEMBER_REGDATE,
-				 IS_ADMIN
+				 IS_ADMIN,
+				 IS_ACTIVE
   FROM   MEMBER
   WHERE  MEMBER_ID = LOWER(#{member_id})
   
@@ -56,6 +57,7 @@
     LEFT JOIN TEAM T          ON MT.TEAM_IDX  = T.TEAM_IDX
                               AND MT.JOIN_STATUS = 1
     <where>
+        AND M.IS_ACTIVE = 'Y'
         <if test="searchType == 'member_name' and keyword != null and keyword != ''">
             AND LOWER(M.MEMBER_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
         </if>
@@ -98,7 +100,8 @@
 			ADDRESS,
 			ELITE,
 			USE_HAND,
-			HOPE_POSITION
+			HOPE_POSITION,
+			IS_ACTIVE
 		)
 		VALUES (
 			SEQ_MEMBER.NEXTVAL,
@@ -111,7 +114,8 @@
 			#{address},
 			#{elite},
 			#{use_hand},
-			#{hope_position}
+			#{hope_position},
+			'Y'
 		)
 </insert>
 
@@ -225,6 +229,7 @@
 	    LEFT JOIN TEAM T         ON MT.TEAM_IDX   = T.TEAM_IDX
 	</if>
 	<where>
+	    AND IS_ACTIVE = 'Y'
 	    <if test="searchType == 'member_name' and keyword != null and keyword != ''">
 	        AND LOWER(M.MEMBER_NAME) LIKE '%' || LOWER(#{keyword}) || '%'
 	    </if>
@@ -334,6 +339,7 @@
     LEFT JOIN MEMBER_TEAM MT ON M.MEMBER_IDX = MT.MEMBER_IDX
     LEFT JOIN TEAM T          ON MT.TEAM_IDX  = T.TEAM_IDX
                               AND MT.JOIN_STATUS = 1
+    WHERE M.IS_ACTIVE = 'Y'
     ORDER BY M.MEMBER_IDX
 </select>
 
@@ -437,5 +443,12 @@
     WHERE  MEMBER_IDX = #{member_idx}
 </update>
 
+
+<!-- 회원탈퇴 : 소프트딜리트 -->
+<update id="deleteMember">
+    UPDATE MEMBER
+    SET    IS_ACTIVE  = 'N'
+    WHERE  MEMBER_IDX = #{member_idx}
+</update>
 
 </mapper>
