@@ -280,6 +280,26 @@
 
     .btn-manage:hover { background-color: #e6c200; }
 
+    /* 팀 탈퇴 버튼 - 아웃라인 레드 */
+    .btn-leave {
+        padding: 9px 24px;
+        background-color: transparent;
+        color: #c0392b;
+        border: 1.5px solid #c0392b;
+        border-radius: 6px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn-leave:hover {
+        background-color: #c0392b;
+        color: #ffffff;
+    }
+
 </style>
 </head>
 <body>
@@ -363,6 +383,14 @@
                         <c:if test="${myJoinStatus != 1}">
                             <button class="btn-join" type="button" onclick="requestJoin(${map.team_idx})">팀 가입 신청</button>
                         </c:if>
+                        <c:if test="${myJoinStatus == 1 and sessionScope.login.member_idx != team.team_manager}">
+						    <form action="/Team/LeaveTeam" method="post"
+						          onsubmit="return confirm('정말 탈퇴하시겠습니까?')">
+						        <input type="hidden" name="member_idx" value="${sessionScope.login.member_idx}" />
+						        <input type="hidden" name="team_idx"   value="${team.team_idx}" />
+						        <button type="submit" class="btn-leave">팀 탈퇴</button>
+						    </form>
+						</c:if>
                     </div>
                     <div><%@ include file="/WEB-INF/include/teampaging.jsp" %></div>
                     <div>
@@ -384,6 +412,7 @@
         <c:if test="${map.alert == 'already_applied'}">alert('이미 가입 신청한 팀입니다.');</c:if>
         <c:if test="${map.alert == 'already_member'}">alert('이미 소속된 팀입니다.');</c:if>
         <c:if test="${map.alert == 'no_permission'}">alert('팀관리 권한이 없습니다.');</c:if>
+        <c:if test="${map.alert == 'leave_ok'}">alert('탈퇴되었습니다.');</c:if>
 
         function requestJoin(teamIdx) {
             if (confirm('가입 신청을 하시겠습니까?')) {

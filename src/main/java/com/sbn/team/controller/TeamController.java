@@ -243,4 +243,18 @@ public class TeamController {
         return new ModelAndView("redirect:/Team/Managing?team_idx=" + map.get("team_idx") + "&keyword=&alert=reject_ok");
     }
     
+	/* 팀 탈퇴 */
+    @RequestMapping("/LeaveTeam")
+    public ModelAndView leaveTeam(@RequestParam HashMap<String, Object> map) {
+    	teamService.deleteMemberTeam(map);
+    	return new ModelAndView("redirect:/Team/Info?team_idx=" + map.get("team_idx") + "&keyword=&alert=leave_ok");
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }
