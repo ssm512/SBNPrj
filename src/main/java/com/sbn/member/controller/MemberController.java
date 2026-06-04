@@ -329,7 +329,7 @@ public class MemberController {
 
 	    HashMap<String, Object> res = new HashMap<>();
 	    res.put("result", result);
-	    return res;
+	    return res; 
 	}
 	
 }
