@@ -33,14 +33,16 @@
     .navbar {
         position: fixed !important;
         background-color: transparent !important;
+        border-bottom-color: transparent !important;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         box-shadow: none;
     }
 
-    /* 스크롤 시 반투명 그린으로 전환 (JS에서 .scrolled 클래스 토글) */
+    /* 스크롤 시 반투명 그린 + 골드 하단 선으로 전환 (JS에서 .scrolled 클래스 토글) */
     .navbar.scrolled {
         background-color: rgba(26, 61, 26, 0.92) !important;
+        border-bottom-color: #FFD700 !important;
     }
 
     /* navbar-inner - home에서는 padding만 유지 (position: relative는 common.css에서 상속) */
