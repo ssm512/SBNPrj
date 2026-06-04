@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>SBN - 정보수정</title>
 
-<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
@@ -54,7 +54,7 @@
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 auto 16px;
-        border-radius: 8px;
+        border-radius: 3px;
         max-width: 1100px;
         position: relative;
         overflow: hidden;
@@ -86,7 +86,7 @@
     /* ===== 카드 공통 ===== */
     .left-card, .right-card {
         background: rgba(245, 245, 220, 0.88);
-        border-radius: 10px;
+        border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 20px;
     }
@@ -94,7 +94,7 @@
     /* ===== 프로필 카드 ===== */
     .profile-card {
         background: #1a3d1a;
-        border-radius: 8px;
+        border-radius: 3px;
         padding: 18px 16px 14px;
         text-align: center;
         margin-bottom: 12px;
@@ -129,7 +129,7 @@
         padding: 9px;
         background: white;
         border: 1.5px solid #1a3d1a;
-        border-radius: 6px;
+        border-radius: 3px;
         font-family: 'Oswald', sans-serif;
         font-size: 13px;
         font-weight: 600;
@@ -161,7 +161,7 @@
         padding: 8px 10px;
         font-size: 13px;
         color: #333;
-        border-radius: 6px;
+        border-radius: 3px;
         cursor: pointer;
         transition: background-color 0.2s;
         display: flex;
@@ -178,7 +178,7 @@
         background: #FFD700;
         color: #1a3d1a;
         padding: 1px 7px;
-        border-radius: 10px;
+        border-radius: 2px;
         font-weight: 700;
         font-family: 'Oswald', sans-serif;
         letter-spacing: 0.5px;
@@ -194,7 +194,7 @@
         letter-spacing: 2px;
         background-color: #1a3d1a;
         padding: 7px 14px;
-        border-radius: 6px;
+        border-radius: 3px;
         margin-bottom: 12px;
         position: relative;
         overflow: hidden;
@@ -245,7 +245,7 @@
         width: 100%;
         padding: 8px 12px;
         border: 1px solid #c8c4aa;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 14px;
         color: #111;
         background-color: #ffffff;
@@ -277,7 +277,7 @@
         padding: 5px 12px;
         background: white;
         border: 1.5px solid #1a3d1a;
-        border-radius: 4px;
+        border-radius: 3px;
         font-family: 'Oswald', sans-serif;
         font-size: 12px;
         font-weight: 600;
@@ -345,7 +345,7 @@
         width: 180px;
         padding: 7px 12px;
         border: 1px solid #c8c4aa;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 14px;
         color: #111;
         background-color: #ffffff;
@@ -367,7 +367,7 @@
         background-color: #FFD700;
         color: #1a3d1a;
         border: none;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 15px;
         font-family: 'Oswald', sans-serif;
         font-weight: 700;

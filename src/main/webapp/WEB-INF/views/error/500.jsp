@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SBN - 500 Server Error</title>
-<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>

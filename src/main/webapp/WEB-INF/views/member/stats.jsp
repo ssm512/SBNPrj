@@ -9,13 +9,12 @@
 <meta charset="UTF-8">
 <title>SBN - 선수 기록</title>
 
-<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
 <style>
 
-    /* ===== 전체 레이아웃 ===== */
     html, body { height: 100%; }
 
     body {
@@ -25,7 +24,6 @@
         min-height: 100vh;
     }
 
-    /* 블러 배경 — fixed 로 스크롤해도 항상 뷰포트 전체 커버 */
     body::before {
         content: '';
         position: fixed;
@@ -54,8 +52,8 @@
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 auto 16px;
-        border-radius: 8px;
-        max-width: 1200px;
+        border-radius: 3px;
+        max-width: 1160px;
         position: relative;
         overflow: hidden;
     }
@@ -73,12 +71,12 @@
         pointer-events: none;
     }
 
-    /* ===== 메인 그리드 ===== */
+    /* ===== 전체 그리드 ===== */
     .main-wrapper {
         display: grid;
-        grid-template-columns: 220px 1fr;
+        grid-template-columns: 210px 1fr;
         gap: 20px;
-        max-width: 1200px;
+        max-width: 1160px;
         margin: 0 auto;
         align-items: start;
     }
@@ -86,7 +84,7 @@
     /* ===== 카드 공통 ===== */
     .left-card, .right-card {
         background: rgba(245, 245, 220, 0.88);
-        border-radius: 10px;
+        border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 20px;
     }
@@ -95,7 +93,7 @@
     .toggle-btn-group {
         display: flex;
         border: 1.5px solid #1a3d1a;
-        border-radius: 6px;
+        border-radius: 3px;
         overflow: hidden;
         margin-bottom: 16px;
     }
@@ -103,15 +101,15 @@
     .toggle-btn {
         flex: 1;
         padding: 9px;
-        background: white;
+        background: transparent;
         border: none;
         font-family: 'Oswald', sans-serif;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 600;
         color: #1a3d1a;
         cursor: pointer;
         letter-spacing: 1px;
-        transition: background-color 0.2s, color 0.2s;
+        transition: background 0.15s, color 0.15s;
     }
 
     .toggle-btn + .toggle-btn {
@@ -119,14 +117,14 @@
     }
 
     .toggle-btn.active {
-        background-color: #1a3d1a;
+        background: #1a3d1a;
         color: #FFD700;
     }
 
     /* ===== 프로필 카드 ===== */
     .profile-card {
         background: #1a3d1a;
-        border-radius: 8px;
+        border-radius: 3px;
         padding: 14px 16px;
         text-align: center;
         margin-bottom: 16px;
@@ -141,8 +139,8 @@
     }
 
     .profile-elite {
-        font-size: 12px;
-        color: rgba(255, 215, 0, 0.7);
+        font-size: 11px;
+        color: rgba(255, 215, 0, 0.65);
         margin-top: 4px;
         font-family: 'Oswald', sans-serif;
         letter-spacing: 1px;
@@ -165,7 +163,7 @@
         padding: 8px 10px;
         font-size: 13px;
         color: #333;
-        border-radius: 6px;
+        border-radius: 3px;
         cursor: pointer;
         transition: background-color 0.2s;
         display: flex;
@@ -173,52 +171,72 @@
         gap: 6px;
     }
 
-    .team-list-item:hover {
-        background-color: #e8e8d8;
-    }
+    .team-list-item:hover { background-color: #e8e8d8; }
 
-    .team-list-item .manager-badge {
+    .manager-badge {
         font-size: 10px;
         background: #FFD700;
         color: #1a3d1a;
         padding: 1px 7px;
-        border-radius: 10px;
+        border-radius: 2px;
         font-weight: 700;
         font-family: 'Oswald', sans-serif;
         letter-spacing: 0.5px;
         white-space: nowrap;
     }
 
-    /* ===== 팀 필터 탭 ===== */
+    /* ===== 카드 서브 헤더 ===== */
+    .card-sub-header {
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #FFD700;
+        letter-spacing: 2px;
+        background-color: #1a3d1a;
+        padding: 7px 14px;
+        border-radius: 3px;
+        margin-bottom: 12px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card-sub-header::after {
+        content: '';
+        position: absolute;
+        top: -15px; right: -10px;
+        width: 70px; height: 70px;
+        background: repeating-linear-gradient(
+            45deg, transparent, transparent 4px,
+            rgba(255, 215, 0, 0.12) 4px, rgba(255, 215, 0, 0.12) 8px
+        );
+        pointer-events: none;
+    }
+
+    /* ===== 팀 필터 버튼 ===== */
     .team-filter {
         display: flex;
         gap: 6px;
         flex-wrap: wrap;
         margin-bottom: 20px;
-        padding-bottom: 14px;
-        border-bottom: 1px solid #c8c4aa;
     }
 
     .team-filter-btn {
-        padding: 6px 16px;
+        padding: 5px 16px;
         border: 1.5px solid #1a3d1a;
-        border-radius: 20px;
-        background: white;
+        border-radius: 3px;
+        background: transparent;
         font-family: 'Oswald', sans-serif;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
         color: #1a3d1a;
         cursor: pointer;
         letter-spacing: 0.5px;
-        transition: background-color 0.2s, color 0.2s;
+        transition: background 0.15s, color 0.15s;
     }
 
-    .team-filter-btn:hover {
-        background-color: #f0edd0;
-    }
-
+    .team-filter-btn:hover,
     .team-filter-btn.active {
-        background-color: #1a3d1a;
+        background: #1a3d1a;
         color: #FFD700;
     }
 
@@ -227,22 +245,24 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
-        margin-bottom: 28px;
+        margin-bottom: 24px;
     }
 
+    /* ★ KPI 박스만 각진 모서리 유지 ★ */
     .kpi-card {
         background: #1a3d1a;
-        border-radius: 8px;
+        border-radius: 3px;
         padding: 14px 8px;
         text-align: center;
     }
 
     .kpi-label {
         font-family: 'Oswald', sans-serif;
-        font-size: 11px;
-        color: rgba(255, 215, 0, 0.72);
+        font-size: 10px;
+        color: rgba(255, 215, 0, 0.65);
         letter-spacing: 1px;
         margin-bottom: 6px;
+        text-transform: uppercase;
     }
 
     .kpi-value {
@@ -252,17 +272,17 @@
         color: #FFD700;
     }
 
-    /* ===== 상세 테이블 섹션 타이틀 ===== */
+    /* ===== 테이블 섹션 타이틀 ===== */
     .table-section-title {
         font-family: 'Oswald', sans-serif;
-        font-size: 13px;
-        font-weight: 700;
+        font-size: 12px;
+        font-weight: 600;
         color: #1a3d1a;
         letter-spacing: 1px;
-        margin-bottom: 8px;
-        padding-bottom: 4px;
-        border-bottom: 2px solid #FFD700;
-        display: inline-block;
+        margin-bottom: 10px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid #c8c4aa;
+        display: block;
     }
 
     /* ===== 상세 테이블 ===== */
@@ -274,44 +294,47 @@
     .stats-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 13px;
+        border: none !important;
     }
 
-    .stats-table thead tr {
-        background-color: #1a3d1a;
-    }
+    .stats-table thead tr { border: none !important; }
 
     .stats-table thead th {
-        color: #FFD700;
         font-family: 'Oswald', sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        padding: 10px 8px;
-        text-align: center;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        color: #1a3d1a !important;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 8px 10px 10px !important;
+        background: rgba(26, 61, 26, 0.08) !important;
+        border: none !important;
+        border-bottom: 2px solid #1a3d1a !important;
+        text-align: center !important;
         white-space: nowrap;
     }
 
-    .stats-table tbody tr {
-        background: rgba(255, 255, 255, 0.55);
-    }
-
-    .stats-table tbody tr:hover {
-        background: rgba(255, 255, 255, 0.85);
-    }
+    .stats-table tbody tr { border: none !important; }
 
     .stats-table tbody td {
-        padding: 10px 8px;
-        text-align: center;
-        color: #222;
-        border-bottom: 1px solid rgba(200, 196, 170, 0.4);
+        padding: 11px 10px !important;
+        border: none !important;
+        border-bottom: 1px solid #c8c4aa !important;
+        font-size: 13px !important;
+        color: #222 !important;
+        text-align: center !important;
         white-space: nowrap;
+        background: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .stats-table tbody tr:hover td {
+        background: rgba(26, 61, 26, 0.06) !important;
     }
 
     .stats-table tbody td:first-child {
         font-family: 'Oswald', sans-serif;
-        font-weight: 700;
-        color: #1a3d1a;
+        font-weight: 700 !important;
+        color: #1a3d1a !important;
         letter-spacing: 0.5px;
     }
 
@@ -330,20 +353,17 @@
             <%-- ========== 좌측 사이드 ========== --%>
             <div class="left-card">
 
-                <%-- 타자 / 투수 세그먼트 컨트롤 --%>
                 <div class="toggle-btn-group">
                     <button type="button" class="toggle-btn" id="hitBtn">타자</button>
                     <button type="button" class="toggle-btn" id="pitchBtn">투수</button>
                 </div>
 
-                <%-- 프로필 카드 --%>
                 <div class="profile-card">
                     <div class="profile-name">${ member.member_name }</div>
                     <div class="profile-elite">${ member.elite }</div>
                 </div>
 
-                <%-- 소속팀 목록 --%>
-                <div class="team-list-title">소속팀 목록</div>
+                <div class="team-list-title">소속팀</div>
                 <c:forEach var="team" items="${ teamList }">
                     <div class="team-list-item"
                          onclick='location.href="/Team/Info?team_idx=${ team.team_idx }&keyword="'>
@@ -374,17 +394,19 @@
                 <%-- ===== 타자 기록 ===== --%>
                 <div id="hitArea">
 
+                    <div class="card-sub-header">타자 주요 지표</div>
+
                     <div class="kpi-grid">
                         <div class="kpi-card">
                             <div class="kpi-label">타율</div>
                             <div class="kpi-value">${ hitstats.avg }</div>
                         </div>
                         <div class="kpi-card">
-                            <div class="kpi-label">경기 수</div>
+                            <div class="kpi-label">경기</div>
                             <div class="kpi-value">${ hitstats.gameCount }</div>
                         </div>
                         <div class="kpi-card">
-                            <div class="kpi-label">총 안타</div>
+                            <div class="kpi-label">안타</div>
                             <div class="kpi-value">${ hitstats.totalHit }</div>
                         </div>
                         <div class="kpi-card">
@@ -409,29 +431,16 @@
                         </div>
                     </div>
 
-                    <div class="table-section-title">타격 상세</div>
+                    <span class="table-section-title">타격 상세</span>
                     <div class="table-scroll">
                         <table class="stats-table">
                             <thead>
                                 <tr>
-                                    <th>시즌</th>
-                                    <th>경기</th>
-                                    <th>타율</th>
-                                    <th>타석</th>
-                                    <th>타수</th>
-                                    <th>안타</th>
-                                    <th>1루타</th>
-                                    <th>2루타</th>
-                                    <th>3루타</th>
-                                    <th>홈런</th>
-                                    <th>루타</th>
-                                    <th>타점</th>
-                                    <th>사사구</th>
-                                    <th>삼진</th>
-                                    <th>장타율</th>
-                                    <th>출루율</th>
-                                    <th>OPS</th>
-                                    <th>희타/희비</th>
+                                    <th>시즌</th><th>경기</th><th>타율</th><th>타석</th>
+                                    <th>타수</th><th>안타</th><th>1루타</th><th>2루타</th>
+                                    <th>3루타</th><th>홈런</th><th>루타</th><th>타점</th>
+                                    <th>사사구</th><th>삼진</th><th>장타율</th><th>출루율</th>
+                                    <th>OPS</th><th>희타/희비</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -463,6 +472,8 @@
 
                 <%-- ===== 투수 기록 ===== --%>
                 <div id="pitchArea" style="display:none;">
+
+                    <div class="card-sub-header">투수 주요 지표</div>
 
                     <div class="kpi-grid">
                         <div class="kpi-card">
@@ -499,29 +510,16 @@
                         </div>
                     </div>
 
-                    <div class="table-section-title">투구 상세</div>
+                    <span class="table-section-title">투구 상세</span>
                     <div class="table-scroll">
                         <table class="stats-table">
                             <thead>
                                 <tr>
-                                    <th>시즌</th>
-                                    <th>경기</th>
-                                    <th>방어율</th>
-                                    <th>승</th>
-                                    <th>패</th>
-                                    <th>세이브</th>
-                                    <th>홀드</th>
-                                    <th>타자</th>
-                                    <th>타수</th>
-                                    <th>이닝</th>
-                                    <th>피안타</th>
-                                    <th>피홈런</th>
-                                    <th>사사구</th>
-                                    <th>희타/희비</th>
-                                    <th>탈삼진</th>
-                                    <th>실점</th>
-                                    <th>자책점</th>
-                                    <th>WHIP</th>
+                                    <th>시즌</th><th>경기</th><th>방어율</th><th>승</th>
+                                    <th>패</th><th>세이브</th><th>홀드</th><th>타자</th>
+                                    <th>타수</th><th>이닝</th><th>피안타</th><th>피홈런</th>
+                                    <th>사사구</th><th>희타/희비</th><th>탈삼진</th><th>실점</th>
+                                    <th>자책점</th><th>WHIP</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -566,7 +564,6 @@
     const hitAreaEl   = document.querySelector('#hitArea')
     const pitchAreaEl = document.querySelector('#pitchArea')
 
-    // 초기 active 설정
     hitBtnEl.classList.add('active')
 
     hitBtnEl.addEventListener('click', function() {

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SBN - 선수 목록</title>
-<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <style>
 
@@ -87,7 +87,7 @@
     /* ===== 컨텐츠 카드 (반투명 베이지 + 섹션 헤더와 붙어 상단 모서리 제거) ===== */
     .list-card {
         background: rgba(245, 245, 220, 0.88);
-        border-radius: 0 0 10px 10px;
+        border-radius: 0 0 4px 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
         margin-bottom: 32px;
@@ -128,7 +128,7 @@
     .search-select {
         padding: 8px 10px;
         border: 1px solid #c8c4aa;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 14px;
         color: #333;
         background-color: #ffffff;
@@ -140,7 +140,7 @@
     .search-input {
         padding: 8px 14px;
         border: 1px solid #c8c4aa;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 14px;
         width: 200px;
         outline: none;
@@ -157,7 +157,7 @@
         background-color: #1a3d1a;
         color: #ffffff;
         border: none;
-        border-radius: 6px;
+        border-radius: 3px;
         font-size: 14px;
         font-family: 'Oswald', sans-serif;
         cursor: pointer;
@@ -196,8 +196,8 @@
     }
 
     /* 헤더 좌우 상단 모서리 둥글게 */
-    .member-table tr:first-of-type td:first-child { border-radius: 6px 0 0 0; }
-    .member-table tr:first-of-type td:last-child  { border-radius: 0 6px 0 0; }
+    .member-table tr:first-of-type td:first-child { border-radius: 3px 0 0 0; }
+    .member-table tr:first-of-type td:last-child  { border-radius: 0 3px 0 0; }
 
     /* 데이터 행 hover */
     .member-table tr:not(:first-of-type):hover td {
@@ -233,7 +233,7 @@
         padding: 6px 13px;
         color: #1a3d1a;
         text-decoration: none;
-        border-radius: 5px;
+        border-radius: 3px;
         font-size: 14px;
         font-family: 'Oswald', sans-serif;
         border: 1px solid #c8c4aa;
@@ -265,7 +265,7 @@
         letter-spacing: 2px;
         padding: 10px 16px;
         margin-bottom: 14px;
-        border-radius: 6px;
+        border-radius: 3px;
         text-align: center;
     }
 
@@ -273,7 +273,7 @@
     .toggle-btn-group {
         display: flex;
         border: 1.5px solid #1a3d1a;
-        border-radius: 6px;
+        border-radius: 3px;
         overflow: hidden;
         margin-bottom: 14px;
     }
@@ -364,7 +364,7 @@
         padding: 9px 8px;
         border: none;
         border-bottom: 2px solid #FFD700;
-        border-radius: 6px 6px 0 0;
+        border-radius: 3px 3px 0 0;
     }
 
     /* 데이터 행 */

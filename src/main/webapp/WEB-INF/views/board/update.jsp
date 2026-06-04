@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <title>Board Update</title>
 
-<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 
 <style>

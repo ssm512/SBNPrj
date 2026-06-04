@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SBN - 구단 관리</title>
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <style>
 
@@ -23,7 +24,7 @@
     /* overflow: hidden 으로 scale(1.05) 삐져나옴 + 푸터 가림 방지 */
     .page-wrapper {
         flex: 1;
-        padding: 104px 0 32px;
+        padding: 84px 32px 48px;
         position: relative;
         overflow: hidden;
     }
@@ -44,50 +45,46 @@
     .main-wrapper {
         position: relative;
         z-index: 1;
+        max-width: 1160px;
+        margin: 0 auto;
     }
 
     /* common.css의 margin-top: 50px 오버라이드 */
     .footer { margin-top: 0 !important; }
 
-    /* ===== 섹션 헤더 (그린 라벨 + 대각선 줄무늬 + 하단 구분선) ===== */
-    /* margin-bottom: 0 으로 아래 카드와 여백 없이 붙임 */
+    /* ===== 섹션 헤더 ===== */
     .section-header {
-        display: flex;
-        align-items: stretch;
-        margin-bottom: 0;
-        border-bottom: 2px solid #1a3d1a;
-    }
-
-    .section-title {
         background-color: #1a3d1a;
         color: #FFD700;
+        padding: 10px 20px;
         font-family: 'Oswald', sans-serif;
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 700;
-        padding: 9px 22px;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
+        margin: 0 auto 16px;
+        border-radius: 3px;
+        max-width: 1160px;
         position: relative;
+        overflow: hidden;
     }
 
-    /* 라벨 우측 대각선 줄무늬 장식 */
-    .section-title::after {
+    .section-header::after {
         content: '';
         position: absolute;
-        right: -18px;
-        top: 0;
-        width: 18px;
-        height: 100%;
+        top: -20px; right: -10px;
+        width: 100px; height: 100px;
         background: repeating-linear-gradient(
-            -55deg,
-            #1a3d1a 0px, #1a3d1a 4px,
-            transparent 4px, transparent 9px
+            45deg,
+            transparent, transparent 5px,
+            rgba(255, 215, 0, 0.12) 5px, rgba(255, 215, 0, 0.12) 10px
         );
+        pointer-events: none;
     }
 
-    /* ===== 관리 카드 (반투명 베이지 + 섹션 헤더와 붙어 상단 모서리 제거) ===== */
+    /* ===== 관리 카드 ===== */
     .managing-card {
         background: rgba(245, 245, 220, 0.88);
-        border-radius: 0 0 10px 10px;
+        border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
         margin-bottom: 32px;
@@ -147,8 +144,8 @@
     }
 
     /* 헤더 좌우 상단 모서리 둥글게 */
-    .manage-table tr:first-of-type td:first-child { border-radius: 6px 0 0 0; }
-    .manage-table tr:first-of-type td:last-child  { border-radius: 0 6px 0 0; }
+    .manage-table tr:first-of-type td:first-child { border-radius: 3px 0 0 0; }
+    .manage-table tr:first-of-type td:last-child  { border-radius: 0 3px 0 0; }
 
     /* 데이터 행 hover */
     .manage-table tr:not(:first-of-type):hover td {
@@ -162,7 +159,7 @@
         padding: 5px 6px;
         text-align: center;
         border: 1px solid #c8c4aa;
-        border-radius: 4px;
+        border-radius: 3px;
         font-size: 13px;
         background-color: #ffffff;
         outline: none;
@@ -194,7 +191,7 @@
         cursor: pointer;
         border: 1px solid #1a3d1a;
         background: none;
-        border-radius: 4px;
+        border-radius: 3px;
         padding: 3px 10px;
         font-size: 13px;
         font-family: 'Oswald', sans-serif;
@@ -213,7 +210,7 @@
         cursor: pointer;
         border: 1px solid #c0392b;
         background: none;
-        border-radius: 4px;
+        border-radius: 3px;
         padding: 3px 10px;
         font-size: 13px;
         font-family: 'Oswald', sans-serif;
@@ -238,7 +235,7 @@
         background-color: #FFD700;
         color: #1a3d1a;
         border: none;
-        border-radius: 6px;
+        border-radius: 3px;
         font-family: 'Oswald', sans-serif;
         font-size: 14px;
         font-weight: 700;
@@ -255,12 +252,10 @@
     <%@ include file="/WEB-INF/include/headermenu.jsp" %>
 
     <div class="page-wrapper">
-        <div class="main-wrapper">
+        <%-- 섹션 헤더 --%>
+        <div class="section-header">구단 관리</div>
 
-            <%-- 섹션 헤더 --%>
-            <div class="section-header">
-                <span class="section-title">구단 관리</span>
-            </div>
+        <div class="main-wrapper">
 
             <div class="managing-card">
 

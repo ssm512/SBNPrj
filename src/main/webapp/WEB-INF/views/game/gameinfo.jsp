@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>SBN - 경기 정보</title>
+<link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
 <style>
 	table {
