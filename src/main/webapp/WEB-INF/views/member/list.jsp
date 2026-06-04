@@ -364,40 +364,44 @@
         vertical-align: middle !important;
     }
 
-    /* 메달 배지 (기본: 회색) */
+    /* 메달 배지 (기본: 4~5위 회색) */
     .medal {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
         font-family: 'Oswald', sans-serif;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 700;
-        background: #dedad0;
-        color: #999;
+        background: #e4e0d8;
+        color: #aaa;
+        border: 2px solid #ccc9c0;
     }
 
     /* 금 */
     .ranker-tbl tr:nth-child(2) .medal {
-        background: linear-gradient(145deg, #FFE566, #FFD700);
-        color: #7a5000;
-        box-shadow: 0 2px 6px rgba(255,215,0,0.5);
+        background: #FFD700;
+        border: 2px solid #C8960A;
+        color: #6b4200;
+        box-shadow: 0 2px 6px rgba(184, 134, 11, 0.35);
     }
 
     /* 은 */
     .ranker-tbl tr:nth-child(4) .medal {
-        background: linear-gradient(145deg, #eaeaea, #ADADAD);
-        color: #444;
-        box-shadow: 0 2px 6px rgba(160,160,160,0.5);
+        background: #C8C8C8;
+        border: 2px solid #969696;
+        color: #333;
+        box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
     }
 
     /* 동 */
     .ranker-tbl tr:nth-child(6) .medal {
-        background: linear-gradient(145deg, #e8a060, #CD7F32);
-        color: #5a2000;
-        box-shadow: 0 2px 6px rgba(205,127,50,0.5);
+        background: #CD7F32;
+        border: 2px solid #9A5A14;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(139, 69, 19, 0.35);
     }
 
     /* 스탯 값 */
