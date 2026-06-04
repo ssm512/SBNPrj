@@ -244,19 +244,19 @@
 					</select>
 				</td>
 				<td>
-					<input type="number" name="resultList[0].hitter_num"/>
+					<input type="number" name="resultList[0].hitter_num" value="0"/>
 				</td>
 				<td>
-					<input type="text" name="resultList[0].hitter_name"/>
+					<input type="text" name="resultList[0].hitter_name" maxlength="50"/>
 				</td>
 				<td>
-					<input type="text" name="resultList[0].hitter_id"/>
+					<input type="text" name="resultList[0].hitter_id" maxlength="100"/>
 				</td>
 				<td>
-					<input type="text" name="resultList[0].pitcher_name"/>
+					<input type="text" name="resultList[0].pitcher_name" maxlength="50"/>
 				</td>
 				<td>
-					<input type="text" name="resultList[0].pitcher_id"/>
+					<input type="text" name="resultList[0].pitcher_id" maxlength="100"/>
 				</td>
 				<td>
 					<select name="resultList[0].result">
@@ -289,7 +289,7 @@
 			</tr>
 		</table>
 		<div id="btns">
-			<input type="submit" value="경기결과 입력">
+			<input type="button" id="btnAddResult" value="경기결과 입력">
 			<input type="button" value="경기결과 수정" 
 			onclick ="window.location.href='/Game/UpdateResultForm?league_idx=${gameDto.league_idx}&game_idx=${gameDto.game_idx}'">
 			<input type="button" value="경기목록"
@@ -343,6 +343,57 @@ btnGameStatUpdate.addEventListener('click', function () {
     });
 });
 </script>
+
+<!-- 게임결과 추가시 text 값초과 여부 검사 -->
+<script>
+	// 작성한 내용의 양이 DB 설정값을 초과했을때 500 에러 방지
+	function getByteSize(str) {
+		  let byte = 0;
+		  for (let i = 0; i < str.length; i++) {
+			byte += str.charCodeAt(i) > 127 ? 3 : 1;
+		}
+		  return byte;
+	}
+
+	function validateResultRows() {
+	    const rows = document.querySelectorAll('.result-line');
+	    for (let i = 0; i < rows.length; i++) {
+	        const row = rows[i];
+	        const hitterName =
+	            row.querySelector('[name$=".hitter_name"]').value;
+	        const hitterId =
+	            row.querySelector('[name$=".hitter_id"]').value;
+	        const pitcherName =
+	            row.querySelector('[name$=".pitcher_name"]').value;
+	        const pitcherId =
+	            row.querySelector('[name$=".pitcher_id"]').value;
+	        const content =
+	            row.querySelector('[name$=".content"]').value;
+	        if (getByteSize(hitterName) > 50) {
+	            alert((i + 1) + '번째 행 타자명이 50byte를 초과했습니다.');
+	            return false;
+	        }
+	        if (getByteSize(hitterId) > 100) {
+	            alert((i + 1) + '번째 행 타자ID가 100byte를 초과했습니다.');
+	            return false;
+	        }
+	        if (getByteSize(pitcherName) > 50) {
+	            alert((i + 1) + '번째 행 투수명이 50byte를 초과했습니다.');
+	            return false;
+	        }
+	        if (getByteSize(pitcherId) > 100) {
+	            alert((i + 1) + '번째 행 투수ID가 100byte를 초과했습니다.');
+	            return false;
+	        }
+	        if (getByteSize(content) > 2000) {
+	            alert((i + 1) + '번째 행 비고란이 2000byte를 초과했습니다.');
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+</script>
+
 <!-- 게임결과추가 script -->
 <script>
 	function resetResultListIndex() {
@@ -368,11 +419,10 @@ btnGameStatUpdate.addEventListener('click', function () {
 			const currentRow = e.target.closest('tr')
 			const newRow = currentRow.cloneNode(true)
 			// 값 초기화
-			newRow.querySelectorAll('input').forEach(input => {
-				if(input.type !== 'button') {
-					input.value = ''
-				}
-			})
+		  newRow.querySelectorAll('input[type="text"]').forEach(input => {
+      	input.value = '';
+      });
+			
 			newRow.querySelectorAll('textarea').forEach(textarea => {
 				textarea.value = ''
 			})
@@ -398,12 +448,14 @@ btnGameStatUpdate.addEventListener('click', function () {
 		}
 	})
 
-	document.querySelector('#gameResultForm').addEventListener('submit', function () {
-	resetResultListIndex();
-
-	console.log('submit 직전 name 확인');
-	document.querySelectorAll('.result-line input, .result-line select, .result-line textarea')
-		.forEach(el => console.log(el.name));
+	const gameResultForm = document.querySelector('#gameResultForm');
+	const btnAddResult = document.querySelector('#btnAddResult');	
+	btnAddResult.addEventListener('click', function () {	
+	    resetResultListIndex();
+	    if (!validateResultRows()) {
+	        return;
+	    }	
+	    gameResultForm.submit();
 	});
 </script>
 
