@@ -10,6 +10,7 @@ import com.sbn.game.dto.GameDto;
 import com.sbn.game.dto.GameResultDto;
 import com.sbn.game.mapper.GameMapper;
 import com.sbn.game.service.GameService;
+import com.sbn.paging.SearchDto;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -127,6 +128,16 @@ public class GameServiceImpl implements GameService {
 	public void deleteGameResult(int record_num) {
 		gameMapper.deleteGameResult(record_num);
 		
+	}
+
+	@Override
+	public int getMaxInning(int game_idx) {
+		return gameMapper.getMaxInning(game_idx);
+	}
+
+	@Override
+	public ArrayList<GameResultDto> getGameResultListByInning(int game_idx, SearchDto searchDto) {
+		return gameMapper.getGameResultListByInning(game_idx, searchDto);
 	}
 
 

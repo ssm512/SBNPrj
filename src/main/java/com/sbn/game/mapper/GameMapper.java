@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.sbn.game.dto.GameDto;
 import com.sbn.game.dto.GameResultDto;
+import com.sbn.paging.SearchDto;
 
 @Mapper
 public interface GameMapper {
@@ -45,6 +46,10 @@ public interface GameMapper {
 	void updateGameResult(GameResultDto gameResultDto);
 
 	void deleteGameResult(int record_num);
+
+	int getMaxInning(int game_idx);
+
+	ArrayList<GameResultDto> getGameResultListByInning(int game_idx, SearchDto searchDto);
 
 
 }

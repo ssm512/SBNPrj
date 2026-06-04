@@ -8,35 +8,160 @@
 <title>SBN - 경기 정보</title>
 <link href="/css/common.css" rel="stylesheet" />
 <style>
-	table {
-		border-collapse: collapse;
-		width: 100%;
-	}
-	td {
-		border: 1px solid black;
-		padding: 5px;
-		text-align: center;
-	}
-	.selected {
-    background-color: #FFD700;
-	}
-	#gameenv tr:first-of-type {
-		background-color: #F5F5DC;
-	}
-	#gamestat tr:first-of-type {
-		background-color: #F5F5DC;
-	}	
-	#scoreboard tr:first-of-type {
-		background-color: #F5F5DC;
-	}
-	#gamerecord tr:first-of-type {
-		background-color: #F5F5DC;
-	}
-	
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        background-color: #f5f7fa;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .content-area {
+        flex: 1;
+        padding: 104px 0 32px;
+        position: relative;
+        overflow: visible;
+        
+        display: flex;
+    		flex-direction: column;
+    }
+
+    .content-area::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: center 60%;
+        filter: blur(10px) brightness(0.85);
+        transform: scale(1.05);
+        z-index: 0;
+        pointer-events : none;
+    }
+
+    .main-wrapper {
+        position: relative;
+        z-index: 1;
+        
+        flex: 1;
+    }
+
+    .footer {
+        position: relative;
+    		z-index: 2;
+    }
+		
+    .envdiv, .statdiv, .scorediv, .gamerecord, .btndiv {
+        width: 95%;
+        margin: 0 auto 28px;
+        padding: 24px 28px;
+        background: rgba(245, 245, 220, 0.88);
+        border-radius: 10px;
+        box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
+        box-sizing: border-box;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: none;
+        background-color: transparent;
+        margin-bottom: 15px;
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid #e0dcc8;
+        padding: 12px 14px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: #111111;
+    }
+
+    tr:first-of-type td {
+        background-color: #1a3d1a;
+        color: #ffffff;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 500;
+        letter-spacing: 1px;
+        border-bottom: 2px solid #FFD700;
+    }
+
+    tr:first-of-type td:first-child {
+        border-radius: 6px 0 0 0;
+    }
+
+    tr:first-of-type td:last-child {
+        border-radius: 0 6px 0 0;
+    }
+
+    tr:not(:first-of-type):hover td {
+        background-color: #ece8d0;
+    }
+
+    input[type="button"],
+    button {
+        min-width: 120px;
+        height: 36px;
+        padding: 0 18px;
+        background-color: #FFD700;
+        color: #1a3d1a;
+        border: none;
+        border-radius: 6px;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        margin: 3px;
+    }
+
+    input[type="button"]:hover,
+    button:hover {
+        background-color: #e6c200;
+    }
+
+    .selected {
+        background-color: #1a3d1a !important;
+        color: #FFD700 !important;
+        font-weight: 700;
+    }
+
+		.game-control-bar {
+		    width: 95%;
+		    margin: 0 auto 28px;
+		    padding: 20px 28px;
+		
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		
+		    background: rgba(245, 245, 220, 0.88);
+		    border-radius: 10px;
+		    box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
+		    box-sizing: border-box;
+		}
+		
+		.awayhomechoose {
+		    display: flex;
+		    gap: 10px;
+		}
+		
+		#updatebtn {
+		    display: flex;
+		}
+		
+		.btndiv {
+		    text-align: center;
+		}
 </style>
 </head>
 <body>
 	<%@include file="/WEB-INF/include/headermenu.jsp" %>
+	<div class="content-area">
 	<div class="main-wrapper">
 		<div class="envdiv">
 		<table id="gameenv">
@@ -137,23 +262,27 @@
 		</table>
 		</div>
 		<br>
-		<div class="awayhomechoose">
-			<input type="button" id="awayBtn" value="away"/>
-			<input type="button" id="homeBtn" value="home"/>
+		<div class="game-control-bar">
+			<div class="awayhomechoose">
+				<input type="button" id="awayBtn" value="AWAY"/>
+				<input type="button" id="homeBtn" value="HOME"/>
+			</div>
+			<c:if test="${sessionScope.login.is_admin == 'Y'}">
+			<div id="updatebtn">
+				<input type="button" value="경기결과 입력" 
+				onclick ="window.location.href='/Game/AddResultForm?league_idx=${league_idx}&game_idx=${game_idx}'"/>
+				<input type="button" value="경기결과 수정" 
+				onclick ="window.location.href='/Game/UpdateResultForm?league_idx=${league_idx}&game_idx=${game_idx}'">
+			</div>
+			</c:if>
 		</div>
-		<c:if test="${sessionScope.login.is_admin == 'Y'}">
-		<div id="updatebtn">
-			<input type="button" value="입력" 
-			onclick ="window.location.href='/Game/AddResultForm?league_idx=${league_idx}&game_idx=${game_idx}'"/>
-			<!-- <input type="button" value="수정"/> -->
-		</div>
-		</c:if>
 		<br>
 		<div class="gamerecord">
 			<table id="awayhitterrecords" class="away">
 				<tr>
 					<td>타순</td>
 					<td>이름</td>
+					<td>타석</td>
 					<td>타수</td>
 					<td>타점</td>
 					<td>안타</td>
@@ -167,6 +296,7 @@
 						<tr>
 							<td>${recorda.hitter_num}</td>
 							<td>${recorda.hitter_name}</td>
+							<td>${recorda.pa}</td>
 							<td>${recorda.at_bat}</td>
 							<td>${recorda.score}</td>
 							<td>${recorda.hit}</td>
@@ -182,6 +312,7 @@
 				<tr>
 					<td>타순</td>
 					<td>이름</td>
+					<td>타석</td>
 					<td>타수</td>
 					<td>타점</td>
 					<td>안타</td>
@@ -195,6 +326,7 @@
 						<tr>
 							<td>${recordb.hitter_num}</td>
 							<td>${recordb.hitter_name}</td>
+							<td>${recordb.pa}</td>
 							<td>${recordb.at_bat}</td>
 							<td>${recordb.score}</td>
 							<td>${recordb.hit}</td>
@@ -269,8 +401,8 @@
 		onclick ="window.location.href='/League/Info?league_idx=${league_idx}'">
 		</div>
 	</div>
+	</div>
 	<%@include file="/WEB-INF/include/footer.jsp" %> 
-	
 <script>
 	const homeEls		= document.querySelectorAll('.home')
 	const awayEls		= document.querySelectorAll('.away')
