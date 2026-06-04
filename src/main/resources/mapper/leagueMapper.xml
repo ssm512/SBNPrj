@@ -85,18 +85,57 @@
    
    <select id="getTeamList" resultType="java.util.HashMap">
      
-     SELECT 
+     SELECT
 	      T.TEAM_IDX  AS "team_idx",
-	      T.TEAM_NAME AS "team_name"
-	  FROM 
+	      T.TEAM_NAME AS "team_name",
+	      NVL(S.SCORE, 0) AS "score",
+	      NVL(S.WIN,   0) AS "win",
+	      NVL(S.DRAW,  0) AS "draw",
+	      NVL(S.LOSE,  0) AS "lose"
+	  FROM
 	      SBN.TEAM T
-	  INNER JOIN 
+	  INNER JOIN
 	      SBN.TEAM_LEAGUE TL ON T.TEAM_IDX = TL.TEAM_IDX
-	  WHERE 
+	  LEFT JOIN (
+	      SELECT
+	          TEAM_IDX,
+	          SUM(SCORE) AS SCORE,
+	          SUM(WIN)   AS WIN,
+	          SUM(DRAW)  AS DRAW,
+	          SUM(LOSE)  AS LOSE
+	      FROM (
+	          SELECT
+	              HOME_IDX AS TEAM_IDX,
+	              CASE WINNER WHEN 2 THEN 3 WHEN 3 THEN 1 ELSE 0 END AS SCORE,
+	              CASE WINNER WHEN 2 THEN 1 ELSE 0 END AS WIN,
+	              CASE WINNER WHEN 3 THEN 1 ELSE 0 END AS DRAW,
+	              CASE WINNER WHEN 1 THEN 1 ELSE 0 END AS LOSE
+	          FROM SBN.GAME
+	          WHERE LEAGUE_IDX = #{league_idx}
+	            AND WINNER != 0
+	
+	          UNION ALL
+	
+	          SELECT
+	              AWAY_IDX AS TEAM_IDX,
+	              CASE WINNER WHEN 1 THEN 3 WHEN 3 THEN 1 ELSE 0 END AS SCORE,
+	              CASE WINNER WHEN 1 THEN 1 ELSE 0 END AS WIN,
+	              CASE WINNER WHEN 3 THEN 1 ELSE 0 END AS DRAW,
+	              CASE WINNER WHEN 2 THEN 1 ELSE 0 END AS LOSE
+	          FROM SBN.GAME
+	          WHERE LEAGUE_IDX = #{league_idx}
+	            AND WINNER != 0
+	      )
+	      GROUP BY TEAM_IDX
+	  ) S ON T.TEAM_IDX = S.TEAM_IDX
+	  WHERE
 	      TL.LEAGUE_IDX = #{league_idx}
 	      AND TL.JOIN_STATUS = 1
 	  ORDER BY
-	  	  T.TEAM_IDX ASC
+	      NVL(S.SCORE, 0) DESC,
+	      NVL(S.LOSE,  0) ASC,
+	      T.TEAM_IDX ASC
+	      
      
    </select>
    

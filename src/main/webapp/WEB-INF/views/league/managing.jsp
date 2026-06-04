@@ -185,6 +185,11 @@
                 </td>
               </tr>
             </c:forEach>
+            <c:if test="${empty signTeamList}">
+              <tr>
+                <td colspan="6">리그 가입 신청 팀이 없습니다.</td>
+              </tr>
+            </c:if>
             
         </table>
       </div>
@@ -262,7 +267,71 @@
 	            alert("서버 통신 오류가 발생했습니다.");
 	        });
 	    }
+	    
+		const formEl           = document.querySelector('form')
+		const leagueNameEl     = document.querySelector('[name="league_name"]')
+		const leagueLocationEl = document.querySelector('[name="league_location"]')
+		const leagueContentEl  = document.querySelector('[name="league_content"]')
+		
+		// 작성한 내용의 양이 DB 설정값을 초과했을때 500 에러 방지
+		function getByteSize(str) {
+		  let byte = 0;
+		  for (let i = 0; i < str.length; i++) {
+			byte += str.charCodeAt(i) > 127 ? 3 : 1;
+		}
+		  return byte;
+	  }
+		
+		formEl.addEventListener('submit', function( e ) {
+			
+			// 리그 이름 입력 안했을 때
+			if( leagueNameEl.value.trim() == '' ) {
+				alert('리그 이름을 입력하세요')
+				leagueNameEl.focus();
+				e.preventDefault()  // 이벤트 취소
+				e.stopPropagation() // 이벤트 버블링 방지
+				return;
+			}
+			
+			// 연고지 입력 안했을 때
+			if( leagueLocationEl.value.trim() == '' ) {
+				alert('연고지를 입력하세요')
+				leagueLocationEl.focus();
+				e.preventDefault()  // 이벤트 취소
+				e.stopPropagation() // 이벤트 버블링 방지
+				return;
+			}
+			
+			// 리그 이름이 값을 초과했을 때
+			if ( getByteSize(leagueNameEl.value) > 50 ) {
+				alert( '리그 이름이 너무 깁니다. (현재' + getByteSize(leagueNameEl.value) + 'byte / 최대 50byte)');
+		        leagueNameEl.focus();
+		        e.preventDefault()  // 이벤트 취소
+				e.stopPropagation() // 이벤트 버블링 방지
+				return;
+			}
+			// 연고지가 값을 초과했을 때
+			if ( getByteSize(leagueLocationEl.value) > 20 ) {
+				alert( '연고지 이름이 너무 깁니다. (현재' + getByteSize(leagueLocationEl.value) + 'byte / 최대 20byte)');
+				leagueLocationEl.focus();
+		        e.preventDefault()  // 이벤트 취소
+				e.stopPropagation() // 이벤트 버블링 방지
+				return;
+			}
+			// 리그 소개가 값을 초과했을 때
+			if ( getByteSize(leagueContentEl.value) > 2000 ) {
+				alert( '연고지 이름이 너무 깁니다. (현재' + getByteSize(leagueContentEl.value) + 'byte / 최대 2000byte)');
+				leagueContentEl.focus();
+		        e.preventDefault()  // 이벤트 취소
+				e.stopPropagation() // 이벤트 버블링 방지
+				return;
+			}
+			
+	
+		})
 	});
+	
+	
   </script>
   
 </body>

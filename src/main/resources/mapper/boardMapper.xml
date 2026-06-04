@@ -67,6 +67,16 @@
 	    
     </select>
     
+    <!-- getMemberIdx -->
+    <select id="getMemberIdx" resultType="java.lang.Integer">
+      SELECT
+      	MEMBER_IDX
+       FROM
+       	MEMBER
+       WHERE
+       	MEMBER_ID = #{writer}
+    </select>
+    
     <update id="setCountUpdate">
       
       UPDATE BOARD

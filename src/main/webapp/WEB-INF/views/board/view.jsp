@@ -79,6 +79,7 @@
   .category-buttons .btn.active {
     background-color: #FFD700;
   }
+  .td-writer:hover {background-color: #D9D9D9;}
 </style>
 
 </head>
@@ -122,8 +123,10 @@
       </tr>
       <tr>
         <td class="td2">작성자</td>
-        <td>
+        <td class="td-writer">
+          <a href="/Member/Stats?member_idx=${map.member_idx}">
             ${board.writer}
+          </a>
         </td>
         <td class="td2">작성일</td>
         <td>${board.regdate }</td>

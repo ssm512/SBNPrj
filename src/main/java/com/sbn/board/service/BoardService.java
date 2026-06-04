@@ -22,6 +22,8 @@ public interface BoardService {
 
 	void deleteBoard(HashMap<String, Object> map);
 
+	int getMemberIdx(HashMap<String, Object> map);
+
 
 
 }

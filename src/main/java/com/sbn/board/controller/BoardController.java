@@ -79,6 +79,11 @@ public class BoardController {
 		// 게시물 내용 조회
 		BoardDto       board     = boardService.getBoard(map);
 		
+		// 작성자의 member_idx 조회 후 map 에 추가
+		map.put("writer", board.getWriter());
+		int            memberIdx = boardService.getMemberIdx(map);
+		map.put("member_idx", memberIdx);
+		
 		// 조회수 증가
 		boardService.setCountUpdate(map);
 		
