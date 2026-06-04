@@ -144,12 +144,32 @@
   
   .left-table {
     text-align:center;
+    border-radius:20px;
   }
   .left-td {
     border: 1px solid #1a5c1a;
     border-radius:8px;
     padding:10px;
   }
+  .right-td{background-color:#D3B6D3;}
+  .wintd, .drawtd {
+    width:33%;
+    background-color: #f6f8e7;
+    padding:10px;
+  }
+  .losetd {
+    width:34%;
+    background-color: #f6f8e7;
+  }
+  .game-info{
+    background-color: #f6f8e7;
+  }
+  .win-td, .draw-td, .lose-td {
+    padding:5px;
+  }
+  .win-td{background-color:#C8E1FA;}
+  .draw-td{background-color:#E6E6E6;}
+  .lose-td{background-color:#F8A1A4;}
 </style>
 </head>
 <body>
@@ -180,19 +200,30 @@
       
       <div class="left-section-2">
         <table class="left-table">
+        <tr>
+          <td class="wintd">승 3점</td>
+          <td class="drawtd">무 1점</td>
+          <td class="losetd">패 0점</td>
+        </tr>
         <c:forEach var="team" items="${teamList}">
           <tr>
-            <td class="left-td">
+            <td colspan="2" class="left-td">
               <a href="/Team/Info?team_idx=${team.team_idx}&keyword=">
                 ${team.team_name}
               </a>
             </td>
+            <td class="right-td">${team.score}점</td>
+          </tr>
+          <tr>
+          <td class="win-td">${team.win}승</td>
+          <td class="draw-td">${team.draw}무</td>
+          <td class="lose-td">${team.lose}패</td>
           </tr>
         </c:forEach>
         
         <c:if test="${empty teamList}">
           <tr>
-            <td class="left-td">소속된 팀이 없습니다.</td>
+            <td colspan="3" class="left-td">소속된 팀이 없습니다.</td>
           </tr>
         </c:if>
         
@@ -203,7 +234,7 @@
     
     <div class="right-container">
       <table class="league-table">
-          <tr>
+          <tr class="game-info">
             <td>경기 번호</td>
             <td>날짜</td>
             <td>시간</td>
@@ -239,11 +270,11 @@
       
       <div class="btn-container justify-end">
       <c:if test="${sessionScope.login.is_admin == 'Y' }">
-        <button type="button" class="green-btn">
         <a href="/Game/AddGameForm?league_idx=${ map.league_idx }">
+        <button type="button" class="green-btn">
           경기 일정 추가
-        </a>
         </button>
+        </a>
       </c:if>
       </div>
     </div>

@@ -77,5 +77,10 @@ public class BoardServiceimpl implements BoardService {
 		boardMapper.deleteBoard(map);
 	}
 
+	@Override
+	public int getMemberIdx(HashMap<String, Object> map) {
+		return boardMapper.getMemberIdx(map);
+	}
+
 	
 }

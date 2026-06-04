@@ -162,6 +162,47 @@
     document.querySelector('#goView').onclick = function() {
       location.href = '/Board/View?board_idx=${board.board_idx}&board_type=${board.board_type}&nowpage=${map.nowpage}';
     }
+    
+    const formEl  = document.querySelector('form')
+    const titleEl = document.querySelector('[name="title"]');
+    
+    formEl.addEventListener('submit', function( e ) {
+    	
+    	// 수정할 때 제목을 입력하지 않으면
+    	if(titleEl.value.trim() == '') {
+    		alert('제목을 입력하세요')
+    		titleEl.focus();
+    		e.preventDefault()  // 이벤트 취소
+    		e.stopPropagation() // 이벤트 버블링 방지
+    		return;
+    	}
+    })
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

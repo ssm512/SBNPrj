@@ -168,12 +168,70 @@
   <%@include file="/WEB-INF/include/footer.jsp" %>
   
   <script>
-    
+  
+  const formEl      = document.querySelector('form');
+  const goListEl    = document.querySelector('#goList');
+  const titleEl     = document.querySelector('[name="title"]');
+  const contentEl   = document.querySelector('[name="content"]');
+  
+  
+  
   // 목록으로 이동하기
-  const goListEl = document.querySelector('#goList')
-  goListEl.onclick = function() {
+  goListEl.onclick  = function() {
 	  location.href = '/Board/List?nowpage=1&board_type=${map.board_type}'
   }
+  
+  // 작성한 내용의 양이 DB 설정값을 초과했을때 500 에러 방지
+  function getByteSize(str) {
+	  let byte = 0;
+	  for (let i = 0; i < str.length; i++) {
+		byte += str.charCodeAt(i) > 127 ? 3 : 1;
+	}
+	  return byte;
+  }
+  
+  formEl.addEventListener('submit', function( e ) {
+	  
+	  // 제목을 입력하지 않았을 때
+	  if(titleEl.value.trim() == '') {
+		  alert('제목을 입력하세요')
+		  titleEl.focus();
+		  e.preventDefault()  // 이벤트 취소
+		  e.stopPropagation() // 이벤트 버블링 방지
+		  return;
+	  }
+	  
+	  /*
+	  // 내용 부분은 null 허용
+	  // 내용을 입력하지 않았을 때
+	  if(contentEl.value.trim() == '') {
+		  alert('내용을 입력하세요')
+		  contentEl.focus();
+		  e.preventDefault()  // 이벤트 취소
+		  e.stopPropagation() // 이벤트 버블링 방지
+		  return;
+	  }
+	  */
+	  
+	  // 제목이 값을 초과했을 때
+	  if( getByteSize(titleEl.value) > 100 ) {
+		  alert('제목이 너무 깁니다. (현재' + getByteSize(titleEl.value) + 'byte / 최대 100byte)');
+		  titleEl.focus();
+		  e.preventDefault()  // 이벤트 취소
+		  e.stopPropagation() // 이벤트 버블링 방지
+		  return;
+	  }
+	  
+	  // 내용이 값을 초과했을 때
+	  if( getByteSize(contentEl.value) > 4000 ) {
+		  alert('내용이 너무 깁니다. (현재' + getByteSize(contentEl.value) + 'byte / 최대 4000byte)');
+		  contentEl.focus();
+		  e.preventDefault()  // 이벤트 취소
+		  e.stopPropagation() // 이벤트 버블링 방지
+		  return;
+	  }
+	  
+  })
   
   </script>
   
