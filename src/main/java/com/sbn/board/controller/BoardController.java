@@ -16,6 +16,9 @@ import com.sbn.member.dto.MemberDto;
 import com.sbn.paging.Pagination;
 import com.sbn.paging.SearchDto;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/Board")
 public class BoardController {
@@ -36,7 +39,6 @@ public class BoardController {
 		// 자료실 목록 조회(10개씩) - 페이징 처리 준비작업 시작
 		// 전체 자료 수
 		int        totalCount   = boardService.count( map );
-		System.out.println("totalCount=" + totalCount);
 		
 		// 현재 페이지 정보 : map{nowpage=1} Object -> String -> int
 		int        nowpage      = Integer.parseInt(String.valueOf(map.get("nowpage")));
@@ -60,7 +62,6 @@ public class BoardController {
 		
 		// Board 목록 조회
 		List<BoardDto> boardList = boardService.getBoardList( map );
-		// System.out.println("map=" + map);
 		
 		ModelAndView   mv        = new ModelAndView();
 		mv.setViewName("board/list");
@@ -130,10 +131,20 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/UpdateForm")
-	public ModelAndView updateForm( @RequestParam HashMap<String, Object> map ) {
+	public ModelAndView updateForm( @RequestParam HashMap<String, Object> map,
+			                        HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberDto   member  = (MemberDto) session.getAttribute("login");
 		
 		// 기존 글 내용을 조회한다.
 		BoardDto     board = boardService.getBoard(map);
+		
+		if (!board.getWriter().equals(member.getMember_id())) {
+			if (!member.getIs_admin().equals("Y")) {
+				return new ModelAndView("redirect:/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE&error=true");
+			}
+		}
 		
 		ModelAndView mv    = new ModelAndView();
 		mv.setViewName("board/update");
@@ -164,7 +175,17 @@ public class BoardController {
 	
 	// 삭제하기
 	@RequestMapping("/Delete")
-	public ModelAndView delete( @RequestParam HashMap<String, Object> map ) {
+	public ModelAndView delete( @RequestParam HashMap<String, Object> map ,
+			                    HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		MemberDto   member  = (MemberDto) session.getAttribute("login");
+		BoardDto     board = boardService.getBoard(map);
+		if (!board.getWriter().equals(member.getMember_id())) {
+			if (!member.getIs_admin().equals("Y")) {
+				return new ModelAndView("redirect:/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE&error=true");
+			}
+		}
 		
 		boardService.deleteBoard(map);
 		
