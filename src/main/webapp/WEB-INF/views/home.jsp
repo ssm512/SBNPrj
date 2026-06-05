@@ -39,10 +39,10 @@
         box-shadow: none;
     }
 
-    /* 스크롤 시 반투명 그린 + 골드 하단 선으로 전환 (JS에서 .scrolled 클래스 토글) */
+    /* 스크롤 시 투톤 그린으로 전환 (JS에서 .scrolled 클래스 토글) */
     .navbar.scrolled {
-        background-color: rgba(26, 61, 26, 0.92) !important;
-        border-bottom-color: #FFD700 !important;
+        background: linear-gradient(to bottom, rgba(31, 72, 32, 0.95) 0%, rgba(18, 43, 18, 0.95) 100%) !important;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
     }
 
     /* navbar-inner - home에서는 padding만 유지 (position: relative는 common.css에서 상속) */
