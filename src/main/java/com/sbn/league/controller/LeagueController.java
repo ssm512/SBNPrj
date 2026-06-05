@@ -181,7 +181,7 @@ public class LeagueController {
 		return mv;
 	}
 	
-	// 팀 가입 승인 처리( join_status를 0에서 1로 바꾸기)
+	// 팀 가입 승인 처리( join_status를 0에서 1로 바꾸기 )
 	@PostMapping("/ApproveTeam")
 	@ResponseBody
 	public String approveTeam( @RequestParam HashMap<String, Object> map ) {

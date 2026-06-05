@@ -14,8 +14,18 @@ public class HomeController {
 	}
 	
 
+	@RequestMapping("/terms")
+	public String terms() {
+		return "terms";
+	}
+
+	@RequestMapping("/privacy")
+	public String privacy() {
+		return "privacy";
+	}
+
 	@RequestMapping("/test")
-	@ResponseBody       
+	@ResponseBody
 	public  String  test() {
 		return  "<h2>Test 입니다</h2><br>"
 				+ "<a href=\"/\">돌아가기</a>";

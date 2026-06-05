@@ -472,51 +472,8 @@
         document.querySelector('#mystatsbtn').addEventListener('click', function () {
             location.href = '/Member/Stats?member_idx=' + ${sessionScope.login.member_idx};
         });
-        
-        
-        function leaveSbn() {
-        	if (confirm("탈퇴하시겠습니까?\n탈퇴 후엔 해당 아이디로 재가입이 불가능 합니다.")) {
-        		if (${not empty teamList}) {
-        			alert("소속된 팀이 있으면 탈퇴 할 수 없습니다.\n팀을 탈퇴한 후 다시 시도해주세요.")
-        		} else {
-        			location.href="/Member/LeaveSbn"
-        		}
-        	} else {
-	          alert("SBN 에서의 활약을 응원합니다!")
-        	}
-        }
-        
-        
-        document.querySelector('#changePwBtn').addEventListener('click', function() {
-            const currentPw  = document.querySelector('#currentPw').value
-            const newPw      = document.querySelector('#newPw').value
-            const newPwCheck = document.querySelector('#newPwCheck').value
-            const msgEl      = document.querySelector('#changePwMsg')
 
-            if (currentPw.trim() == '') { msgEl.textContent = '현재 비밀번호를 입력하세요.'; return }
-            if (newPw.length < 4)       { msgEl.textContent = '새 비밀번호는 4자리 이상이어야 합니다.'; return }
-            if (newPw !== newPwCheck)   { msgEl.textContent = '새 비밀번호가 일치하지 않습니다.'; return }
-
-            fetch('/Member/ChangePassword', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'current_pw=' + encodeURIComponent(currentPw)
-                    + '&new_pw='    + encodeURIComponent(newPw)
-            })
-            .then(res => res.json())
-            .then(json => {
-                if (json.result) {
-                    alert('비밀번호가 변경되었습니다.')
-                    document.querySelector('#currentPw').value  = ''
-                    document.querySelector('#newPw').value      = ''
-                    document.querySelector('#newPwCheck').value = ''
-                    msgEl.textContent = ''
-                } else {
-                    msgEl.textContent = '현재 비밀번호가 틀렸습니다.'
-                }
-            })
-        })
-
+        
         function leaveSbn() {
             if (confirm("탈퇴하시겠습니까?\n탈퇴 후엔 해당 아이디로 재가입이 불가능 합니다.")) {
                 if (${not empty teamList}) {
@@ -564,6 +521,5 @@
     <c:if test="${param.deleteError == 'true'}">
         <script>alert('소속된 팀이 있어 탈퇴할 수 없습니다.');</script>
     </c:if>
-
 </body>
 </html>

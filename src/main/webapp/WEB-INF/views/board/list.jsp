@@ -334,5 +334,11 @@
     </div>
 
     <%@ include file="/WEB-INF/include/footer.jsp" %>
+    
+    <c:if test="${ param.error == 'true'}" >
+    	<script>
+    		alert('권한이 없습니다.')
+    	</script>
+    </c:if>
 </body>
 </html>

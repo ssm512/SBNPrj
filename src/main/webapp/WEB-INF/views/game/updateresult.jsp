@@ -72,14 +72,14 @@
         margin: 0 auto;
     }
 
-    /* ===== 카드 ===== */
-    .manage-card {
-        background: rgba(249, 249, 234, 0.93);
-        border-radius: 4px;
-        box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
-        padding: 28px 32px;
-        margin-bottom: 12px;
-    }
+/* ===== 카드 ===== */
+.manage-card {
+    background-color: rgba(225, 225, 225, 0.93);
+    border-radius: 4px;
+    box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
+    padding: 28px 32px;
+    margin-bottom: 12px;
+}
 
     /* ===== 테이블 ===== */
     table {
@@ -161,7 +161,7 @@
 
     /* 하단 버튼 카드 */
     .btn-card {
-        background: rgba(249, 249, 234, 0.93);
+        background: rgba(225, 225, 225, 0.93);
         border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 16px 32px;

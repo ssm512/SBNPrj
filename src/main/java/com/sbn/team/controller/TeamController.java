@@ -237,7 +237,10 @@ public class TeamController {
         String alert;
         if (joinStatus == null) {
         	// 신규 신청
-        	joinMap.put("position", login.getHope_position());
+        	String  hope_position = login.getHope_position();
+        	if (login.getHope_position() == null)
+        		hope_position = "무관";
+        	joinMap.put("position", hope_position);
         	joinMap.put("elite",    login.getElite());
         	teamService.joinTeam(joinMap);
         	alert = "join_ok";
