@@ -381,6 +381,24 @@
                             <span class="extra-label">선호 포지션</span>
                             <span>${sessionScope.login.hope_position}</span>
                         </div>
+                        <!-- 비밀번호변경 -->
+                        <div class="info-section-label">비밀번호 변경</div>
+												<div class="extra-row">
+												    <span class="extra-label">현재 비번</span>
+												    <input type="password" id="currentPw" placeholder="현재 비밀번호" style="padding:6px; border:1px solid #c8c4aa; border-radius:3px;"/>
+												</div>
+												<div class="extra-row">
+												    <span class="extra-label">새 비번</span>
+												    <input type="password" id="newPw" placeholder="새 비밀번호 (4자리 이상)" style="padding:6px; border:1px solid #c8c4aa; border-radius:3px;"/>
+												</div>
+												<div class="extra-row">
+												    <span class="extra-label">비번 확인</span>
+												    <input type="password" id="newPwCheck" placeholder="새 비밀번호 확인" style="padding:6px; border:1px solid #c8c4aa; border-radius:3px;"/>
+												</div>
+												<div class="extra-row">
+												    <button type="button" id="changePwBtn" class="btn-update" style="margin-top:0; padding:6px 20px;">변경</button>
+												    <span id="changePwMsg" style="font-size:13px; color:red;"></span>
+												</div>
 												<div class="bottom-btn" >
                         	<button type="button" class="btn-update" id="updatebtn">정보 수정</button>
                         	<button type="button" class="btn-leave" id="leavebtn" onclick="leaveSbn()"
@@ -425,6 +443,37 @@
 	          alert("SBN 에서의 활약을 응원합니다!")
         	}
         }
+        
+        
+        document.querySelector('#changePwBtn').addEventListener('click', function() {
+            const currentPw  = document.querySelector('#currentPw').value
+            const newPw      = document.querySelector('#newPw').value
+            const newPwCheck = document.querySelector('#newPwCheck').value
+            const msgEl      = document.querySelector('#changePwMsg')
+
+            if (currentPw.trim() == '') { msgEl.textContent = '현재 비밀번호를 입력하세요.'; return }
+            if (newPw.length < 4)       { msgEl.textContent = '새 비밀번호는 4자리 이상이어야 합니다.'; return }
+            if (newPw !== newPwCheck)   { msgEl.textContent = '새 비밀번호가 일치하지 않습니다.'; return }
+
+            fetch('/Member/ChangePassword', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'current_pw=' + encodeURIComponent(currentPw)
+                    + '&new_pw='    + encodeURIComponent(newPw)
+            })
+            .then(res => res.json())
+            .then(json => {
+                if (json.result) {
+                    alert('비밀번호가 변경되었습니다.')
+                    document.querySelector('#currentPw').value  = ''
+                    document.querySelector('#newPw').value      = ''
+                    document.querySelector('#newPwCheck').value = ''
+                    msgEl.textContent = ''
+                } else {
+                    msgEl.textContent = '현재 비밀번호가 틀렸습니다.'
+                }
+            })
+        })
 
     </script>
     
