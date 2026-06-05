@@ -304,7 +304,7 @@
     }
 
     .btn-update:hover { background: #e6c200; }
-    
+
     /* 회원 탈퇴 버튼 */
     .btn-leave {
         display: inline-block;
@@ -569,6 +569,5 @@
     <c:if test="${param.deleteError == 'true'}">
         <script>alert('소속된 팀이 있어 탈퇴할 수 없습니다.');</script>
     </c:if>
-
 </body>
 </html>
