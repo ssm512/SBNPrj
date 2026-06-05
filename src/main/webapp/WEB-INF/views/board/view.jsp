@@ -254,7 +254,7 @@
 
                 <%-- 메타 정보 --%>
                 <div class="post-meta">
-                    <div class="post-meta-item"><span>작성자</span>${board.writer}</div>
+                    <div class="post-meta-item"><span>작성자</span><a href="/Member/Stats?member_idx=${map.member_idx}">${board.writer}</a></div>
                     <div class="post-meta-item"><span>작성일</span>${board.regdate}</div>
                     <div class="post-meta-item"><span>글번호</span>${board.board_idx}</div>
                     <div class="post-meta-item"><span>조회수</span>${board.hit}</div>
