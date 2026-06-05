@@ -32,8 +32,7 @@
     /* ===== 네비바 오버라이드 (투명 배경 - 히어로 이미지 위에 띄우기) ===== */
     .navbar {
         position: fixed !important;
-        background-color: transparent !important;
-        border-bottom-color: transparent !important;
+        background: transparent !important;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         box-shadow: none;
