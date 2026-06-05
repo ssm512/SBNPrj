@@ -10,7 +10,7 @@
 <title>SBN - 구단 정보</title>
 <link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://webfontworld.github.io/sunn/SCDream.css" rel="stylesheet" />
 <style>
 
     html, body { height: 100%; }
@@ -45,8 +45,8 @@
         background-color: #1a3d1a;
         color: #FFD700;
         padding: 10px 20px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 20px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 19px;
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 auto 16px;
@@ -77,7 +77,7 @@
 
     /* ===== 카드 ===== */
     .team-card {
-        background: rgba(245, 245, 220, 0.88);
+        background: rgba(249, 249, 234, 0.93);
         border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
@@ -98,7 +98,7 @@
         padding: 8px 14px;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-size: 13px;
+        font-size: 16px;
         width: 220px;
         outline: none;
         color: #333;
@@ -114,8 +114,8 @@
         color: #ffffff;
         border: none;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 13px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 16px;
         font-weight: 600;
         letter-spacing: 0.5px;
         cursor: pointer;
@@ -144,8 +144,8 @@
     }
 
     .profile-name {
-        font-family: 'Oswald', sans-serif;
-        font-size: 16px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 19px;
         font-weight: 700;
         color: #FFD700;
         letter-spacing: 1px;
@@ -153,17 +153,17 @@
     }
 
     .profile-sub {
-        font-size: 11px;
+        font-size: 14px;
         color: rgba(255, 215, 0, 0.65);
         margin-top: 4px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         letter-spacing: 1px;
     }
 
     /* 섹션 구분 타이틀 */
     .info-section-title {
-        font-family: 'Oswald', sans-serif;
-        font-size: 11px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 14px;
         font-weight: 700;
         color: #1a3d1a;
         letter-spacing: 1.5px;
@@ -180,7 +180,7 @@
     /* 정보 아이템 */
     .info-item {
         padding: 8px 4px;
-        font-size: 13px;
+        font-size: 16px;
         color: #111;
         border-bottom: 1px solid #ece8d0;
         display: flex;
@@ -191,8 +191,8 @@
     .info-item:last-child { border-bottom: none; }
 
     .info-label {
-        font-family: 'Oswald', sans-serif;
-        font-size: 11px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 14px;
         font-weight: 600;
         color: #1a3d1a;
         letter-spacing: 1px;
@@ -204,7 +204,7 @@
     /* 리그 아이템 */
     .league-item {
         padding: 7px 4px;
-        font-size: 13px;
+        font-size: 16px;
         color: #222;
         border-bottom: 1px solid #ece8d0;
     }
@@ -213,13 +213,13 @@
 
     .league-none {
         padding: 7px 4px;
-        font-size: 13px;
+        font-size: 16px;
         color: #999;
     }
 
     /* 팀 소개 */
     .content-box {
-        font-size: 13px;
+        font-size: 16px;
         color: #333;
         line-height: 1.65;
         padding: 9px 4px 10px;
@@ -230,7 +230,7 @@
 
     .content-none {
         padding: 7px 4px;
-        font-size: 13px;
+        font-size: 16px;
         color: #bbb;
         font-style: italic;
     }
@@ -240,18 +240,17 @@
         background: #fff;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        padding: 10px;
+        padding: 0;
         text-align: center;
         margin-bottom: 12px;
-        overflow: hidden;
     }
 
     .team-logo-img {
         width: 100%;
-        max-height: 150px;
-        object-fit: contain;
+        height: 200px;
+        object-fit: cover;
         display: block;
-        margin: 0 auto;
+        border-radius: 3px 3px 0 0;
     }
 
     .logo-placeholder {
@@ -260,7 +259,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 12px;
         color: #ccc;
         letter-spacing: 2px;
@@ -274,8 +273,8 @@
         color: #1a3d1a;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 10px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 12px;
         font-weight: 600;
         letter-spacing: 1px;
         cursor: pointer;
@@ -300,8 +299,8 @@
 
     /* 헤더 행 */
     .player-table tr:first-of-type td {
-        font-family: 'Oswald', sans-serif;
-        font-size: 11px !important;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 14px !important;
         font-weight: 600 !important;
         color: #1a3d1a !important;
         letter-spacing: 1.5px;
@@ -347,7 +346,7 @@
         color: #FFD700;
         border: none;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 1px;
@@ -363,7 +362,7 @@
         color: #1a3d1a;
         border: none;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 1px;
@@ -381,7 +380,7 @@
         color: #b03030;
         border: 1.5px solid #b03030;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 1px;
@@ -400,7 +399,7 @@
         color: #1a3d1a;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 13px;
         font-weight: 600;
         letter-spacing: 1px;

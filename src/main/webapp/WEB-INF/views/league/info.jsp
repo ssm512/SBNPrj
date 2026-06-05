@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
@@ -43,7 +43,7 @@
         color: #FFD700;
         padding: 10px 20px;
         font-family: 'Oswald', sans-serif;
-        font-size: 20px;
+        font-size: 24px;
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 auto 16px;
@@ -74,7 +74,7 @@
 
     /* ===== 카드 ===== */
     .info-card {
-        background: rgba(245, 245, 220, 0.88);
+        background: rgba(249, 249, 234, 0.93);
         border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
@@ -91,7 +91,7 @@
     /* ===== 공통: 섹션 타이틀 ===== */
     .panel-title {
         font-family: 'Oswald', sans-serif;
-        font-size: 11px;
+        font-size: 14px;
         font-weight: 700;
         color: #1a3d1a;
         letter-spacing: 1.5px;
@@ -121,7 +121,7 @@
     }
 
     .profile-sub {
-        font-size: 11px;
+        font-size: 14px;
         color: rgba(255, 215, 0, 0.65);
         margin-top: 4px;
         font-family: 'Oswald', sans-serif;
@@ -140,7 +140,7 @@
 
     .info-label {
         font-family: 'Oswald', sans-serif;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 600;
         color: #1a3d1a;
         letter-spacing: 1px;
@@ -224,7 +224,7 @@
 
     .standings-tbl tr:first-of-type td {
         font-family: 'Oswald', sans-serif;
-        font-size: 10px !important;
+        font-size: 14px !important;
         font-weight: 600 !important;
         color: #1a3d1a !important;
         letter-spacing: 1px;
@@ -240,7 +240,7 @@
         border: none !important;
         border-bottom: 1px solid #e0dcc8 !important;
         padding: 9px 6px !important;
-        font-size: 13px !important;
+        font-size: 14px !important;
         color: #222 !important;
         background: rgba(255, 255, 255, 0.4) !important;
         text-align: center !important;
@@ -281,7 +281,7 @@
 
     .schedule-tbl tr:first-of-type td {
         font-family: 'Oswald', sans-serif;
-        font-size: 11px !important;
+        font-size: 14px !important;
         font-weight: 600 !important;
         color: #1a3d1a !important;
         letter-spacing: 1.5px;
@@ -297,7 +297,7 @@
         border: none !important;
         border-bottom: 1px solid #e0dcc8 !important;
         padding: 11px 10px !important;
-        font-size: 13px !important;
+        font-size: 15px !important;
         color: #222 !important;
         background: rgba(255, 255, 255, 0.4) !important;
         text-align: center !important;
@@ -344,7 +344,7 @@
     .vs-badge {
         display: inline-block;
         font-family: 'Oswald', sans-serif;
-        font-size: 10px;
+        font-size: 14px;
         font-weight: 700;
         color: #888;
         letter-spacing: 1px;

@@ -31,6 +31,7 @@
                 FROM   TEAM T
                 JOIN   MEMBER M ON T.TEAM_MANAGER = M.MEMBER_IDX
                 <where>
+                        AND T.IS_ACTIVE = 'Y'
                     <if test="keyword != null and keyword != ''">
                         AND (T.TEAM_NAME     LIKE '%' || #{keyword} || '%'
                           OR T.TEAM_LOCATION LIKE '%' || #{keyword} || '%')
@@ -47,6 +48,7 @@
         SELECT COUNT(*) FROM TEAM T
         JOIN MEMBER M ON T.TEAM_MANAGER = M.MEMBER_IDX
         <where>
+              AND T.IS_ACTIVE = 'Y'
             <if test="keyword != null and keyword != ''">
                 AND (T.TEAM_NAME     LIKE '%' || #{keyword} || '%'
                   OR T.TEAM_LOCATION LIKE '%' || #{keyword} || '%')
@@ -82,8 +84,8 @@
         <selectKey keyProperty="team_idx" resultType="int" order="BEFORE">
             SELECT SEQ_TEAM.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO TEAM (TEAM_IDX, TEAM_NAME, TEAM_MANAGER, TEAM_CONTENT, TEAM_LOCATION, TEAM_REGDATE)
-        VALUES (#{team_idx}, #{team_name}, #{team_manager}, #{team_content}, #{team_location}, SYSDATE)
+        INSERT INTO TEAM (TEAM_IDX, TEAM_NAME, TEAM_MANAGER, TEAM_CONTENT, TEAM_LOCATION, TEAM_REGDATE, IS_ACTIVE)
+        VALUES (#{team_idx}, #{team_name}, #{team_manager}, #{team_content}, #{team_location}, SYSDATE, 'Y')
     </insert>
 
 
@@ -207,5 +209,34 @@
         WHERE  MEMBER_IDX = #{member_idx}
         AND    TEAM_IDX   = #{team_idx}
     </update>
+
+
+    <!-- ===================== 구단 해체 ===================== -->
+    
+	<!-- 본인 제외 활성 팀원 수 조회 -->
+	<select id="selectMemberCountExceptManager" resultType="int">
+	    SELECT COUNT(*) FROM MEMBER_TEAM
+	    WHERE team_idx    = #{team_idx}
+	    AND   member_idx != #{member_idx}
+	    AND   join_status = 1
+	</select>
+	
+	<!-- FILES 테이블 파일명 조회 (디스크 삭제용) -->
+	<select id="selectFileNameByTeamIdx" resultType="String">
+	    SELECT sfile_name FROM FILES WHERE team_idx = #{team_idx}
+	</select>
+	
+	<!-- FILES 테이블 삭제 -->
+	<delete id="deleteFilesByTeamIdx">
+	    DELETE FROM FILES WHERE team_idx = #{team_idx}
+	</delete>
+	
+	<!-- TEAM IS_ACTIVE N 처리 -->
+	<update id="deactivateTeam">
+	    UPDATE TEAM
+	    SET   is_active    = 'N',
+	          team_content = TO_CHAR(SYSDATE,'YYYY-MM-DD') || ' 일자로 해체된 팀입니다.'
+	    WHERE team_idx     = #{team_idx}
+	</update>
 
 </mapper>

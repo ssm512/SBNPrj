@@ -7,6 +7,7 @@
 <title>SBN - 마이페이지</title>
 <link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
+<link href="https://webfontworld.github.io/sunn/SCDream.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
 
@@ -42,8 +43,8 @@
         background-color: #1a3d1a;
         color: #FFD700;
         padding: 10px 20px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 20px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 24px;
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 auto 16px;
@@ -74,7 +75,7 @@
 
     /* ===== 카드 ===== */
     .mypage-card {
-        background: rgba(245, 245, 220, 0.88);
+        background: rgba(249, 249, 234, 0.93);
         border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
@@ -100,8 +101,8 @@
     }
 
     .profile-photo {
-        width: 80px;
-        height: 80px;
+        width: 160px;
+        height: 160px;
         border-radius: 50%;
         object-fit: cover;
         border: 2px solid rgba(255, 215, 0, 0.5);
@@ -110,7 +111,7 @@
     }
 
     .profile-name-text {
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 15px;
         font-weight: 700;
         color: #FFD700;
@@ -126,7 +127,7 @@
         color: #FFD700;
         border: 1px solid rgba(255, 215, 0, 0.5);
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 11px;
         font-weight: 600;
         letter-spacing: 1px;
@@ -140,7 +141,7 @@
 
     /* 소속팀 섹션 타이틀 */
     .team-section-title {
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 11px;
         font-weight: 700;
         color: #1a3d1a;
@@ -162,7 +163,7 @@
     .myteamlist tr { border: none !important; }
 
     .myteamlist tr:first-of-type td {
-        display: none; /* 헤더 숨김 (team-section-title로 대체) */
+        display: none;
     }
 
     .myteamlist tr:not(:first-of-type) td {
@@ -183,7 +184,7 @@
 
     /* 섹션 타이틀 */
     .info-section-label {
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 11px;
         font-weight: 700;
         color: #1a3d1a;
@@ -216,7 +217,7 @@
 
     /* 라벨 셀 */
     .info-table td:nth-of-type(odd) {
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 11px !important;
         font-weight: 600;
         color: #1a3d1a;
@@ -232,7 +233,7 @@
         background: rgba(255, 255, 255, 0.5) !important;
     }
 
-    /* 추가정보 */
+    /* 추가정보 / 비밀번호 행 */
     .extra-row {
         display: flex;
         align-items: center;
@@ -246,7 +247,7 @@
     .extra-row:last-of-type { border-bottom: none; }
 
     .extra-label {
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 11px;
         font-weight: 600;
         color: #1a3d1a;
@@ -256,16 +257,45 @@
         flex-shrink: 0;
     }
 
+    /* 비밀번호 입력창 */
+    .pw-input {
+        padding: 7px 10px;
+        border: 1px solid #c8c4aa;
+        border-radius: 3px;
+        font-size: 14px;
+        font-family: 'S-Core Dream', sans-serif;
+        outline: none;
+        background: #fff;
+        transition: border-color 0.15s;
+        width: 220px;
+    }
+
+    .pw-input:focus { border-color: #1a3d1a; }
+
+    /* 비밀번호 변경 메시지 */
+    .pw-msg {
+        font-size: 13px;
+        color: #c0392b;
+        font-family: 'S-Core Dream', sans-serif;
+    }
+
+    /* 하단 버튼 영역 */
+    .bottom-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 24px;
+    }
+
     /* 정보 수정 버튼 */
     .btn-update {
         display: inline-block;
-        margin-top: 24px;
         padding: 10px 32px;
         background: #FFD700;
         color: #1a3d1a;
         border: none;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 13px;
         font-weight: 700;
         letter-spacing: 1px;
@@ -274,6 +304,44 @@
     }
 
     .btn-update:hover { background: #e6c200; }
+
+    /* 회원 탈퇴 버튼 */
+    .btn-leave {
+        display: inline-block;
+        padding: 10px 32px;
+        color: #b03030;
+        border: 1.5px solid #b03030;
+        background: transparent;
+        border-radius: 3px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-leave:hover {
+        background: #b03030;
+        color: #ffffff;
+    }
+
+    /* 비밀번호 변경 버튼 */
+    .btn-pw-change {
+        padding: 6px 20px;
+        background: #FFD700;
+        color: #1a3d1a;
+        border: none;
+        border-radius: 3px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+
+    .btn-pw-change:hover { background: #e6c200; }
 
 </style>
 </head>
@@ -309,11 +377,11 @@
                         <table class="myteamlist">
                             <tr><td>소속팀목록</td></tr>
                             <c:forEach var="team" items="${teamList}">
-                            <tr onclick='location.href="/Team/Info?team_idx=${team.team_idx}&keyword="' style="cursor:pointer;">
-                                <td>${team.team_name}
-                                    <b>${sessionScope.login.member_idx eq team.team_manager ? ' [감독]' : ''}</b>
-                                </td>
-                            </tr>
+                                <tr onclick='location.href="/Team/Info?team_idx=${team.team_idx}&keyword="' style="cursor:pointer;">
+                                    <td>${team.team_name}
+                                        <b>${sessionScope.login.member_idx eq team.team_manager ? ' [감독]' : ''}</b>
+                                    </td>
+                                </tr>
                             </c:forEach>
                         </table>
 
@@ -358,7 +426,27 @@
                             <span>${sessionScope.login.hope_position}</span>
                         </div>
 
-                        <button type="button" class="btn-update" id="updatebtn">정보 수정</button>
+                        <%-- 비밀번호 변경 --%>
+                        <div class="info-section-label" style="margin-top:20px;">비밀번호 변경</div>
+                        <div class="extra-row">
+                            <span class="extra-label">현재 비번</span>
+                            <input type="password" id="currentPw" class="pw-input" placeholder="현재 비밀번호" />
+                        </div>
+                        <div class="extra-row">
+                            <span class="extra-label">새 비번</span>
+                            <input type="password" id="newPw" class="pw-input" placeholder="새 비밀번호 (4자리 이상)" />
+                        </div>
+                        <div class="extra-row">
+                            <span class="extra-label">비번 확인</span>
+                            <input type="password" id="newPwCheck" class="pw-input" placeholder="새 비밀번호 확인" />
+                            <button type="button" id="changePwBtn" class="btn-pw-change">변경</button>
+                            <span id="changePwMsg" class="pw-msg"></span>
+                        </div>
+
+                        <div class="bottom-btn">
+                            <button type="button" class="btn-update" id="updatebtn">정보 수정</button>
+                            <button type="button" class="btn-leave" id="leavebtn" onclick="leaveSbn()">회원 탈퇴</button>
+                        </div>
 
                     </div>
 
@@ -376,17 +464,61 @@
             alert('수정이 완료되었습니다.');
         }
 
-        const updatebtnEl  = document.querySelector('#updatebtn');
-        const mystatsbtnEl = document.querySelector('#mystatsbtn');
-
-        updatebtnEl.addEventListener('click', function () {
+        document.querySelector('#updatebtn').addEventListener('click', function () {
             location.href = '/Member/UpdateForm';
         });
 
-        mystatsbtnEl.addEventListener('click', function () {
+        document.querySelector('#mystatsbtn').addEventListener('click', function () {
             location.href = '/Member/Stats?member_idx=' + ${sessionScope.login.member_idx};
         });
 
+        function leaveSbn() {
+            if (confirm("탈퇴하시겠습니까?\n탈퇴 후엔 해당 아이디로 재가입이 불가능 합니다.")) {
+                if (${not empty teamList}) {
+                    alert("소속된 팀이 있으면 탈퇴 할 수 없습니다.\n팀을 탈퇴한 후 다시 시도해주세요.");
+                } else {
+                    location.href = "/Member/LeaveSbn";
+                }
+            } else {
+                alert("SBN 에서의 활약을 응원합니다!");
+            }
+        }
+
+        document.querySelector('#changePwBtn').addEventListener('click', function () {
+            const currentPw  = document.querySelector('#currentPw').value;
+            const newPw      = document.querySelector('#newPw').value;
+            const newPwCheck = document.querySelector('#newPwCheck').value;
+            const msgEl      = document.querySelector('#changePwMsg');
+
+            if (currentPw.trim() === '') { msgEl.textContent = '현재 비밀번호를 입력하세요.'; return; }
+            if (newPw.length < 4)        { msgEl.textContent = '새 비밀번호는 4자리 이상이어야 합니다.'; return; }
+            if (newPw !== newPwCheck)    { msgEl.textContent = '새 비밀번호가 일치하지 않습니다.'; return; }
+
+            fetch('/Member/ChangePassword', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'current_pw=' + encodeURIComponent(currentPw)
+                    + '&new_pw='    + encodeURIComponent(newPw)
+            })
+            .then(res => res.json())
+            .then(json => {
+                if (json.result) {
+                    alert('비밀번호가 변경되었습니다.');
+                    document.querySelector('#currentPw').value  = '';
+                    document.querySelector('#newPw').value      = '';
+                    document.querySelector('#newPwCheck').value = '';
+                    msgEl.textContent = '';
+                } else {
+                    msgEl.textContent = '현재 비밀번호가 틀렸습니다.';
+                }
+            });
+        });
+
     </script>
+
+    <c:if test="${param.deleteError == 'true'}">
+        <script>alert('소속된 팀이 있어 탈퇴할 수 없습니다.');</script>
+    </c:if>
+
 </body>
 </html>

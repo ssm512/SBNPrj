@@ -50,6 +50,11 @@ public interface TeamService {
 
     void updateJoinStatus(HashMap<String, Object> map);                   // 가입 승인 (JOIN_STATUS = 1)
 
-
+    
+    // ===================== 구단 해체 =====================
+    
+    List<String> getFileNamesByTeamIdx(int team_idx);  			// 파일명 목록 조회
+    
+    String dissolveTeam(HashMap<String, Object> map);  			// "ok" / "has_members"
 
 }
