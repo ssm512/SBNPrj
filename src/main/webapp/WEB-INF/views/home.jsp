@@ -57,11 +57,11 @@
         text-shadow: none;
     }
 
-    /* 메뉴 위치 - common.css의 -63% 대신 홈 전용 -60% 적용 */
+    /* 메뉴 위치 - 타자석 기준 중앙 정렬 */
     .navbar-menu {
         position: absolute;
         left: 50%;
-        transform: translateX(calc(-60% + 20px));
+        transform: translateX(calc(-60% - 20px));
     }
 
     /* 메뉴 링크 - 배경 이미지 위 가독성을 위해 텍스트 쉐도우 추가 */
@@ -127,7 +127,7 @@
         text-align: center;
         position: relative;
         z-index: 1;
-        transform: perspective(700px) rotateX(12deg) translateX(10px);
+        transform: perspective(700px) rotateX(12deg) translateX(-20px);
         transform-origin: center center;
     }
 
