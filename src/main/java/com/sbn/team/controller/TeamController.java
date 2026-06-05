@@ -154,8 +154,10 @@ public class TeamController {
 
         // 팀 생성자를 JOIN_STATUS = 1 (승인) 으로 MEMBER_TEAM 자동 등록
         HashMap<String, Object> mtMap = new HashMap<>();
+        String  elite = login.getElite();
         mtMap.put("member_idx", memberIdx);
         mtMap.put("team_idx",   teamIdx);
+        mtMap.put("elite", elite);
         teamService.insertMemberTeam(mtMap);
 
         return new ModelAndView("redirect:/Team/Info?team_idx=" + teamIdx + "&keyword=");

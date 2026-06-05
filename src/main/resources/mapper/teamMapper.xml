@@ -147,8 +147,8 @@
 
     <!-- 팀 생성자 MEMBER_TEAM 자동 등록 -->
     <insert id="insertMemberTeam" parameterType="hashmap">
-        INSERT INTO MEMBER_TEAM (MEMBER_IDX, TEAM_IDX, JOIN_STATUS)
-        VALUES (#{member_idx}, #{team_idx}, 1)
+        INSERT INTO MEMBER_TEAM (MEMBER_IDX, TEAM_IDX, ELITE, JOIN_STATUS)
+        VALUES (#{member_idx}, #{team_idx}, #{elite} ,1)
     </insert>
 
 
