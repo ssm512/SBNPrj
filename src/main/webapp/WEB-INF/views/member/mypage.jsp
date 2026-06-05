@@ -304,11 +304,6 @@
     }
 
     .btn-update:hover { background: #e6c200; }
-    
-    /* 회원 탈퇴 버튼 */
-    .btn-leave {
-        display: inline-block;
-        margin-top: 24px;
 
     /* 회원 탈퇴 버튼 */
     .btn-leave {
