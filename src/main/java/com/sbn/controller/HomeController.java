@@ -16,12 +16,12 @@ public class HomeController {
 
 	@RequestMapping("/terms")
 	public String terms() {
-		return "terms";
+		return "terms/terms";
 	}
 
 	@RequestMapping("/privacy")
 	public String privacy() {
-		return "privacy";
+		return "terms/privacy";
 	}
 
 	@RequestMapping("/test")
