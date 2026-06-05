@@ -8,6 +8,7 @@
 <title>SBN - 구단 만들기</title>
 <link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
+<link href="https://webfontworld.github.io/sunn/SCDream.css" rel="stylesheet" />
 <style>
 
     /* ===== 푸터 flex 레이아웃을 위한 전체 높이 설정 ===== */
@@ -52,7 +53,7 @@
 
     /* ===== 폼 카드 (반투명 베이지 + 둥근 모서리) ===== */
     .form-card {
-        background: rgba(245, 245, 220, 0.88);
+        background: rgba(249, 249, 234, 0.93);
         border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 36px 40px;
@@ -71,8 +72,8 @@
 
     /* 라벨 - 그린 텍스트 */
     .form-label {
-        font-family: 'Oswald', sans-serif;
-        font-size: 13px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 16px;
         font-weight: 600;
         color: #1a3d1a;
         letter-spacing: 1px;
@@ -91,7 +92,7 @@
         padding: 10px 14px;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-size: 14px;
+        font-size: 17px;
         color: #111111;
         background-color: #ffffff;
         outline: none;
@@ -112,7 +113,7 @@
 
     /* 파일 업로드 입력창 */
     .form-file {
-        font-size: 13px;
+        font-size: 16px;
         color: #555;
     }
 
@@ -131,8 +132,8 @@
         color: #1a3d1a;
         border: none;
         border-radius: 3px;
-        font-size: 15px;
-        font-family: 'Oswald', sans-serif;
+        font-size: 18px;
+        font-family: 'S-Core Dream', sans-serif;
         font-weight: 700;
         letter-spacing: 1px;
         cursor: pointer;

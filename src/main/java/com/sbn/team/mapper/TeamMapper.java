@@ -55,5 +55,15 @@ public interface TeamMapper {
 
     void updateJoinStatus(HashMap<String, Object> map);                 // 가입 승인 (JOIN_STATUS = 1)
 
+    
+    // ===================== 구단 해체 =====================
+    
+    int selectMemberCountExceptManager(HashMap<String, Object> map); // 본인 제외 활성 팀원 수 조회 (해체 조건 체크)
+
+    List<String> selectFileNameByTeamIdx(int team_idx);              // 팀 로고 파일명 목록 조회 (디스크 삭제용)
+
+    void deleteFilesByTeamIdx(int team_idx);                         // FILES 테이블 팀 로고 삭제
+
+    void deactivateTeam(int team_idx);                               // 팀 비활성화 (IS_ACTIVE = 'N', CONTENT 업데이트)
 
 }

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
@@ -43,7 +43,7 @@
         color: #FFD700;
         padding: 10px 20px;
         font-family: 'Oswald', sans-serif;
-        font-size: 20px;
+        font-size: 24px;
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 auto 16px;
@@ -74,7 +74,7 @@
 
     /* ===== 카드 ===== */
     .update-card {
-        background: rgba(245, 245, 220, 0.88);
+        background: rgba(249, 249, 234, 0.93);
         border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
@@ -99,8 +99,8 @@
     }
 
     .profile-photo {
-        width: 80px;
-        height: 80px;
+        width: 160px;
+        height: 160px;
         border-radius: 50%;
         object-fit: cover;
         border: 2px solid rgba(255, 215, 0, 0.5);
@@ -204,7 +204,7 @@
     /* 라벨 셀 */
     .info-table td:nth-of-type(odd) {
         font-family: 'Oswald', sans-serif;
-        font-size: 11px !important;
+        font-size: 14px !important;
         font-weight: 600;
         color: #1a3d1a;
         letter-spacing: 1px;
