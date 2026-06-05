@@ -519,6 +519,6 @@
     <c:if test="${param.deleteError == 'true'}">
         <script>alert('소속된 팀이 있어 탈퇴할 수 없습니다.');</script>
     </c:if>
-
+ 
 </body>
 </html>
