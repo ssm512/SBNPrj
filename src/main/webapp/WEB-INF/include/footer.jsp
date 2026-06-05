@@ -16,6 +16,10 @@
             <a href="/League/List?nowpage=1&keyword=">리그</a>
             <span class="footer-dot">·</span>
             <a href="/Board/List?nowpage=1&keyword=&board_type=BOARD_FREE">게시판</a>
+            <span class="footer-dot">·</span>
+            <a href="/terms">이용약관</a>
+            <span class="footer-dot">·</span>
+            <a href="/privacy" style="color: rgba(255,215,0,0.85);">개인정보처리방침</a>
         </nav>
 
         <%-- 저작권 --%>
