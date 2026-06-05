@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
@@ -7,6 +7,7 @@
 <title>SBN - 구단 관리</title>
 <link rel="shortcut icon" href="/img/favicon2.png" type="image/png" />
 <link href="/css/common.css" rel="stylesheet" />
+<link href="https://webfontworld.github.io/sunn/SCDream.css" rel="stylesheet" />
 <style>
 
     /* ===== 푸터 flex 레이아웃을 위한 전체 높이 설정 ===== */
@@ -49,8 +50,8 @@
         background-color: #1a3d1a;
         color: #FFD700;
         padding: 10px 20px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 20px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 24px;
         font-weight: 700;
         letter-spacing: 3px;
         margin: 0 auto 16px;
@@ -75,7 +76,7 @@
 
     /* ===== 관리 카드 ===== */
     .managing-card {
-        background: rgba(245, 245, 220, 0.88);
+        background: rgba(249, 249, 234, 0.93);
         border-radius: 4px;
         box-shadow: 0 2px 16px rgba(26, 61, 26, 0.07);
         padding: 28px 32px;
@@ -121,8 +122,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: 'Oswald', sans-serif;
-        font-size: 11px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 14px;
         color: #bbb;
         letter-spacing: 1px;
         border: 1px solid #c8c4aa;
@@ -132,15 +133,15 @@
     }
 
     .logo-info .logo-team-name {
-        font-family: 'Oswald', sans-serif;
-        font-size: 20px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 24px;
         font-weight: 700;
         color: #1a3d1a;
         letter-spacing: 1px;
     }
 
     .logo-info .logo-hint {
-        font-size: 12px;
+        font-size: 15px;
         color: #888;
         margin: 4px 0 8px;
     }
@@ -152,8 +153,8 @@
         color: #1a3d1a;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 11px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 14px;
         font-weight: 600;
         letter-spacing: 1px;
         cursor: pointer;
@@ -168,7 +169,7 @@
     }
     /* 소섹션 타이틀 (소속 선수 리스트 / 가입 신청 현황) */
     .subsection-title {
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 14px;
         font-weight: 600;
         color: #1a3d1a;
@@ -200,8 +201,8 @@
     .manage-table tr:first-of-type td {
         background-color: #1a3d1a;
         color: #ffffff;
-        font-family: 'Oswald', sans-serif;
-        font-size: 13px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 16px;
         font-weight: 500;
         letter-spacing: 1px;
         border-bottom: 2px solid #FFD700;
@@ -224,7 +225,7 @@
         text-align: center;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-size: 13px;
+        font-size: 16px;
         background-color: #ffffff;
         outline: none;
     }
@@ -257,8 +258,8 @@
         background: none;
         border-radius: 3px;
         padding: 3px 10px;
-        font-size: 13px;
-        font-family: 'Oswald', sans-serif;
+        font-size: 16px;
+        font-family: 'S-Core Dream', sans-serif;
         transition: all 0.2s;
     }
 
@@ -276,8 +277,8 @@
         background: none;
         border-radius: 3px;
         padding: 3px 10px;
-        font-size: 13px;
-        font-family: 'Oswald', sans-serif;
+        font-size: 16px;
+        font-family: 'S-Core Dream', sans-serif;
         transition: all 0.2s;
     }
 
@@ -300,8 +301,8 @@
         color: #1a3d1a;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 13px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 16px;
         font-weight: 600;
         letter-spacing: 1px;
         text-decoration: none;
@@ -323,8 +324,8 @@
     }
 
     .intro-label {
-        font-family: 'Oswald', sans-serif;
-        font-size: 11px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 14px;
         font-weight: 700;
         color: #1a3d1a;
         letter-spacing: 1.5px;
@@ -340,7 +341,7 @@
         padding: 10px 12px;
         border: 1px solid #c8c4aa;
         border-radius: 3px;
-        font-size: 13px;
+        font-size: 16px;
         color: #333;
         background: rgba(255, 255, 255, 0.8);
         resize: vertical;
@@ -365,8 +366,8 @@
         color: #FFD700;
         border: none;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
-        font-size: 12px;
+        font-family: 'S-Core Dream', sans-serif;
+        font-size: 15px;
         font-weight: 600;
         letter-spacing: 1px;
         cursor: pointer;
@@ -382,7 +383,7 @@
         color: #1a3d1a;
         border: none;
         border-radius: 3px;
-        font-family: 'Oswald', sans-serif;
+        font-family: 'S-Core Dream', sans-serif;
         font-size: 14px;
         font-weight: 700;
         letter-spacing: 1px;
@@ -514,11 +515,16 @@
                 </div>
 
                 <%-- 하단 버튼 바 --%>
-                <div class="bottom-bar">
-                    <a href="/Team/List?nowpage=1&keyword=" class="btn-list">목록</a>
-                    <button type="button" class="btn-submit" onclick="submitUpdate()">수정 완료</button>
-                </div>
-
+				<div class="bottom-bar">
+				    <a href="/Team/List?nowpage=1&keyword=" class="btn-list">목록</a>
+				    <div style="display:flex; gap:10px;">
+				        <button type="button" onclick="dissolveTeam()" 
+				                style="padding:10px 24px; background:transparent; color:#b03030; border:1.5px solid #b03030; border-radius:3px; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; cursor:pointer;">
+				            구단 해체
+				        </button>
+				        <button type="button" class="btn-submit" onclick="submitUpdate()">수정 완료</button>
+				    </div>
+				</div>
             </div>
         </div>
     </div>
@@ -550,36 +556,43 @@
                 location.href = '/Team/RejectJoin?member_idx=' + memberIdx + '&team_idx=' + teamIdx;
             }
         }
+        
+        function dissolveTeam() {
+            if (confirm('정말 구단을 해체하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+                location.href = '/Team/DeleteTeam?team_idx=${team.team_idx}';
+            }
+        }
 
         <c:if test="${map.alert == 'update_ok'}">alert('수정이 완료되었습니다.');</c:if>
         <c:if test="${map.alert == 'approve_ok'}">alert('가입이 승인되었습니다.');</c:if>
         <c:if test="${map.alert == 'reject_ok'}">alert('가입이 거절되었습니다.');</c:if>
         <c:if test="${map.alert == 'remove_ok'}">alert('선수가 방출되었습니다.');</c:if>
+        <c:if test="${map.alert == 'has_members'}">alert('팀원이 남아 있어 해체할 수 없습니다.');</c:if>
         
-        const formEl         = document.querySelector('form');
-        const positionEl     = document.querySelector('[name="position"]');
-        
+        const formEl      = document.getElementById('updateForm');       // 3번 수정: updateForm으로 지정
+        const positionEls = document.querySelectorAll('[name="position"]'); // 4번 수정: 전체 선수 포지션
+
         // 작성한 내용의 양이 DB 설정값을 초과했을때 500 에러 방지
         function getByteSize(str) {
-      	  let byte = 0;
-      	  for (let i = 0; i < str.length; i++) {
-      		byte += str.charCodeAt(i) > 127 ? 3 : 1;
-      	}
-      	  return byte;
+            let byte = 0;
+            for (let i = 0; i < str.length; i++) {
+                byte += str.charCodeAt(i) > 127 ? 3 : 1;
+            }
+            return byte;
         }
-        
-        formEl.addEventListener('submit', function( e ) {
-        	
-          // 포지션이 값을 초과했을 때
-  	   	  if( getByteSize(positionEl.value) > 100 ) {
-  	   		  alert('팀이름이 너무 깁니다. (현재' + getByteSize(positionEl.value) + 'byte / 최대 100byte)');
-  	   		  positionEl.focus();
-  	   		  e.preventDefault()  // 이벤트 취소
-  	   		  e.stopPropagation() // 이벤트 버블링 방지
-  	   		  return;
-  	   	  }
-        	
-        })
+
+        formEl.addEventListener('submit', function(e) {
+            // 모든 선수 포지션 값 체크
+            for (let i = 0; i < positionEls.length; i++) {
+                if (getByteSize(positionEls[i].value) > 100) {
+                    alert('포지션이 너무 깁니다. (현재 ' + getByteSize(positionEls[i].value) + 'byte / 최대 100byte)');
+                    positionEls[i].focus();
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
+            }
+        });
         
     </script>
 

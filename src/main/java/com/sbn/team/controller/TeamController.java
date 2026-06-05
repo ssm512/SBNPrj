@@ -317,4 +317,54 @@ public class TeamController {
         }
         return new ModelAndView("redirect:/Team/Info?team_idx=" + teamIdx + "&keyword=");
     }
+    
+    
+	/* 구단 해체 */
+    @Transactional
+    @RequestMapping("/DeleteTeam")
+    public ModelAndView deleteTeam(@RequestParam HashMap<String, Object> map,
+                                    HttpServletRequest request) {
+
+        HttpSession session  = request.getSession();
+        MemberDto   login    = (MemberDto) session.getAttribute("login");
+        int         team_idx = Integer.parseInt(map.get("team_idx").toString());
+
+        // 감독 권한 체크: 로그인 유저가 해당 팀의 감독이 아니면 거부
+        TeamDto team = teamService.getTeamInfo(team_idx);
+        if (team.getTeam_manager() != login.getMember_idx()) {
+            return new ModelAndView("redirect:/Team/Managing?team_idx=" + team_idx + "&alert=no_permission");
+        }
+
+        // 해체 조건 체크에 사용할 감독 member_idx 추가
+        map.put("member_idx", login.getMember_idx());
+
+        // 1. 파일명 먼저 조회 (DB 삭제 전)
+        List<String> fileNames = teamService.getFileNamesByTeamIdx(team_idx);
+
+        // 2. 해체 처리 (has_members면 파일 건드리지 않고 리턴)
+        String result = teamService.dissolveTeam(map);
+        if ("has_members".equals(result)) {
+            return new ModelAndView("redirect:/Team/Managing?team_idx=" + team_idx + "&alert=has_members");
+        }
+
+        // 3. 해체 확정 후 디스크 파일 삭제 (이미 조회해둔 목록으로)
+        for (String sfile_name : fileNames) {
+            File file = new File(uploadPath + sfile_name);
+            if (file.exists()) file.delete();
+        }
+
+        // 해체 완료 → 팀 목록으로 리다이렉트
+        return new ModelAndView("redirect:/Team/List?nowpage=1&keyword=&alert=dissolve_ok");
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

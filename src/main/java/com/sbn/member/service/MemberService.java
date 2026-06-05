@@ -52,5 +52,4 @@ public interface MemberService {
 	void deleteMember(int member_idx);
 
 
-
 }
