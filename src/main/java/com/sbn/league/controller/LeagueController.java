@@ -44,13 +44,11 @@ public class LeagueController {
 			// 허용되지 않은 값이면 null 처리
 		}
 		
-		// System.out.println("map:" + map);
 		
 		
 		//자료실 목록 조회 (10개씩) - 페이징 처리 준비작업 시작
 		// 전체 자료 수
 		int             totalCount  = leagueService.count( map );
-		// System.out.println("totalCount= " + totalCount);
 		
 		// 현재 페이지 정보 : map{ nowpage=1 } Object -> String -> int 
 		int             nowpage     = Integer.parseInt( String.valueOf( map.get("nowpage") ) );
@@ -75,7 +73,6 @@ public class LeagueController {
 		// 리그 목록 조회
 		List<LeagueDto> leagueList  = leagueService.getLeagueList( map );
 		
-		// System.out.println("map2:" + map);
 		
 		ModelAndView    mv          = new ModelAndView();
 		mv.setViewName("league/list");
@@ -100,8 +97,6 @@ public class LeagueController {
 		
 		// 오른쪽에 리그 경기 조회
 		List<Map<String, Object>> gameList     = leagueService.getGameList( map );
-		// System.out.println("gameList=" + gameList);
-		// System.out.println("infoMap="  + map     );
 		
 		// 중간에 리그에 해당하는 팀 목록 조회
 		List<Map<String, Object>> teamList     = leagueService.getTeamList( map );
@@ -153,7 +148,6 @@ public class LeagueController {
 					}
 				}
 			} catch (Exception e) {
-				System.out.println("Dto에서 is_admin 추출 실패:" + e.getMessage());
 			}
 		}
 		
@@ -226,7 +220,6 @@ public class LeagueController {
 		Object     loginObj    = session.getAttribute("login");
 		
 		if (loginObj == null) {
-			System.out.println("[CheckManagerTeams] 세션에서 로그인 정보를 찾지 못했습니다.");
 			return new ArrayList<>();
 		}
 		
@@ -255,14 +248,11 @@ public class LeagueController {
 					}
 				}
 			} catch (Exception e) {
-				System.out.println("[CheckManagerTeams] DTO에서 member_idx 추출 실패: " + e.getMessage());
 			}
 		}
 		
-		// System.out.println("[CheckManagerTeams] 추출된 member_idx: " + memberIdx);
 		
 		if (memberIdx.isEmpty() || memberIdx.equals("null")) {
-			System.out.println("[CheckManagerTeams] member_idx가 없어 빈 목록 반환");
 			return new ArrayList<>();
 		}
 		
@@ -271,7 +261,6 @@ public class LeagueController {
 		
 		List<Map<String, Object>> rawTeamList = leagueService.getTeamsByManager(paramMap);
 		
-		System.out.println("[CheckManagerTeams] 조회된 팀 수: " + (rawTeamList != null ? rawTeamList.size() : 0));
 		return rawTeamList != null ? rawTeamList : new ArrayList<>();
 	}
 	

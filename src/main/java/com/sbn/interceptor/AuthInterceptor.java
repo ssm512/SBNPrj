@@ -25,7 +25,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 		String  requestURI  = request.getRequestURI();    // /Member/List
 		String  qryStr      = request.getQueryString();   // menu_id=MENU01, menu_id=MENU01&nowpage=1
 		String  loc         = requestURI + "?" + qryStr;
-		// System.out.println("요청 주소 : " + loc );  // /Member/Mypage?member_idx=1
 		
 		// /Member/LoginForm, /Member/Login 제외
 		if( requestURI.contains("/Member/LoginForm") ) {
@@ -38,7 +37,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 		HttpSession  session  = request.getSession();
 		// 사용자 로그인 정보를 세션 메모리에 user 저장
 		Object       login    = session.getAttribute("login");
-		// System.out.println("login? : " + login);
 		session.setAttribute("loc", loc);
 		
 		if ( login == null ) {

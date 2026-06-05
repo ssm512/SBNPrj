@@ -199,7 +199,6 @@ public class MemberController {
 		
 		// idx 로 가입된 팀 전체 조회
 		List<TeamDto> teamList = memberService.getMyTeamList(member_idx);
-		// System.out.println(teamList);
 		// 사진 파일 조회
 	    HashMap<String, Object> fileInfo = memberService.getMemberFile(member_idx);
 		

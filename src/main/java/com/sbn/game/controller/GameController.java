@@ -53,7 +53,6 @@ public class GameController {
 		gameService.insertGame(map);
 		ModelAndView 			mv 						= 	new ModelAndView();
 		String					loc						= 	"redirect:/League/Info?league_idx="+league_idx;				
-		System.out.println(loc);
 		mv.setViewName(loc);
 		return mv;
 	}
@@ -118,7 +117,6 @@ public class GameController {
 	@PostMapping("/UpdateGameStat")
 	@ResponseBody
 	public GameDto updateGameStat(@RequestBody HashMap<String, Object> map) {
-		System.out.println(map);
 		
 		GameDto updatedGame = gameService.getGameInfo(map);
 
@@ -186,7 +184,6 @@ public class GameController {
 	public String updateResultAllAjax(@RequestBody List<GameResultDto> resultList) {
 
 	    for(GameResultDto result : resultList) {
-	    	System.out.println(result);
 	        gameService.updateGameResult(result);
 	    }
 	    return "OK";
