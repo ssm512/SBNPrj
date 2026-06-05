@@ -99,19 +99,28 @@
     .hero-section {
         width: 100%;
         height: 100vh;
-        background-image: url('/img/index.png');
-        background-size: 110%;
-        background-position: 39% 80%;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        overflow: hidden;
+    }
+
+    /* 배경 이미지를 ::before로 분리 → cover로 항상 꽉 채움 + scale 줌인 */
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: 39% 80%;
         animation: heroZoom 10s ease-out forwards;
+        z-index: 0;
     }
 
     @keyframes heroZoom {
-        from { background-size: 110%; }
-        to   { background-size: 116%; }
+        from { transform: scale(1); }
+        to   { transform: scale(1.06); }
     }
 
     /* ===== 메인 텍스트 (SOCIAL BASEBALL NET) - 원근감 표현 ===== */
