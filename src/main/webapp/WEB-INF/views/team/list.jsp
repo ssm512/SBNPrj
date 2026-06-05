@@ -309,5 +309,10 @@
     </div>
 
     <%@ include file="/WEB-INF/include/footer.jsp" %>
+    
+    <script>
+        <c:if test="${param.alert == 'dissolve_ok'}">alert('구단이 해체되었습니다.');</c:if>
+    </script>
+    
 </body>
 </html>

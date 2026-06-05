@@ -125,7 +125,32 @@ public class TeamServiceImpl implements TeamService {
         teamMapper.updateJoinStatus(map);
     }
 
+    // ===================== 구단 해체 =====================
 
+	/* 팀 로고 파일명 목록 조회 (디스크 삭제용) */
+	@Override
+	public List<String> getFileNamesByTeamIdx(int team_idx) {
+	    return teamMapper.selectFileNameByTeamIdx(team_idx);
+	}
+	
+	/* 팀 해체 - 조건 체크 후 MEMBER_TEAM 탈퇴 / FILES 삭제 / TEAM 비활성화 */
+	@Override
+	public String dissolveTeam(HashMap<String, Object> map) {
+	
+	    // 본인 제외 활성 팀원이 있으면 해체 불가
+	    if (teamMapper.selectMemberCountExceptManager(map) > 0) return "has_members";
+	
+	    // MEMBER_TEAM 본인 탈퇴 (기존 메서드 재사용)
+	    teamMapper.deleteMemberTeam(map);
+	
+	    // FILES 테이블에서 팀 로고 삭제
+	    teamMapper.deleteFilesByTeamIdx(Integer.parseInt(map.get("team_idx").toString()) );
+	
+	    // TEAM IS_ACTIVE = 'N' / CONTENT 업데이트
+	    teamMapper.deactivateTeam(Integer.parseInt(map.get("team_idx").toString()) );
+	
+	    return "ok";
+	}
 
 
 
