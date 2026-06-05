@@ -41,7 +41,7 @@
 
     /* 스크롤 시 투톤 그린으로 전환 (JS에서 .scrolled 클래스 토글) */
     .navbar.scrolled {
-        background: linear-gradient(to bottom, rgba(31, 72, 32, 0.95) 0%, rgba(18, 43, 18, 0.95) 100%) !important;
+        background: linear-gradient(to bottom, rgba(34, 82, 34, 0.95) 0%, rgba(23, 61, 23, 0.95) 100%) !important;
         box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
     }
 
