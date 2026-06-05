@@ -30,12 +30,12 @@ ul, li { list-style: none; }
 /* ===== 네비바 ===== */
 .navbar {
     width: 100%;
-    background-color: #1a3d1a;
+    background: linear-gradient(to bottom, #225222 0%, #173d17 100%);
     height: 80px;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 2px solid #FFD700;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
 }
 
 /* 우측 장식 패턴 */
@@ -141,7 +141,7 @@ ul, li { list-style: none; }
 /* 로그인 상태 - 회원 이름 텍스트 */
 .navbar-auth span {
     font-family: 'Oswald', sans-serif;
-    color: rgba(255, 255, 255, 0.65);
+    color: #ffffff;
     font-size: 13px;
     letter-spacing: 0.5px;
 }
@@ -149,7 +149,7 @@ ul, li { list-style: none; }
 /* 로그아웃 / 마이페이지 링크 */
 .navbar-auth a {
     font-family: 'Oswald', sans-serif;
-    color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
     text-decoration: none;
     font-size: 14px;
     font-weight: 400;
@@ -180,11 +180,11 @@ ul, li { list-style: none; }
 
 /* 마이페이지 버튼 색상 */
 .navbar-auth .btn-mypage {
-    color: rgba(255, 215, 0, 0.75) !important;
+    color: #FFD700 !important;
 }
 
 .navbar-auth .btn-mypage:hover {
-    color: #FFD700 !important;
+    color: #ffe566 !important;
 }
 
 
@@ -192,7 +192,6 @@ ul, li { list-style: none; }
 .footer {
     width: 100%;
     background-color: #1a3d1a;
-    border-top: 3px solid #FFD700;
     padding: 40px 0 30px;
     margin-top: 0;
 }

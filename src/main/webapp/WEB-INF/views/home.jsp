@@ -32,17 +32,16 @@
     /* ===== 네비바 오버라이드 (투명 배경 - 히어로 이미지 위에 띄우기) ===== */
     .navbar {
         position: fixed !important;
-        background-color: transparent !important;
-        border-bottom-color: transparent !important;
+        background: transparent !important;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
         box-shadow: none;
     }
 
-    /* 스크롤 시 반투명 그린 + 골드 하단 선으로 전환 (JS에서 .scrolled 클래스 토글) */
+    /* 스크롤 시 투톤 그린으로 전환 (JS에서 .scrolled 클래스 토글) */
     .navbar.scrolled {
-        background-color: rgba(26, 61, 26, 0.92) !important;
-        border-bottom-color: #FFD700 !important;
+        background: linear-gradient(to bottom, rgba(34, 82, 34, 0.95) 0%, rgba(23, 61, 23, 0.95) 100%) !important;
+        box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
     }
 
     /* navbar-inner - home에서는 padding만 유지 (position: relative는 common.css에서 상속) */
@@ -99,19 +98,28 @@
     .hero-section {
         width: 100%;
         height: 100vh;
-        background-image: url('/img/index.png');
-        background-size: 110%;
-        background-position: 39% 80%;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        overflow: hidden;
+    }
+
+    /* 배경 이미지를 ::before로 분리 → cover로 항상 꽉 채움 + scale 줌인 */
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('/img/index.png');
+        background-size: cover;
+        background-position: 39% 80%;
         animation: heroZoom 10s ease-out forwards;
+        z-index: 0;
     }
 
     @keyframes heroZoom {
-        from { background-size: 110%; }
-        to   { background-size: 116%; }
+        from { transform: scale(1); }
+        to   { transform: scale(1.06); }
     }
 
     /* ===== 메인 텍스트 (SOCIAL BASEBALL NET) - 원근감 표현 ===== */
