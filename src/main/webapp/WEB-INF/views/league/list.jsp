@@ -1,5 +1,6 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -224,7 +225,16 @@
                     <tr onclick="location.href='/League/Info?league_idx=${league.league_idx}'" style="cursor:pointer;">
                         <td><a href="/League/Info?league_idx=${league.league_idx}">${league.league_name}</a></td>
                         <td>${league.league_location}</td>
-                        <td>${league.league_content}</td>
+												<td>
+												    <c:choose>
+												        <c:when test="${fn:length(league.league_content) > 60}">
+												            ${fn:substring(league.league_content, 0, 60)}...
+												        </c:when>
+												        <c:otherwise>
+												            ${league.league_content}
+												        </c:otherwise>
+												    </c:choose>
+												</td>
                     </tr>
                     </c:forEach>
                 </table>
