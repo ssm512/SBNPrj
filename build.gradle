@@ -22,6 +22,8 @@ dependencies {
     // Springboot
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	
+	implementation 'me.paulschwarz:springboot4-dotenv:5.0.1'
+	
 	// Bcrypt
 	implementation 'org.springframework.security:spring-security-crypto'
 		

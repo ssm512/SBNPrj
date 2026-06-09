@@ -1,4 +1,4 @@
-﻿package com.sbn.team.controller;
+package com.sbn.team.controller;
 
 import java.io.File;
 import java.util.HashMap;
